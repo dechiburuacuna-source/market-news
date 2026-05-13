@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import type { Article, Category, Location, SourceType } from '@/types/article'
 import Header from './Header'
 import Sidebar from './Sidebar'
@@ -24,7 +24,21 @@ const TX: Record<string, Record<string, string>> = {
   },
 }
 
+/** Build a single searchable string per article — all text fields, both languages, lowercased. */
+function articleHaystack(a: Article): string {
+  return [
+    a.title, a.title_es, a.source, a.location, a.category,
+    a.content || '',
+    a.extended_description, a.extended_description_es,
+    ...(a.short_summary || []),
+    ...(a.short_summary_es || []),
+  ].join(' ').toLowerCase()
+}
+
 export default function Dashboard() {
+  // `articles` holds the FULL set returned by the last fetch/ingest.
+  // All filtering (category, location, source, search) happens client-side
+  // against this state — no re-fetch when the user moves between filters.
   const [articles,    setArticles]    = useState<Article[]>([])
   const [loading,     setLoading]     = useState(true)
   const [loadMsg,     setLoadMsg]     = useState('Loading intelligence feed')
@@ -38,27 +52,37 @@ export default function Dashboard() {
   const [locations,   setLocations]   = useState<Location[]>([])
   const [srcType,     setSrcType]     = useState<SourceType | null>(null)
   const [source,      setSource]      = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const [sortOrder,   setSortOrder]   = useState<SortOrder>('desc')
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  const fetchArticles = useCallback(async () => {
-    const params = new URLSearchParams()
-    if (cat !== 'all') params.set('category', cat)
-    locations.forEach(l => params.append('location', l))
-    if (srcType) params.set('sourceType', srcType)
-    if (source)  params.set('source', source)
-    const res  = await fetch(`/api/articles?${params}`)
+  // Fetch ALL articles (no server-side filters) — filtering is client-side.
+  const fetchAllArticles = async (): Promise<Article[]> => {
+    const res  = await fetch('/api/articles')
     const data = await res.json()
     return (data.articles || []) as Article[]
-  }, [cat, locations, srcType, source])
+  }
 
-  const sortedArticles = [...articles].sort((a, b) => {
-    const da = new Date(a.date).getTime()
-    const db = new Date(b.date).getTime()
-    return sortOrder === 'desc' ? db - da : da - db
-  })
+  // Apply ALL filters client-side, then sort.
+  const sortedArticles = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase()
+    return articles
+      .filter(a => {
+        if (cat !== 'all' && a.category !== cat) return false
+        if (locations.length && !locations.includes(a.location)) return false
+        if (srcType && a.source_type !== srcType) return false
+        if (source  && a.source !== source) return false
+        if (q && !articleHaystack(a).includes(q)) return false
+        return true
+      })
+      .sort((a, b) => {
+        const da = new Date(a.date).getTime()
+        const db = new Date(b.date).getTime()
+        return sortOrder === 'desc' ? db - da : da - db
+      })
+  }, [articles, cat, locations, srcType, source, searchQuery, sortOrder])
 
-  // Initial load — just fetch what's in storage (no ingest on page load)
+  // Initial load — fetch once, then filter purely client-side.
   useEffect(() => {
     let cancelled = false
     setLoading(true)
@@ -67,7 +91,7 @@ export default function Dashboard() {
     const timer = setTimeout(async () => {
       setLoadMsg(TX[lang].connecting); setLoadPct(60)
       try {
-        const arts = await fetchArticles()
+        const arts = await fetchAllArticles()
         if (!cancelled) {
           setLoadPct(90); setLoadMsg(TX[lang].composing)
           setTimeout(() => {
@@ -83,12 +107,9 @@ export default function Dashboard() {
     return () => { cancelled = true; clearTimeout(timer) }
   }, []) // eslint-disable-line
 
-  useEffect(() => {
-    if (loading) return
-    fetchArticles().then(arts => { setArticles(arts); setSelected(null) })
-  }, [cat, locations, srcType, source]) // eslint-disable-line
+  // When filters change, just clear the selection — no re-fetch.
+  useEffect(() => { setSelected(null) }, [cat, locations, srcType, source, searchQuery])
 
-  // Trigger Gemini search, then show articles directly from response
   const handleFetchNews = async () => {
     setIngesting(true)
     setIngestMsg(lang === 'es' ? 'Buscando noticias con Gemini…' : 'Searching news with Gemini…')
@@ -97,7 +118,6 @@ export default function Dashboard() {
       const data = await res.json()
       const diag = data.diagnostics || {}
 
-      // Diagnose missing API keys explicitly
       if (!diag.gemini_configured) {
         setIngestMsg(lang === 'es'
           ? '⚠ GEMINI_API_KEY no configurado en Vercel'
@@ -105,12 +125,9 @@ export default function Dashboard() {
         return
       }
 
-      // Use articles returned directly in the response (works even without Supabase)
-      let arts: typeof articles = data.articles ?? []
-
-      // Also try storage in case there are previously stored articles
+      let arts: Article[] = data.articles ?? []
       try {
-        const stored = await fetchArticles()
+        const stored = await fetchAllArticles()
         if (stored.length > arts.length) arts = stored
       } catch { /* keep ingest articles */ }
 
@@ -131,11 +148,9 @@ export default function Dashboard() {
       setArticles(arts)
       setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
       setSelected(null)
-
-      // Log full diagnostics to browser console for debugging
       console.log('[Ingest result]', data)
     } catch (err) {
-      setIngestMsg(lang === 'es' ? `Error: ${(err as Error).message}` : `Error: ${(err as Error).message}`)
+      setIngestMsg(`Error: ${(err as Error).message}`)
     } finally {
       setIngesting(false)
       setTimeout(() => setIngestMsg(null), 10000)
@@ -205,6 +220,7 @@ export default function Dashboard() {
           articles={sortedArticles} selected={selected}
           cat={cat} lang={lang} sortOrder={sortOrder}
           ingesting={ingesting}
+          searchQuery={searchQuery} onSearchChange={setSearchQuery}
           onSelect={setSelected}
           onFetchNews={handleFetchNews}
         />
