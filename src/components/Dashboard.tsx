@@ -88,21 +88,28 @@ export default function Dashboard() {
     fetchArticles().then(arts => { setArticles(arts); setSelected(null) })
   }, [cat, locations, srcType, source]) // eslint-disable-line
 
-  // Trigger Gemini search + re-fetch results
+  // Trigger Gemini search, then show articles directly from response
   const handleFetchNews = async () => {
     setIngesting(true)
     setIngestMsg(lang === 'es' ? 'Buscando noticias con Gemini…' : 'Searching news with Gemini…')
     try {
       const res = await fetch('/api/ingest?fullRefresh=true', { method: 'POST' })
       const data = await res.json()
-      const count = data.processed ?? 0
+
+      // Use articles returned directly in the response (works even without Supabase)
+      let arts: typeof articles = data.articles ?? []
+
+      // If storage worked, re-fetch to pick up previously stored articles too
+      if (arts.length === 0 || data.errors?.length === 0) {
+        try { arts = await fetchArticles() } catch { /* keep ingest articles */ }
+      }
+
+      const count = arts.length
       setIngestMsg(
         lang === 'es'
-          ? `Listo — ${count} artículos nuevos encontrados`
-          : `Done — ${count} new articles found`
+          ? `Listo — ${count} artículos encontrados`
+          : `Done — ${count} articles found`
       )
-      // Reload articles from storage
-      const arts = await fetchArticles()
       setArticles(arts)
       setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
       setSelected(null)
@@ -110,7 +117,7 @@ export default function Dashboard() {
       setIngestMsg(lang === 'es' ? 'Error al buscar noticias' : 'Error fetching news')
     } finally {
       setIngesting(false)
-      setTimeout(() => setIngestMsg(null), 5000)
+      setTimeout(() => setIngestMsg(null), 6000)
     }
   }
 

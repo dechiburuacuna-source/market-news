@@ -6,13 +6,12 @@ import { RSS_SOURCES } from '@/lib/sources'
 import type { Article, IngestResult } from '@/types/article'
 
 export interface IngestOptions {
-  /** When true: delete ALL existing articles before fetching (used on deploy). */
   fullRefresh?: boolean
 }
 
 export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult> {
   const startTime = Date.now()
-  const result: IngestResult = { fetched: 0, new_articles: 0, processed: 0, errors: [], duration_ms: 0 }
+  const result: IngestResult = { fetched: 0, new_articles: 0, processed: 0, errors: [], duration_ms: 0, articles: [] }
 
   try {
     if (opts.fullRefresh) {
@@ -34,7 +33,7 @@ export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult>
       console.log(`[Ingest] Gemini searching ${WEB_SEARCH_SOURCES.length} sources...`)
       const { articles: wa, failed: webFailed } = await searchAllWebSources()
       webArticles = wa
-      if (webFailed.length) result.errors.push(`Gemini failed: ${webFailed.join(', ')}`)
+      if (webFailed.length) result.errors.push(`Gemini no results: ${webFailed.join(', ')}`)
     } else {
       result.errors.push('GEMINI_API_KEY not set — web search skipped')
     }
@@ -49,7 +48,7 @@ export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult>
     result.fetched = allRaw.length
     console.log(`[Ingest] Fetched ${allRaw.length} total (RSS: ${rssArticles.length}, Web: ${webArticles.length})`)
 
-    // 2. Filter new articles only (skip if fullRefresh since we cleared everything)
+    // 2. Filter new articles only
     const newRaw = []
     for (const raw of allRaw) {
       try {
@@ -57,7 +56,7 @@ export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult>
       } catch { result.errors.push(`URL check failed: ${raw.url}`) }
     }
     result.new_articles = newRaw.length
-    console.log(`[Ingest] ${newRaw.length} articles to process`)
+    console.log(`[Ingest] ${newRaw.length} new articles to process`)
 
     if (newRaw.length === 0) {
       result.duration_ms = Date.now() - startTime
@@ -69,7 +68,8 @@ export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult>
       console.log(`[Ingest] AI processing: ${done}/${total}`)
     })
 
-    // 4. Store — date comes from the source, never overwritten
+    // 4. Store and collect results
+    const storedArticles: Article[] = []
     for (const { raw, processed: fields } of processed) {
       if (!fields) { result.errors.push(`AI failed: ${raw.url}`); continue }
       const article: Article = {
@@ -77,7 +77,7 @@ export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult>
         title: raw.title, title_es: fields.title_es,
         source: raw.source, source_type: raw.source_type,
         location: fields.location, category: fields.category,
-        date: raw.date,  // publication date from RSS/Gemini — never replaced with today
+        date: raw.date,
         url: raw.url, content: raw.content,
         extended_description: fields.extended_description,
         extended_description_es: fields.extended_description_es,
@@ -85,9 +85,24 @@ export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult>
         short_summary_es: fields.short_summary_es,
         created_at: new Date().toISOString(), processed: true,
       }
-      try { await upsertArticle(article); result.processed++ }
-      catch { result.errors.push(`Store failed: ${raw.url}`) }
+      try {
+        await upsertArticle(article)
+        storedArticles.push(article)
+        result.processed++
+      } catch {
+        // Storage failed (e.g. no Supabase, read-only filesystem) —
+        // still include in result.articles so the frontend can display them.
+        storedArticles.push(article)
+        result.processed++
+        result.errors.push(`Store failed: ${raw.url}`)
+      }
     }
+
+    // Always return articles in the response so the frontend can display them
+    // even if storage is unavailable (no Supabase on Vercel)
+    result.articles = storedArticles.sort((a, b) =>
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    )
 
   } catch (err) {
     const msg = (err as Error).message

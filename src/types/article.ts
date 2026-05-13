@@ -35,6 +35,7 @@ export interface IngestResult {
   processed: number
   errors: string[]
   duration_ms: number
+  articles?: Article[]  // articles returned directly when storage is unavailable
 }
 
 export interface Metrics {

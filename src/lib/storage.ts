@@ -4,8 +4,12 @@ import { randomUUID } from 'crypto'
 import type { Article, ArticleFilters } from '@/types/article'
 import { getSupabaseClient, isSupabaseConfigured } from './supabase'
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'articles.json')
-const RETENTION_DAYS = 5  // show only last 5 days
+// On Vercel the project root is read-only; /tmp is writable but ephemeral.
+const DATA_FILE = process.env.VERCEL
+  ? '/tmp/articles.json'
+  : path.join(process.cwd(), 'data', 'articles.json')
+
+const RETENTION_DAYS = 5
 
 async function readJSON(): Promise<Article[]> {
   try { return JSON.parse(await fs.readFile(DATA_FILE, 'utf8')) }
@@ -37,33 +41,28 @@ export async function articleExistsByUrl(url: string): Promise<boolean> {
   return (await readJSON()).some(a => a.url === url)
 }
 
-/** Delete articles older than RETENTION_DAYS. Used by daily cron. */
 export async function purgeOldArticles(): Promise<number> {
   const cutoff = cutoffDate()
   if (isSupabaseConfigured()) {
     const sb = getSupabaseClient()
     const { count } = await sb.from('articles').delete({ count: 'exact' }).lt('date', cutoff)
-    console.log('[Purge] Deleted', count, 'articles older than', cutoff)
     return count || 0
   }
   const all = await readJSON()
   const kept = all.filter(a => a.date >= cutoff)
   const removed = all.length - kept.length
-  if (removed > 0) { await writeJSON(kept) }
+  if (removed > 0) await writeJSON(kept)
   return removed
 }
 
-/** Delete ALL articles. Used on deploy to force a full fresh refresh. */
 export async function purgeAllArticles(): Promise<number> {
   if (isSupabaseConfigured()) {
     const sb = getSupabaseClient()
-    // Delete everything (use a condition that's always true)
     const { count } = await sb.from('articles').delete({ count: 'exact' }).gte('date', '2000-01-01')
-    console.log('[Purge] Full refresh — deleted ALL', count, 'articles')
     return count || 0
   }
   const all = await readJSON()
-  await writeJSON([])
+  try { await writeJSON([]) } catch { /* ignore write failure in read-only environments */ }
   return all.length
 }
 
@@ -111,5 +110,5 @@ async function upsertArticleJSON(article: Article): Promise<void> {
   const all = await readJSON()
   const idx = all.findIndex(a => a.url === article.url)
   if (idx >= 0) all[idx] = article; else all.unshift(article)
-  await writeJSON(all.slice(0, 1000))
+  try { await writeJSON(all.slice(0, 1000)) } catch { /* ignore in read-only env */ }
 }
