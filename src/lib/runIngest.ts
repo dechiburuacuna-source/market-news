@@ -1,5 +1,6 @@
 import { fetchAllRSSFeeds } from '@/lib/rss'
 import { searchAllWebSources, WEB_SEARCH_SOURCES } from '@/lib/webSearchIngest'
+import { scrapeAllSources } from '@/lib/htmlScraper'
 import { processArticlesBatch } from '@/lib/openai'
 import { upsertArticle, articleExistsByUrl, makeId, purgeOldArticles, purgeAllArticles } from '@/lib/storage'
 import { RSS_SOURCES } from '@/lib/sources'
@@ -31,33 +32,42 @@ export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult>
       console.log(`[Ingest] Purged ${purged} articles older than 5 days`)
     }
 
-    // 1a. RSS feeds
-    console.log(`[Ingest] Fetching RSS from ${RSS_SOURCES.length} sources...`)
-    const { articles: rssArticles, failed: rssFailed } = await fetchAllRSSFeeds(RSS_SOURCES)
-    if (rssFailed.length) console.log(`[Ingest] RSS failed: ${rssFailed.join(', ')}`)
+    // Run all three sources IN PARALLEL — RSS, HTML scraper, and Gemini search.
+    // Scraper is the most reliable for sites with declared `sections`
+    // (e.g. revistaei.cl WordPress categories). Gemini fills in gaps and
+    // covers global sources without explicit category paths.
+    console.log(`[Ingest] Starting parallel fetch — RSS:${RSS_SOURCES.length}, Scraper:${WEB_SEARCH_SOURCES.filter(s => s.sections?.length).length}, Gemini:${WEB_SEARCH_SOURCES.length}`)
 
-    // 1b. Gemini + Google Search (real-time)
-    let webArticles: typeof rssArticles = []
-    if (process.env.GEMINI_API_KEY) {
-      console.log(`[Ingest] Gemini searching ${WEB_SEARCH_SOURCES.length} sources...`)
-      const { articles: wa, failed: webFailed } = await searchAllWebSources()
-      webArticles = wa
-      if (webFailed.length) result.errors.push(`Gemini no results: ${webFailed.join(', ')}`)
-    } else {
-      result.errors.push('GEMINI_API_KEY not set — web search skipped')
-    }
+    const [rssResult, scrapeResult, geminiResult] = await Promise.all([
+      fetchAllRSSFeeds(RSS_SOURCES),
+      scrapeAllSources(WEB_SEARCH_SOURCES),
+      process.env.GEMINI_API_KEY
+        ? searchAllWebSources()
+        : Promise.resolve({ articles: [] as Awaited<ReturnType<typeof searchAllWebSources>>['articles'], failed: [] as string[] }),
+    ])
 
-    // 1c. Merge, deduplicate, and enforce the date window
+    const rssArticles    = rssResult.articles
+    const scrapedArticles = scrapeResult.articles
+    const webArticles    = geminiResult.articles
+
+    if (rssResult.failed.length)    console.log(`[Ingest] RSS failed: ${rssResult.failed.join(', ')}`)
+    if (geminiResult.failed.length) result.errors.push(`Gemini no results: ${geminiResult.failed.join(', ')}`)
+    if (!process.env.GEMINI_API_KEY) result.errors.push('GEMINI_API_KEY not set — Gemini search skipped')
+
+    console.log('[Ingest] Scraper per-source counts:', scrapeResult.perSource)
+
+    // Merge, deduplicate, enforce date window. Scraper articles come FIRST so
+    // their (usually more accurate) publication dates win on URL conflicts.
     const cutoff = cutoffDate()
     const seen = new Set<string>()
-    const allRaw = [...rssArticles, ...webArticles].filter(a => {
+    const allRaw = [...scrapedArticles, ...rssArticles, ...webArticles].filter(a => {
       if (!a.url || seen.has(a.url)) return false
-      if (!a.date || a.date < cutoff) return false   // drop anything older than the window
+      if (!a.date || a.date < cutoff) return false
       seen.add(a.url)
       return true
     })
     result.fetched = allRaw.length
-    console.log(`[Ingest] Fetched ${allRaw.length} within last ${LOOKBACK_DAYS} days (RSS: ${rssArticles.length}, Web: ${webArticles.length})`)
+    console.log(`[Ingest] Fetched ${allRaw.length} within last ${LOOKBACK_DAYS} days (Scraper: ${scrapedArticles.length}, RSS: ${rssArticles.length}, Gemini: ${webArticles.length})`)
 
     // 2. Filter new articles only
     const newRaw = []
