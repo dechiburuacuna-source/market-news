@@ -19,45 +19,191 @@ export interface WebSearchSource {
   lang: string
   domain: string
   topics: string
+  /** Path prefixes within the domain to deep-search (e.g. "categoria/renovables/solar"). */
+  sections?: string[]
 }
 
 export const WEB_SEARCH_SOURCES: WebSearchSource[] = [
   // ── Chile Institutional ────────────────────────────────────────────────────
-  { name: 'Ministerio de Energía Chile',     location: 'Chile', source_type: 'Institutional', categories: ['Energy'],           lang: 'es', domain: 'energia.gob.cl',  topics: 'política energética Chile, transición energética, regulación, hidrógeno verde, descarbonización Ministerio Energía' },
-  { name: 'Coordinador Eléctrico Nacional',  location: 'Chile', source_type: 'Institutional', categories: ['Energy'],           lang: 'es', domain: 'coordinador.cl',  topics: 'Sistema Eléctrico Nacional Chile SEN, despacho económico, transmisión, generación, operación red eléctrica Coordinador' },
-  { name: 'Comisión Nacional de Energía',    location: 'Chile', source_type: 'Institutional', categories: ['Energy'],           lang: 'es', domain: 'cne.cl',          topics: 'CNE Chile, regulación eléctrica, tarifas, normativa técnica, licitaciones suministro Comisión Nacional Energía' },
+  {
+    name: 'Ministerio de Energía Chile', location: 'Chile', source_type: 'Institutional',
+    categories: ['Energy'], lang: 'es', domain: 'energia.gob.cl',
+    topics: 'política energética Chile, transición energética, hidrógeno verde, descarbonización, renovables',
+    sections: ['noticias', 'prensa', 'agenda-energetica'],
+  },
+  {
+    name: 'Coordinador Eléctrico Nacional', location: 'Chile', source_type: 'Institutional',
+    categories: ['Energy'], lang: 'es', domain: 'coordinador.cl',
+    topics: 'Sistema Eléctrico Nacional Chile SEN, despacho económico, transmisión, generación, operación red',
+    sections: ['prensa-y-comunicaciones', 'noticias', 'sala-de-prensa'],
+  },
+  {
+    name: 'Comisión Nacional de Energía', location: 'Chile', source_type: 'Institutional',
+    categories: ['Energy'], lang: 'es', domain: 'cne.cl',
+    topics: 'CNE Chile, regulación eléctrica, tarifas, licitaciones suministro, normativa técnica',
+    sections: ['prensa', 'noticias', 'sala-de-prensa'],
+  },
 
   // ── Chile Conglomerados ────────────────────────────────────────────────────
-  { name: 'ACERA',  location: 'Chile', source_type: 'Conglomerado', categories: ['Energy'],           lang: 'es', domain: 'acera.cl',   topics: 'energías renovables Chile, solar eólica almacenamiento BESS, asociación gremial ACERA noticias' },
-  { name: 'ACENOR', location: 'Chile', source_type: 'Conglomerado', categories: ['Energy'],           lang: 'es', domain: 'acenor.cl',  topics: 'clientes no regulados, mercado eléctrico Chile, ACENOR noticias, contratos suministro' },
-  { name: 'ACEN',   location: 'Chile', source_type: 'Conglomerado', categories: ['Energy'],           lang: 'es', domain: 'acen.cl',    topics: 'generadores eléctricos Chile, ACEN asociación, política regulatoria energía' },
-  { name: 'SOFOFA', location: 'Chile', source_type: 'Conglomerado', categories: ['Mining', 'Energy'], lang: 'es', domain: 'sofofa.cl',  topics: 'industria chilena, minería, energía, SOFOFA noticias sector productivo' },
+  {
+    name: 'ACERA', location: 'Chile', source_type: 'Conglomerado',
+    categories: ['Energy'], lang: 'es', domain: 'acera.cl',
+    topics: 'energías renovables Chile, solar eólica almacenamiento BESS, hidrógeno verde, transición energética',
+    sections: ['noticias', 'prensa', 'comunicados', 'sala-de-prensa'],
+  },
+  {
+    name: 'ACENOR', location: 'Chile', source_type: 'Conglomerado',
+    categories: ['Energy'], lang: 'es', domain: 'acenor.cl',
+    topics: 'clientes no regulados, mercado eléctrico Chile, contratos suministro, PPA',
+    sections: ['noticias', 'prensa'],
+  },
+  {
+    name: 'SOFOFA', location: 'Chile', source_type: 'Conglomerado',
+    categories: ['Mining', 'Energy'], lang: 'es', domain: 'sofofa.cl',
+    topics: 'industria chilena minería energía sector productivo, inversión, política industrial',
+    sections: ['noticias', 'comunicados', 'prensa', 'opinion'],
+  },
 
   // ── Chile Press ────────────────────────────────────────────────────────────
-  { name: 'Emol',                 location: 'Chile', source_type: 'Press', categories: ['Energy', 'Mining'],                 lang: 'es', domain: 'emol.com',              topics: 'energía eléctrica, renovables, minería, cobre, litio, electricidad Chile' },
-  { name: 'Economia y Negocios',  location: 'Chile', source_type: 'Press', categories: ['Energy', 'Mining', 'Data Centers'], lang: 'es', domain: 'economiaynegocios.cl', topics: 'energía, tarifas eléctricas, minería, inversión, data centers Chile' },
-  { name: 'Revista Electricidad', location: 'Chile', source_type: 'Press', categories: ['Energy'],                           lang: 'es', domain: 'revistaei.cl',          topics: 'noticias energía eléctrica Chile, generación renovable solar eólica, transmisión, BESS almacenamiento, regulación SEN' },
-  { name: 'Electrominería',       location: 'Chile', source_type: 'Press', categories: ['Mining', 'Energy'],                 lang: 'es', domain: 'electromineria.cl',     topics: 'electrificación minería Chile, energía minera, cobre litio sustentabilidad, proyectos eléctricos mineros' },
-  { name: 'Diario Financiero',    location: 'Chile', source_type: 'Press', categories: ['Mining', 'Energy'],                 lang: 'es', domain: 'df.cl',                 topics: 'minería cobre litio, energía, inversión extranjera, Codelco, SQM Chile' },
-  { name: 'La Tercera',           location: 'Chile', source_type: 'Press', categories: ['Mining', 'Energy'],                 lang: 'es', domain: 'latercera.com',         topics: 'energía, minería, cobre, litio, electricidad, medioambiente Chile' },
+  {
+    name: 'Revista Electricidad', location: 'Chile', source_type: 'Press',
+    categories: ['Energy'], lang: 'es', domain: 'revistaei.cl',
+    topics: 'energía eléctrica renovable Chile, solar fotovoltaica, eólica, almacenamiento BESS, transmisión, generación, hidrógeno, regulación SEN',
+    sections: [
+      'categoria/transicion-energetica-y-renovables',
+      'categoria/transicion-energetica-y-renovables/energias-renovables',
+      'categoria/transicion-energetica-y-renovables/energias-renovables/almacenamiento',
+      'categoria/transicion-energetica-y-renovables/energias-renovables/solar',
+      'categoria/transicion-energetica-y-renovables/energias-renovables/eolica',
+      'categoria/transicion-energetica-y-renovables/hidrogeno',
+      'categoria/mercado-electrico',
+      'categoria/mercado-electrico/transmision',
+      'categoria/mercado-electrico/generacion',
+      'categoria/regulacion',
+    ],
+  },
+  {
+    name: 'Electrominería', location: 'Chile', source_type: 'Press',
+    categories: ['Mining', 'Energy'], lang: 'es', domain: 'electromineria.cl',
+    topics: 'electrificación minería Chile, energía minera, cobre litio sustentabilidad, proyectos eléctricos mineros, descarbonización',
+    sections: ['categoria/mineria', 'categoria/energia', 'categoria/proyectos', 'noticias'],
+  },
+  {
+    name: 'Diario Financiero', location: 'Chile', source_type: 'Press',
+    categories: ['Mining', 'Energy'], lang: 'es', domain: 'df.cl',
+    topics: 'minería cobre litio, energía renovable, inversión extranjera, Codelco SQM, data centers Chile',
+    sections: ['mercados/empresas/mineria', 'mercados/empresas/energia', 'mercados/empresas-y-mercados', 'economia-y-politica'],
+  },
+  {
+    name: 'La Tercera Pulso', location: 'Chile', source_type: 'Press',
+    categories: ['Mining', 'Energy'], lang: 'es', domain: 'latercera.com',
+    topics: 'energía renovable, minería cobre litio, electricidad Chile, transición energética, data centers',
+    sections: ['pulso/empresas-y-mercados', 'pulso/mercados', 'pulso/empresas'],
+  },
+  {
+    name: 'Emol Economía', location: 'Chile', source_type: 'Press',
+    categories: ['Energy', 'Mining'], lang: 'es', domain: 'emol.com',
+    topics: 'energía eléctrica renovable, minería cobre litio, electricidad Chile',
+    sections: ['noticias/Economia', 'noticias/Nacional'],
+  },
 
   // ── Global Market Advisors ─────────────────────────────────────────────────
-  { name: 'Wood Mackenzie',                 location: 'Global', source_type: 'Market Advisor', categories: ['Energy', 'Mining', 'Data Centers'], lang: 'en', domain: 'woodmac.com',       topics: 'energy market research, mining outlook, data center power demand, commodity price forecasts, transition outlook' },
-  { name: 'BloombergNEF',                   location: 'Global', source_type: 'Market Advisor', categories: ['Energy', 'Mining', 'Data Centers'], lang: 'en', domain: 'bnef.com',          topics: 'clean energy investment, EV battery metals, power market outlook, BNEF research insights' },
-  { name: 'S&P Global Commodity Insights',  location: 'Global', source_type: 'Market Advisor', categories: ['Energy', 'Mining'],                 lang: 'en', domain: 'spglobal.com',      topics: 'S&P Global Commodity Insights, oil gas power, metals mining, energy transition analysis Platts' },
-  { name: 'Aurora Energy Research',         location: 'Global', source_type: 'Market Advisor', categories: ['Energy', 'Data Centers'],           lang: 'en', domain: 'auroraer.com',      topics: 'Aurora Energy Research, power price forecast, renewables capacity outlook, data center power demand market' },
-  { name: 'AFRY',                           location: 'Global', source_type: 'Market Advisor', categories: ['Energy', 'Mining'],                 lang: 'en', domain: 'afry.com',          topics: 'AFRY energy transition consulting, power systems, renewable energy, mining advisory' },
-  { name: 'DNV',                            location: 'Global', source_type: 'Market Advisor', categories: ['Energy', 'Data Centers'],           lang: 'en', domain: 'dnv.com',           topics: 'DNV energy transition outlook, offshore wind, technology qualification, data center energy' },
-  { name: 'EY',                             location: 'Global', source_type: 'Market Advisor', categories: ['Energy', 'Mining'],                 lang: 'en', domain: 'ey.com',            topics: 'EY energy report, power utilities, mining metals outlook, renewable energy investment insights' },
-  { name: 'PwC',                            location: 'Global', source_type: 'Market Advisor', categories: ['Energy', 'Mining'],                 lang: 'en', domain: 'pwc.com',           topics: 'PwC energy utilities report, mining outlook, renewable energy transition, power sector insights' },
-  { name: 'BCG',                            location: 'Global', source_type: 'Market Advisor', categories: ['Energy', 'Mining', 'Data Centers'], lang: 'en', domain: 'bcg.com',           topics: 'Boston Consulting Group energy, climate decarbonization, mining metals, data centers AI infrastructure' },
-  { name: 'McKinsey & Company',             location: 'Global', source_type: 'Market Advisor', categories: ['Energy', 'Mining', 'Data Centers'], lang: 'en', domain: 'mckinsey.com',      topics: 'McKinsey energy insights, mining metals report, power utilities, data centers AI infrastructure' },
-  { name: 'Ember',                          location: 'Global', source_type: 'Market Advisor', categories: ['Energy'],                           lang: 'en', domain: 'ember-energy.org',  topics: 'Ember global electricity data, coal phase-out, clean power, emissions analysis' },
+  {
+    name: 'Wood Mackenzie', location: 'Global', source_type: 'Market Advisor',
+    categories: ['Energy', 'Mining', 'Data Centers'], lang: 'en', domain: 'woodmac.com',
+    topics: 'energy market research, renewable energy, mining metals outlook, data center power demand, commodity forecasts',
+    sections: ['horizons', 'news', 'press-releases', 'insights'],
+  },
+  {
+    name: 'BloombergNEF', location: 'Global', source_type: 'Market Advisor',
+    categories: ['Energy', 'Mining', 'Data Centers'], lang: 'en', domain: 'bnef.com',
+    topics: 'clean energy investment, battery storage, EV metals, power market outlook, AI data center energy',
+    sections: ['news', 'insights', 'blog'],
+  },
+  {
+    name: 'S&P Global Commodity Insights', location: 'Global', source_type: 'Market Advisor',
+    categories: ['Energy', 'Mining'], lang: 'en', domain: 'spglobal.com',
+    topics: 'commodity insights, renewable power, metals mining, energy transition Platts',
+    sections: [
+      'commodityinsights/en/news-research/latest-news/electric-power',
+      'commodityinsights/en/news-research/latest-news/metals',
+      'commodityinsights/en/news-research/latest-news/energy-transition',
+      'commodityinsights/en/market-insights/latest-news',
+    ],
+  },
+  {
+    name: 'Aurora Energy Research', location: 'Global', source_type: 'Market Advisor',
+    categories: ['Energy', 'Data Centers'], lang: 'en', domain: 'auroraer.com',
+    topics: 'Aurora Energy Research, power price forecast, renewables outlook, data center power demand',
+    sections: ['insights', 'news', 'research', 'publications'],
+  },
+  {
+    name: 'AFRY', location: 'Global', source_type: 'Market Advisor',
+    categories: ['Energy', 'Mining'], lang: 'en', domain: 'afry.com',
+    topics: 'AFRY energy transition consulting, power systems, renewable energy, mining advisory',
+    sections: ['en/insights', 'en/news', 'en/newsroom'],
+  },
+  {
+    name: 'DNV', location: 'Global', source_type: 'Market Advisor',
+    categories: ['Energy', 'Data Centers'], lang: 'en', domain: 'dnv.com',
+    topics: 'DNV energy transition outlook, offshore wind, renewables, hydrogen, data center energy',
+    sections: ['news', 'feature', 'power-renewables', 'energy-transition'],
+  },
+  {
+    name: 'EY Energy', location: 'Global', source_type: 'Market Advisor',
+    categories: ['Energy', 'Mining'], lang: 'en', domain: 'ey.com',
+    topics: 'EY energy report, power utilities, mining metals outlook, renewable investment',
+    sections: ['en_gl/insights/energy-resources', 'en_gl/insights/mining-metals'],
+  },
+  {
+    name: 'PwC Energy', location: 'Global', source_type: 'Market Advisor',
+    categories: ['Energy', 'Mining'], lang: 'en', domain: 'pwc.com',
+    topics: 'PwC energy utilities, mining outlook, renewables transition, power sector',
+    sections: ['gx/en/industries/energy-utilities-resources', 'gx/en/industries/energy-utilities-resources/power-utilities'],
+  },
+  {
+    name: 'BCG', location: 'Global', source_type: 'Market Advisor',
+    categories: ['Energy', 'Mining', 'Data Centers'], lang: 'en', domain: 'bcg.com',
+    topics: 'BCG energy climate decarbonization, mining metals, data centers AI infrastructure, renewables',
+    sections: ['industries/energy', 'industries/mining-materials', 'publications'],
+  },
+  {
+    name: 'McKinsey & Company', location: 'Global', source_type: 'Market Advisor',
+    categories: ['Energy', 'Mining', 'Data Centers'], lang: 'en', domain: 'mckinsey.com',
+    topics: 'McKinsey energy insights, mining metals, power utilities, data centers AI, sustainability',
+    sections: [
+      'industries/electric-power-and-natural-gas/our-insights',
+      'industries/metals-and-mining/our-insights',
+      'industries/oil-and-gas/our-insights',
+      'capabilities/sustainability/our-insights',
+    ],
+  },
+  {
+    name: 'Ember', location: 'Global', source_type: 'Market Advisor',
+    categories: ['Energy'], lang: 'en', domain: 'ember-energy.org',
+    topics: 'Ember global electricity data, coal phase-out, clean power, emissions analysis',
+    sections: ['insights', 'news', 'analysis'],
+  },
 
   // ── Global Institutional & Press ───────────────────────────────────────────
-  { name: 'IEA',                  location: 'Global', source_type: 'Institutional', categories: ['Energy', 'Mining', 'Data Centers'], lang: 'en', domain: 'iea.org',                topics: 'IEA global energy transition, renewables investment, electricity demand, critical minerals reports' },
-  { name: 'Data Center Dynamics', location: 'Global', source_type: 'Press',         categories: ['Data Centers'],                     lang: 'en', domain: 'datacenterdynamics.com', topics: 'data centers, hyperscalers, AI infrastructure, colocation, energy efficiency' },
-  { name: 'Mining.com',           location: 'Global', source_type: 'Press',         categories: ['Mining'],                           lang: 'en', domain: 'mining.com',             topics: 'copper gold lithium mining, commodity prices, mining projects' },
+  {
+    name: 'IEA', location: 'Global', source_type: 'Institutional',
+    categories: ['Energy', 'Mining', 'Data Centers'], lang: 'en', domain: 'iea.org',
+    topics: 'IEA energy transition, renewables investment, electricity demand, critical minerals',
+    sections: ['news', 'reports', 'commentaries', 'analysis'],
+  },
+  {
+    name: 'Data Center Dynamics', location: 'Global', source_type: 'Press',
+    categories: ['Data Centers'], lang: 'en', domain: 'datacenterdynamics.com',
+    topics: 'data centers, hyperscalers, AI infrastructure, colocation, energy efficiency, power demand',
+    sections: ['en/news', 'en/analysis', 'en/news/power-cooling'],
+  },
+  {
+    name: 'Mining.com', location: 'Global', source_type: 'Press',
+    categories: ['Mining'], lang: 'en', domain: 'mining.com',
+    topics: 'copper gold lithium mining, commodity prices, mining projects, electric mining',
+    sections: ['news', 'markets', 'commodity/copper', 'commodity/lithium'],
+  },
 ]
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -131,15 +277,25 @@ function buildPrompt(source: WebSearchSource): string {
     ? 'market research and advisory firm'
     : source.source_type
 
-  return `Today is ${today}. Search Google for the 3 most recent articles or reports published in the last ${LOOKBACK_DAYS} days (published after ${since}) from "${source.name}" (domain: ${source.domain}), a ${typeDesc}.
+  // Deep-search hints: explicit site: operators that point Google INSIDE
+  // category sections, not just the homepage.
+  const hasSections = source.sections && source.sections.length > 0
+  const sectionBlock = hasSections
+    ? `\n\nIMPORTANT — DEEP SEARCH: Do NOT just look at the homepage. Run these Google searches to find articles INSIDE the site's specific category sections:
+${source.sections!.map(s => `  • site:${source.domain}/${s}`).join('\n')}
 
-Topics to focus on: ${source.topics}
+For each category section above, find the most recent articles published in the last ${LOOKBACK_DAYS} days. Spend equal effort on each section listed.`
+    : ''
 
-Return ONLY a valid JSON array, no markdown, no code fences:
+  return `Today is ${today}. Find the most recent articles about renewable energy, mining, data centers, and industrial sectors (last ${LOOKBACK_DAYS} days — after ${since}) from "${source.name}", a ${typeDesc}.${sectionBlock}
+
+Focus topics: ${source.topics}
+
+Return ONLY a valid JSON array (no markdown, no code fences) with up to 6 articles total:
 [
   {
     "title": "exact article title as published",
-    "url": "https://full-url-to-the-article",
+    "url": "https://full-direct-link-to-the-article",
     "date": "YYYY-MM-DD",
     "content": "2-3 sentence summary of the article"
   }
@@ -147,9 +303,10 @@ Return ONLY a valid JSON array, no markdown, no code fences:
 
 Rules:
 - Only include articles from domain "${source.domain}"
-- Dates must be the real publication date in YYYY-MM-DD format, within the last ${LOOKBACK_DAYS} days
-- URLs must be real, direct links to the article (not search results or homepage)
-- Return [] if no articles were published in the last ${LOOKBACK_DAYS} days`
+- Each URL must be a DIRECT link to a specific article — NOT a category page, archive index, tag page, or homepage
+- Dates must be real publication dates in YYYY-MM-DD format within the last ${LOOKBACK_DAYS} days
+- Prefer specific topics in: renewable energy (solar, wind, BESS storage, hydrogen), mining (copper, lithium, electric mining), data centers (AI infrastructure, hyperscaler power), industrial decarbonization
+- Return [] if no recent articles were found`
 }
 
 // ── Core search function ──────────────────────────────────────────────────────
@@ -163,7 +320,7 @@ export async function searchArticlesBySource(source: WebSearchSource): Promise<R
       config: {
         tools: [{ googleSearch: {} }],
         temperature: 0.1,
-        maxOutputTokens: 1500,
+        maxOutputTokens: 3000,
       },
     })
 
@@ -220,7 +377,7 @@ export async function searchArticlesBySource(source: WebSearchSource): Promise<R
     // ── Step 4: enforce the lookback window — drop anything older than N days ─
     const since = getDateDaysAgo(LOOKBACK_DAYS)
     return candidateUrls
-      .slice(0, 4)
+      .slice(0, 10)
       .map(c => ({ ...c, resolvedDate: bestDate(c.date, c.uri) }))
       .filter(c => c.resolvedDate >= since)
       .map(c => ({
