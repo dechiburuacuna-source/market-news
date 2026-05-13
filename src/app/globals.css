@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════
+   FONTS — loaded via @import (fallback) and <link> in layout
+   ═══════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ═══════════════════════════════════════════════════════
+   NEWSPAPER COLOR TOKENS
+   ═══════════════════════════════════════════════════════ */
+:root {
+  --paper:       #FAF8F4;
+  --paper-2:     #F3F0EB;
+  --paper-3:     #EAE6E0;
+  --ink-black:   #0D0D0D;
+  --ink-dark:    #1A1A1A;
+  --ink-body:    #2C2C2C;
+  --ink-muted:   #6B6560;
+  --ink-faint:   #9E9890;
+  --rule:        #C8C2BA;
+  --rule-dark:   #8A847C;
+  --accent-red:  #C0392B;
+  --accent-dark: #922B21;
+  --mining-ink:  #7D5A00;
+  --energy-ink:  #1A5C3A;
+  --dc-ink:      #1A3A5C;
+  --inst-ink:    #3D1A6E;
+  --press-ink:   #6E3D1A;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  background: var(--paper);
+  color: var(--ink-body);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SCROLLBARS — thin, warm paper
+   ═══════════════════════════════════════════════════════ */
+* { scrollbar-width: thin; scrollbar-color: var(--rule) transparent; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--rule-dark); }
+
+/* ═══════════════════════════════════════════════════════
+   LINE CLAMP
+   ═══════════════════════════════════════════════════════ */
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-4 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ═══════════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════ */
+@keyframes fadeIn  { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes blink   { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+@keyframes spin    { to { transform: rotate(360deg); } }
+
+.animate-in { animation: fadeIn 0.2s ease both; }
+
+/* ═══════════════════════════════════════════════════════
+   PAPER BACKGROUND HELPERS
+   ═══════════════════════════════════════════════════════ */
+.bg-paper   { background-color: var(--paper); }
+.bg-paper-2 { background-color: var(--paper-2); }
+.bg-paper-3 { background-color: var(--paper-3); }
+
+/* Hover helpers */
+.hover\:bg-paper-2:hover { background-color: var(--paper-2); }
+.hover\:bg-paper-3:hover { background-color: var(--paper-3); }
