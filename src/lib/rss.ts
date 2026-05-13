@@ -70,7 +70,7 @@ export async function fetchRSSFeed(source: SourceDef): Promise<RawArticle[]> {
           title: (item.title || '').trim(), url: item.link || '',
           source: source.name, source_type: source.source_type,
           location: source.location, categories: source.categories,
-          date: parseDate(item.pubDate || item.isoDate), content, lang: source.lang || 'en',
+          date: parseDate(item.pubDate || item.isoDate, item.link || ''), content, lang: source.lang || 'en',
         } satisfies RawArticle
       })
   } catch (err) {
@@ -104,8 +104,34 @@ export async function fetchAllRSSFeeds(
   return { articles: deduped, failed }
 }
 
-function parseDate(raw: string | undefined): string {
-  if (!raw) return new Date().toISOString().split('T')[0]
-  try { return new Date(raw).toISOString().split('T')[0] }
-  catch { return new Date().toISOString().split('T')[0] }
+function parseDate(raw: string | undefined, url?: string): string {
+  const today = new Date().toISOString().split('T')[0]
+  if (raw) {
+    try {
+      const d = new Date(raw)
+      if (!isNaN(d.getTime()) && d <= new Date()) return d.toISOString().split('T')[0]
+    } catch { /* fall through */ }
+  }
+  if (url) {
+    const fromUrl = extractDateFromUrl(url)
+    if (fromUrl) return fromUrl
+  }
+  return today
+}
+
+function extractDateFromUrl(url: string): string | null {
+  const patterns = [
+    /\/(\d{4})\/(\d{2})\/(\d{2})\//,
+    /[^\d](\d{4})-(\d{2})-(\d{2})[^\d]/,
+    /\/(\d{4})(\d{2})(\d{2})[-_]/,
+  ]
+  for (const pattern of patterns) {
+    const m = url.match(pattern)
+    if (m) {
+      const candidate = `${m[1]}-${m[2]}-${m[3]}`
+      const d = new Date(candidate)
+      if (!isNaN(d.getTime()) && d <= new Date()) return candidate
+    }
+  }
+  return null
 }

@@ -83,14 +83,40 @@ function getDateDaysAgo(days: number): string {
   return d.toISOString().split('T')[0]
 }
 
-function isValidRecentDate(s: string): boolean {
+/** Accept any valid past date — never cap at X days ago (avoids replacing real dates with today). */
+function isValidDate(s: string): boolean {
   if (!s || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false
   const d = new Date(s)
   if (isNaN(d.getTime())) return false
-  const now = new Date()
-  const cutoff = new Date()
-  cutoff.setDate(cutoff.getDate() - 90)
-  return d <= now && d >= cutoff
+  return d <= new Date()   // only reject future dates
+}
+
+/**
+ * Try to extract a publication date from the URL path.
+ * Matches common patterns:  /2025/05/13/  or  -2025-05-13-  or  /20250513-
+ */
+function extractDateFromUrl(url: string): string | null {
+  const patterns = [
+    /\/(\d{4})\/(\d{2})\/(\d{2})\//,     // /YYYY/MM/DD/
+    /[^\d](\d{4})-(\d{2})-(\d{2})[^\d]/, // -YYYY-MM-DD-
+    /\/(\d{4})(\d{2})(\d{2})[-_]/,        // /YYYYMMDD-
+  ]
+  for (const pattern of patterns) {
+    const m = url.match(pattern)
+    if (m) {
+      const candidate = `${m[1]}-${m[2]}-${m[3]}`
+      if (isValidDate(candidate)) return candidate
+    }
+  }
+  return null
+}
+
+/** Return the best available date for a URL+candidate date pair. Never returns a future date. */
+function bestDate(candidateDate: string, url: string): string {
+  if (isValidDate(candidateDate)) return candidateDate
+  const fromUrl = extractDateFromUrl(url)
+  if (fromUrl) return fromUrl
+  return new Date().toISOString().split('T')[0]
 }
 
 // Strip citation markers like [1], [2] that Gemini grounding inserts into URLs
@@ -222,8 +248,6 @@ export async function searchArticlesBySource(source: WebSearchSource): Promise<R
       }))
     )
 
-    const today = new Date().toISOString().split('T')[0]
-
     return validated
       .filter(c => c.alive)
       .slice(0, 4)
@@ -234,7 +258,7 @@ export async function searchArticlesBySource(source: WebSearchSource): Promise<R
         source_type: source.source_type,
         location:    source.location,
         categories:  source.categories,
-        date:        isValidRecentDate(c.date) ? c.date : today,
+        date:        bestDate(c.date, c.uri),  // real pub date, with URL fallback
         content:     c.content || c.title || source.name,
         lang:        source.lang,
       } satisfies RawArticle))
