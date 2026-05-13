@@ -1,34 +1,34 @@
 /**
  * Next.js instrumentation hook — runs once when the server process starts.
  * On Vercel, every new deployment creates a fresh process, so this triggers
- * a news ingest automatically after each deploy.
+ * a full news refresh automatically after each deploy.
  *
- * Docs: https://nextjs.org/docs/app/building-your-application/optimizing/instrumentation
+ * We fire an HTTP call to /api/ingest rather than importing runIngest directly
+ * so the ingest runs in its own Lambda (maxDuration: 300s) instead of being
+ * killed when this short-lived startup Lambda terminates.
  */
 
-// Process-level flag: prevents duplicate ingest if multiple requests hit
-// the same Lambda instance before the first ingest completes.
 let _ingestStarted = false
 
 export async function register() {
-  // Only run in Node.js (not edge runtime)
   if (process.env.NEXT_RUNTIME !== 'nodejs') return
-  // Only run if API keys are present
   if (!process.env.OPENAI_API_KEY || !process.env.GEMINI_API_KEY) return
   if (_ingestStarted) return
   _ingestStarted = true
 
-  // Fire-and-forget: don't block server startup.
-  // Dynamic import avoids loading heavy modules during build time.
-  import('@/lib/runIngest')
-    .then(({ runIngest }) => {
-      console.log('[Deploy] Post-deploy ingest starting...')
-      return runIngest()
-    })
-    .then(result => {
-      console.log(`[Deploy] Post-deploy ingest done — ${result.processed} new articles stored`)
-    })
-    .catch(err => {
-      console.error('[Deploy] Post-deploy ingest error:', (err as Error).message)
-    })
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL
+  const secret = process.env.CRON_SECRET
+
+  if (!appUrl || !secret) {
+    console.warn('[Deploy] NEXT_PUBLIC_APP_URL or CRON_SECRET not set — skipping post-deploy ingest')
+    return
+  }
+
+  console.log('[Deploy] Triggering post-deploy full-refresh ingest...')
+  fetch(`${appUrl}/api/ingest?fullRefresh=true`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${secret}` },
+  })
+    .then(r => console.log(`[Deploy] Ingest triggered — status ${r.status}`))
+    .catch(err => console.error('[Deploy] Ingest trigger error:', (err as Error).message))
 }

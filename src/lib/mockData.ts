@@ -1,4 +1,4 @@
-import type { Article } from '@/types/article'
+﻿import type { Article } from '@/types/article'
 
 const d = (daysAgo: number) => {
   const dt = new Date()
@@ -8,28 +8,28 @@ const d = (daysAgo: number) => {
 
 export const MOCK_ARTICLES: Article[] = [
 
-  // ── Revista Electricidad ─────────────────────────────────
+  // â”€â”€ Revista Electricidad â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-rev-elec-001',
     title: 'Chile reaches 30% renewable generation share in the National Electricity System',
-    title_es: 'Chile alcanza 30% de generación renovable en el Sistema Eléctrico Nacional',
+    title_es: 'Chile alcanza 30% de generaciÃ³n renovable en el Sistema ElÃ©ctrico Nacional',
     source: 'Revista Electricidad',
     source_type: 'Press',
     location: 'Chile',
     category: 'Energy',
     date: d(1),
-    url: 'https://www.revistaei.cl/2024/generacion-renovable-30-porciento',
-    extended_description: 'El Sistema Eléctrico Nacional de Chile superó el 30% de participación de energías renovables no convencionales durante el primer semestre, según datos del Coordinador Eléctrico Nacional. La solar fotovoltaica lidera el crecimiento con 12 GW instalados, seguida por la eólica con 4,8 GW. Este hito posiciona al país como referente regional en transición energética, aunque persisten desafíos de almacenamiento y gestión de excedentes en horas de alta irradiación.',
-    extended_description_es: 'El Sistema Eléctrico Nacional de Chile superó el 30% de participación de energías renovables no convencionales durante el primer semestre, según datos del Coordinador Eléctrico Nacional. La solar fotovoltaica lidera el crecimiento con 12 GW instalados, seguida por la eólica con 4,8 GW. Este hito posiciona al país como referente regional en transición energética, aunque persisten desafíos de almacenamiento y gestión de excedentes.',
+    url: 'https://www.revistaei.cl/',
+    extended_description: 'El Sistema ElÃ©ctrico Nacional de Chile superÃ³ el 30% de participaciÃ³n de energÃ­as renovables no convencionales durante el primer semestre, segÃºn datos del Coordinador ElÃ©ctrico Nacional. La solar fotovoltaica lidera el crecimiento con 12 GW instalados, seguida por la eÃ³lica con 4,8 GW. Este hito posiciona al paÃ­s como referente regional en transiciÃ³n energÃ©tica, aunque persisten desafÃ­os de almacenamiento y gestiÃ³n de excedentes en horas de alta irradiaciÃ³n.',
+    extended_description_es: 'El Sistema ElÃ©ctrico Nacional de Chile superÃ³ el 30% de participaciÃ³n de energÃ­as renovables no convencionales durante el primer semestre, segÃºn datos del Coordinador ElÃ©ctrico Nacional. La solar fotovoltaica lidera el crecimiento con 12 GW instalados, seguida por la eÃ³lica con 4,8 GW. Este hito posiciona al paÃ­s como referente regional en transiciÃ³n energÃ©tica, aunque persisten desafÃ­os de almacenamiento y gestiÃ³n de excedentes.',
     short_summary: [
       'Chile surpasses 30% renewable share in national grid, led by 12 GW of solar PV capacity.',
       'Wind energy adds 4.8 GW, consolidating Chile as a regional clean energy benchmark.',
       'Storage gaps and surplus management remain key challenges for further NCRE integration.',
     ],
     short_summary_es: [
-      'Chile supera 30% de participación renovable en el SEN, liderado por 12 GW solares.',
-      'La eólica aporta 4,8 GW, consolidando a Chile como referente regional.',
-      'La gestión de excedentes y el almacenamiento siguen siendo los principales desafíos.',
+      'Chile supera 30% de participaciÃ³n renovable en el SEN, liderado por 12 GW solares.',
+      'La eÃ³lica aporta 4,8 GW, consolidando a Chile como referente regional.',
+      'La gestiÃ³n de excedentes y el almacenamiento siguen siendo los principales desafÃ­os.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
@@ -37,49 +37,49 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: 'mock-rev-elec-002',
     title: 'New electricity transmission tenders add 1,200 km of lines in northern Chile',
-    title_es: 'Nuevas licitaciones de transmisión eléctrica suman 1.200 km de líneas al norte del país',
+    title_es: 'Nuevas licitaciones de transmisiÃ³n elÃ©ctrica suman 1.200 km de lÃ­neas al norte del paÃ­s',
     source: 'Revista Electricidad',
     source_type: 'Press',
     location: 'Chile',
     category: 'Energy',
     date: d(3),
-    url: 'https://www.revistaei.cl/2024/licitaciones-transmision-norte',
-    extended_description: 'El Ministerio de Energía lanzó un proceso de licitación para construir 1.200 km de nuevas líneas de transmisión de alta tensión en las regiones de Tarapacá y Antofagasta. El proyecto busca evacuar la creciente generación solar del norte grande hacia los centros de consumo del centro-sur del país. La inversión estimada supera los US$800 millones y contempla tecnología HVDC para reducir pérdidas en el transporte de largo aliento.',
-    extended_description_es: 'El Ministerio de Energía lanzó un proceso de licitación para construir 1.200 km de nuevas líneas de transmisión de alta tensión en las regiones de Tarapacá y Antofagasta. El proyecto busca evacuar la creciente generación solar del norte grande hacia los centros de consumo del centro-sur del país.',
+    url: 'https://www.revistaei.cl/noticias/',
+    extended_description: 'El Ministerio de EnergÃ­a lanzÃ³ un proceso de licitaciÃ³n para construir 1.200 km de nuevas lÃ­neas de transmisiÃ³n de alta tensiÃ³n en las regiones de TarapacÃ¡ y Antofagasta. El proyecto busca evacuar la creciente generaciÃ³n solar del norte grande hacia los centros de consumo del centro-sur del paÃ­s. La inversiÃ³n estimada supera los US$800 millones y contempla tecnologÃ­a HVDC para reducir pÃ©rdidas en el transporte de largo aliento.',
+    extended_description_es: 'El Ministerio de EnergÃ­a lanzÃ³ un proceso de licitaciÃ³n para construir 1.200 km de nuevas lÃ­neas de transmisiÃ³n de alta tensiÃ³n en las regiones de TarapacÃ¡ y Antofagasta. El proyecto busca evacuar la creciente generaciÃ³n solar del norte grande hacia los centros de consumo del centro-sur del paÃ­s.',
     short_summary: [
-      'Chile tenders 1,200 km of new high-voltage transmission lines in Tarapacá and Antofagasta regions.',
+      'Chile tenders 1,200 km of new high-voltage transmission lines in TarapacÃ¡ and Antofagasta regions.',
       'Project aims to evacuate surplus solar generation from the Atacama north to central consumption hubs.',
       'HVDC technology included to minimize long-distance transmission losses; estimated cost US$800M.',
     ],
     short_summary_es: [
-      'Chile licita 1.200 km de nuevas líneas de alta tensión en el norte del país.',
-      'El proyecto evacuará excedentes solares del norte grande hacia centros de consumo.',
-      'Se contempla tecnología HVDC; inversión estimada supera los US$800 millones.',
+      'Chile licita 1.200 km de nuevas lÃ­neas de alta tensiÃ³n en el norte del paÃ­s.',
+      'El proyecto evacuarÃ¡ excedentes solares del norte grande hacia centros de consumo.',
+      'Se contempla tecnologÃ­a HVDC; inversiÃ³n estimada supera los US$800 millones.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── Diario Financiero ────────────────────────────────────
+  // â”€â”€ Diario Financiero â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-df-001',
     title: 'Foreign investment in Chilean mining grows 18% in H1 driven by copper and lithium',
-    title_es: 'Inversión extranjera en minería chilena crece 18% en primer semestre impulsada por cobre y litio',
+    title_es: 'InversiÃ³n extranjera en minerÃ­a chilena crece 18% en primer semestre impulsada por cobre y litio',
     source: 'Diario Financiero',
     source_type: 'Press',
     location: 'Chile',
     category: 'Mining',
     date: d(1),
-    url: 'https://www.df.cl/mercados/mineria/inversion-extranjera-mineria-primer-semestre',
-    extended_description: 'La inversión extranjera directa en el sector minero chileno creció 18% interanual durante el primer semestre, alcanzando US$3.200 millones según cifras del Ministerio de Minería. El cobre concentró el 67% de los flujos, mientras el litio atrajo US$680 millones de capitales australianos, canadienses y chinos. Los analistas destacan que Chile mantiene su ventaja competitiva pese a la incertidumbre regulatoria, gracias a la infraestructura consolidada y la calidad de sus reservas.',
-    extended_description_es: 'La inversión extranjera directa en el sector minero chileno creció 18% interanual durante el primer semestre, alcanzando US$3.200 millones. El cobre concentró el 67% de los flujos, mientras el litio atrajo US$680 millones de capitales australianos, canadienses y chinos.',
+    url: 'https://www.df.cl/',
+    extended_description: 'La inversiÃ³n extranjera directa en el sector minero chileno creciÃ³ 18% interanual durante el primer semestre, alcanzando US$3.200 millones segÃºn cifras del Ministerio de MinerÃ­a. El cobre concentrÃ³ el 67% de los flujos, mientras el litio atrajo US$680 millones de capitales australianos, canadienses y chinos. Los analistas destacan que Chile mantiene su ventaja competitiva pese a la incertidumbre regulatoria, gracias a la infraestructura consolidada y la calidad de sus reservas.',
+    extended_description_es: 'La inversiÃ³n extranjera directa en el sector minero chileno creciÃ³ 18% interanual durante el primer semestre, alcanzando US$3.200 millones. El cobre concentrÃ³ el 67% de los flujos, mientras el litio atrajo US$680 millones de capitales australianos, canadienses y chinos.',
     short_summary: [
       'Foreign mining investment in Chile grew 18% YoY to US$3.2 billion in H1, driven by copper and lithium.',
       'Lithium attracted US$680M from Australian, Canadian, and Chinese capital amid global EV demand.',
       'Chile maintains competitive edge despite regulatory uncertainty due to infrastructure quality.',
     ],
     short_summary_es: [
-      'La IED minera en Chile creció 18% interanual hasta US$3.200 millones en el primer semestre.',
+      'La IED minera en Chile creciÃ³ 18% interanual hasta US$3.200 millones en el primer semestre.',
       'El litio atrajo US$680 millones de capitales australianos, canadienses y chinos.',
       'Chile mantiene ventaja competitiva pese a la incertidumbre regulatoria.',
     ],
@@ -95,9 +95,9 @@ export const MOCK_ARTICLES: Article[] = [
     location: 'Chile',
     category: 'Mining',
     date: d(2),
-    url: 'https://www.df.cl/mercados/commodities/precio-cobre-ai-demanda',
-    extended_description: 'El precio del cobre en la Bolsa de Metales de Londres superó los US$4,5 por libra, impulsado por la demanda de infraestructura para centros de datos de inteligencia artificial y el déficit de inventarios en almacenes LME. Analistas de Goldman Sachs proyectan que la demanda acumulada de cobre por parte del sector tecnológico superará los 5 millones de toneladas anuales hacia 2030. Chile, como mayor productor mundial, enfrenta presión para acelerar proyectos greenfield que hoy están frenados por aprobaciones ambientales.',
-    extended_description_es: 'El precio del cobre en la LME superó los US$4,5 por libra, impulsado por la demanda de infraestructura para centros de datos de IA y el déficit de inventarios. Goldman Sachs proyecta que la demanda acumulada de cobre por el sector tecnológico superará los 5 millones de toneladas anuales hacia 2030.',
+    url: 'https://www.df.cl/noticias/',
+    extended_description: 'El precio del cobre en la Bolsa de Metales de Londres superÃ³ los US$4,5 por libra, impulsado por la demanda de infraestructura para centros de datos de inteligencia artificial y el dÃ©ficit de inventarios en almacenes LME. Analistas de Goldman Sachs proyectan que la demanda acumulada de cobre por parte del sector tecnolÃ³gico superarÃ¡ los 5 millones de toneladas anuales hacia 2030. Chile, como mayor productor mundial, enfrenta presiÃ³n para acelerar proyectos greenfield que hoy estÃ¡n frenados por aprobaciones ambientales.',
+    extended_description_es: 'El precio del cobre en la LME superÃ³ los US$4,5 por libra, impulsado por la demanda de infraestructura para centros de datos de IA y el dÃ©ficit de inventarios. Goldman Sachs proyecta que la demanda acumulada de cobre por el sector tecnolÃ³gico superarÃ¡ los 5 millones de toneladas anuales hacia 2030.',
     short_summary: [
       'Copper breaks US$4.5/lb on LME driven by AI data center infrastructure demand and low inventories.',
       'Goldman Sachs projects tech sector copper demand exceeding 5 million tonnes annually by 2030.',
@@ -105,8 +105,8 @@ export const MOCK_ARTICLES: Article[] = [
     ],
     short_summary_es: [
       'El cobre supera US$4,5/lb en la LME por demanda de infraestructura para IA e inventarios bajos.',
-      'Goldman Sachs proyecta demanda de cobre del sector tecnológico superando 5 Mt/año hacia 2030.',
-      'Chile enfrenta presión para acelerar aprobaciones de proyectos greenfield.',
+      'Goldman Sachs proyecta demanda de cobre del sector tecnolÃ³gico superando 5 Mt/aÃ±o hacia 2030.',
+      'Chile enfrenta presiÃ³n para acelerar aprobaciones de proyectos greenfield.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
@@ -114,50 +114,50 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: 'mock-df-003',
     title: 'Enel Chile announces US$1.8 billion investment plan in renewables and storage',
-    title_es: 'Enel Chile anuncia plan de inversión de US$1.800 millones en renovables y almacenamiento',
+    title_es: 'Enel Chile anuncia plan de inversiÃ³n de US$1.800 millones en renovables y almacenamiento',
     source: 'Diario Financiero',
     source_type: 'Press',
     location: 'Chile',
     category: 'Energy',
     date: d(4),
-    url: 'https://www.df.cl/empresas/energia/enel-chile-plan-inversion-renovables',
-    extended_description: 'Enel Chile presentó su plan estratégico 2024-2027 con una inversión de US$1.800 millones destinados a expandir su capacidad de generación renovable en 2.400 MW adicionales y desplegar 600 MWh de baterías de almacenamiento de gran escala en la Región Metropolitana y el norte del país. El plan contempla el cierre anticipado de las últimas unidades a carbón de la empresa y refuerza su apuesta por la flexibilidad de red como servicio complementario al mercado spot.',
-    extended_description_es: 'Enel Chile presentó su plan estratégico 2024-2027 con una inversión de US$1.800 millones para expandir 2.400 MW renovables y desplegar 600 MWh de baterías de almacenamiento de gran escala.',
+    url: 'https://www.df.cl/empresas/',
+    extended_description: 'Enel Chile presentÃ³ su plan estratÃ©gico 2024-2027 con una inversiÃ³n de US$1.800 millones destinados a expandir su capacidad de generaciÃ³n renovable en 2.400 MW adicionales y desplegar 600 MWh de baterÃ­as de almacenamiento de gran escala en la RegiÃ³n Metropolitana y el norte del paÃ­s. El plan contempla el cierre anticipado de las Ãºltimas unidades a carbÃ³n de la empresa y refuerza su apuesta por la flexibilidad de red como servicio complementario al mercado spot.',
+    extended_description_es: 'Enel Chile presentÃ³ su plan estratÃ©gico 2024-2027 con una inversiÃ³n de US$1.800 millones para expandir 2.400 MW renovables y desplegar 600 MWh de baterÃ­as de almacenamiento de gran escala.',
     short_summary: [
       'Enel Chile commits US$1.8 billion to add 2,400 MW renewables and 600 MWh grid-scale storage by 2027.',
       'Plan includes early retirement of remaining coal units and grid flexibility services expansion.',
       'Battery deployment targets Metropolitan Region and Atacama north to address solar curtailment.',
     ],
     short_summary_es: [
-      'Enel Chile destina US$1.800 millones para añadir 2.400 MW renovables y 600 MWh de baterías al 2027.',
-      'El plan incluye el cierre anticipado de las últimas unidades a carbón de la empresa.',
-      'El despliegue de baterías apunta a la RM y el norte para reducir el vertimiento solar.',
+      'Enel Chile destina US$1.800 millones para aÃ±adir 2.400 MW renovables y 600 MWh de baterÃ­as al 2027.',
+      'El plan incluye el cierre anticipado de las Ãºltimas unidades a carbÃ³n de la empresa.',
+      'El despliegue de baterÃ­as apunta a la RM y el norte para reducir el vertimiento solar.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── La Tercera ──────────────────────────────────────────
+  // â”€â”€ La Tercera â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-lt-001',
     title: 'Government announces national green hydrogen plan targeting 25 GW by 2030',
-    title_es: 'Gobierno anuncia plan nacional de hidrógeno verde con meta de 25 GW al 2030',
+    title_es: 'Gobierno anuncia plan nacional de hidrÃ³geno verde con meta de 25 GW al 2030',
     source: 'La Tercera',
     source_type: 'Press',
     location: 'Chile',
     category: 'Energy',
     date: d(1),
-    url: 'https://www.latercera.com/pulso/noticia/gobierno-hidrogeno-verde-25gw-2030',
-    extended_description: 'El Ministerio de Energía presentó la Estrategia Nacional de Hidrógeno Verde con una meta de producción de 25 GW de electrólisis al año 2030, posicionando a Chile entre los cinco mayores exportadores potenciales del mundo. El plan contempla zonas de desarrollo preferente en Magallanes, Atacama y Tarapacá, y prevé atraer US$20.000 millones en inversión privada mediante contratos de largo plazo con compradores europeos y asiáticos. La brecha de costos frente al hidrógeno gris se estima en US$1,5/kg y se espera cerrar hacia 2027.',
-    extended_description_es: 'El Ministerio de Energía presentó la Estrategia Nacional de Hidrógeno Verde con meta de 25 GW de electrólisis al 2030. El plan contempla zonas de desarrollo en Magallanes, Atacama y Tarapacá, y prevé atraer US$20.000 millones en inversión privada.',
+    url: 'https://www.latercera.com/pulso/',
+    extended_description: 'El Ministerio de EnergÃ­a presentÃ³ la Estrategia Nacional de HidrÃ³geno Verde con una meta de producciÃ³n de 25 GW de electrÃ³lisis al aÃ±o 2030, posicionando a Chile entre los cinco mayores exportadores potenciales del mundo. El plan contempla zonas de desarrollo preferente en Magallanes, Atacama y TarapacÃ¡, y prevÃ© atraer US$20.000 millones en inversiÃ³n privada mediante contratos de largo plazo con compradores europeos y asiÃ¡ticos. La brecha de costos frente al hidrÃ³geno gris se estima en US$1,5/kg y se espera cerrar hacia 2027.',
+    extended_description_es: 'El Ministerio de EnergÃ­a presentÃ³ la Estrategia Nacional de HidrÃ³geno Verde con meta de 25 GW de electrÃ³lisis al 2030. El plan contempla zonas de desarrollo en Magallanes, Atacama y TarapacÃ¡, y prevÃ© atraer US$20.000 millones en inversiÃ³n privada.',
     short_summary: [
       'Chile targets 25 GW of green hydrogen electrolysis capacity by 2030 under new national strategy.',
-      'Preferred development zones in Magallanes, Atacama, and Tarapacá target European and Asian buyers.',
+      'Preferred development zones in Magallanes, Atacama, and TarapacÃ¡ target European and Asian buyers.',
       'Cost gap vs. grey hydrogen estimated at US$1.5/kg, expected to close by 2027 at scale.',
     ],
     short_summary_es: [
-      'Chile apunta a 25 GW de electrólisis de hidrógeno verde al 2030 con nueva estrategia nacional.',
-      'Zonas de desarrollo en Magallanes, Atacama y Tarapacá apuntan a compradores europeos y asiáticos.',
+      'Chile apunta a 25 GW de electrÃ³lisis de hidrÃ³geno verde al 2030 con nueva estrategia nacional.',
+      'Zonas de desarrollo en Magallanes, Atacama y TarapacÃ¡ apuntan a compradores europeos y asiÃ¡ticos.',
       'La brecha de costos frente al H2 gris es de US$1,5/kg y se espera cerrar hacia 2027.',
     ],
     created_at: new Date().toISOString(),
@@ -166,51 +166,51 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: 'mock-lt-002',
     title: 'SQM reports 42% profit decline due to lithium price collapse',
-    title_es: 'SQM reporta caída de 42% en utilidades por desplome del precio del litio',
+    title_es: 'SQM reporta caÃ­da de 42% en utilidades por desplome del precio del litio',
     source: 'La Tercera',
     source_type: 'Press',
     location: 'Chile',
     category: 'Mining',
     date: d(2),
-    url: 'https://www.latercera.com/pulso/noticia/sqm-caida-utilidades-litio',
-    extended_description: 'SQM reportó una caída de 42% en sus utilidades netas durante el segundo trimestre, reflejando la presión sobre los precios del litio que han retrocedido más de 70% desde su peak de 2022. La compañía mantiene su guidance de producción en 190.000 toneladas de LCE y apuesta por la diversificación hacia yodo y nitratos para compensar el impacto. El directorio anunció una revisión de su política de dividendos y un programa de eficiencia que busca reducir costos operacionales en 15%.',
-    extended_description_es: 'SQM reportó una caída de 42% en utilidades netas en el segundo trimestre por la presión sobre precios del litio. La compañía mantiene su guidance de 190.000 t de LCE y apuesta por diversificación en yodo y nitratos para compensar el impacto.',
+    url: 'https://www.latercera.com/pulso/negocios/',
+    extended_description: 'SQM reportÃ³ una caÃ­da de 42% en sus utilidades netas durante el segundo trimestre, reflejando la presiÃ³n sobre los precios del litio que han retrocedido mÃ¡s de 70% desde su peak de 2022. La compaÃ±Ã­a mantiene su guidance de producciÃ³n en 190.000 toneladas de LCE y apuesta por la diversificaciÃ³n hacia yodo y nitratos para compensar el impacto. El directorio anunciÃ³ una revisiÃ³n de su polÃ­tica de dividendos y un programa de eficiencia que busca reducir costos operacionales en 15%.',
+    extended_description_es: 'SQM reportÃ³ una caÃ­da de 42% en utilidades netas en el segundo trimestre por la presiÃ³n sobre precios del litio. La compaÃ±Ã­a mantiene su guidance de 190.000 t de LCE y apuesta por diversificaciÃ³n en yodo y nitratos para compensar el impacto.',
     short_summary: [
       'SQM reports 42% net profit decline in Q2 as lithium prices remain 70% below 2022 peak.',
       'Production guidance maintained at 190,000 tonnes LCE; iodine and nitrates to offset lithium losses.',
       'Board announces dividend review and 15% cost reduction program to preserve balance sheet.',
     ],
     short_summary_es: [
-      'SQM reporta caída de 42% en utilidades Q2 con precios del litio un 70% por debajo del peak.',
-      'El guidance de producción se mantiene en 190.000 t LCE; yodo y nitratos compensarán el impacto.',
-      'El directorio revisa política de dividendos y anuncia programa de reducción de costos del 15%.',
+      'SQM reporta caÃ­da de 42% en utilidades Q2 con precios del litio un 70% por debajo del peak.',
+      'El guidance de producciÃ³n se mantiene en 190.000 t LCE; yodo y nitratos compensarÃ¡n el impacto.',
+      'El directorio revisa polÃ­tica de dividendos y anuncia programa de reducciÃ³n de costos del 15%.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── Emol ────────────────────────────────────────────────
+  // â”€â”€ Emol â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-emol-001',
     title: 'Chile passes energy storage law enabling grid-scale battery systems',
-    title_es: 'Chile aprobó proyecto de ley de almacenamiento energético que facilita baterías de gran escala',
+    title_es: 'Chile aprobÃ³ proyecto de ley de almacenamiento energÃ©tico que facilita baterÃ­as de gran escala',
     source: 'Emol',
     source_type: 'Press',
     location: 'Chile',
     category: 'Energy',
     date: d(1),
-    url: 'https://www.emol.com/noticias/Economia/2024/ley-almacenamiento-energetico',
-    extended_description: 'La Cámara de Diputados aprobó en tercer trámite el proyecto de ley de almacenamiento de energía, que establece un marco regulatorio específico para baterías y otros sistemas de almacenamiento conectados al Sistema Eléctrico Nacional. La ley define los servicios complementarios que pueden prestar estos sistemas, su tratamiento tarifario y los incentivos para su desarrollo. Especialistas estiman que podría detonar inversiones superiores a US$2.000 millones en la próxima década.',
-    extended_description_es: 'La Cámara de Diputados aprobó el proyecto de ley de almacenamiento de energía, que establece un marco regulatorio para baterías y sistemas de almacenamiento en el SEN. La ley define servicios complementarios, tratamiento tarifario e incentivos.',
+    url: 'https://www.emol.com/noticias/Economia/',
+    extended_description: 'La CÃ¡mara de Diputados aprobÃ³ en tercer trÃ¡mite el proyecto de ley de almacenamiento de energÃ­a, que establece un marco regulatorio especÃ­fico para baterÃ­as y otros sistemas de almacenamiento conectados al Sistema ElÃ©ctrico Nacional. La ley define los servicios complementarios que pueden prestar estos sistemas, su tratamiento tarifario y los incentivos para su desarrollo. Especialistas estiman que podrÃ­a detonar inversiones superiores a US$2.000 millones en la prÃ³xima dÃ©cada.',
+    extended_description_es: 'La CÃ¡mara de Diputados aprobÃ³ el proyecto de ley de almacenamiento de energÃ­a, que establece un marco regulatorio para baterÃ­as y sistemas de almacenamiento en el SEN. La ley define servicios complementarios, tratamiento tarifario e incentivos.',
     short_summary: [
       'Chile\'s Chamber of Deputies passes landmark energy storage law establishing grid-scale battery framework.',
       'Law defines ancillary services, tariff treatment, and development incentives for storage operators.',
       'Analysts project over US$2 billion in storage investment triggered by new regulatory certainty.',
     ],
     short_summary_es: [
-      'Chile aprueba ley de almacenamiento energético que crea marco regulatorio para baterías de gran escala.',
+      'Chile aprueba ley de almacenamiento energÃ©tico que crea marco regulatorio para baterÃ­as de gran escala.',
       'La ley define servicios complementarios, tarifas e incentivos para operadores de almacenamiento.',
-      'Analistas proyectan más de US$2.000 millones en inversión por la nueva certeza regulatoria.',
+      'Analistas proyectan mÃ¡s de US$2.000 millones en inversiÃ³n por la nueva certeza regulatoria.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
@@ -218,51 +218,51 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: 'mock-emol-002',
     title: 'Codelco posts operating losses as costs rise and ore grades decline',
-    title_es: 'Codelco registra pérdidas operacionales por alza de costos y menor ley de mineral',
+    title_es: 'Codelco registra pÃ©rdidas operacionales por alza de costos y menor ley de mineral',
     source: 'Emol',
     source_type: 'Press',
     location: 'Chile',
     category: 'Mining',
     date: d(3),
-    url: 'https://www.emol.com/noticias/Economia/2024/codelco-perdidas-costos',
-    extended_description: 'Codelco reportó pérdidas operacionales de US$219 millones en el primer semestre, resultado de la combinación entre el alza de costos de energía y mano de obra, y la caída sostenida en las leyes de mineral en sus principales yacimientos. El costo C1 promedio escaló a US$1,82 por libra, superando la media de la industria. La empresa estatal aceleró su programa de transformación estructural que busca recuperar competitividad antes de 2026 mediante automatización y revisión de contratos de terceros.',
-    extended_description_es: 'Codelco reportó pérdidas operacionales de US$219 millones en el primer semestre por alza de costos y menor ley de mineral. El costo C1 escaló a US$1,82/lb, sobre la media de la industria.',
+    url: 'https://www.emol.com/noticias/Nacional/',
+    extended_description: 'Codelco reportÃ³ pÃ©rdidas operacionales de US$219 millones en el primer semestre, resultado de la combinaciÃ³n entre el alza de costos de energÃ­a y mano de obra, y la caÃ­da sostenida en las leyes de mineral en sus principales yacimientos. El costo C1 promedio escalÃ³ a US$1,82 por libra, superando la media de la industria. La empresa estatal acelerÃ³ su programa de transformaciÃ³n estructural que busca recuperar competitividad antes de 2026 mediante automatizaciÃ³n y revisiÃ³n de contratos de terceros.',
+    extended_description_es: 'Codelco reportÃ³ pÃ©rdidas operacionales de US$219 millones en el primer semestre por alza de costos y menor ley de mineral. El costo C1 escalÃ³ a US$1,82/lb, sobre la media de la industria.',
     short_summary: [
       'Codelco posts US$219M operating loss in H1 as C1 costs climb to US$1.82/lb above industry average.',
       'Rising energy and labor costs compound declining ore grades at flagship mines.',
       'Structural transformation program targets competitiveness recovery by 2026 via automation.',
     ],
     short_summary_es: [
-      'Codelco reporta pérdidas operacionales de US$219M en H1 con costo C1 en US$1,82/lb.',
-      'El alza de costos de energía y mano de obra se combina con menor ley de mineral.',
-      'El programa de transformación apunta a recuperar competitividad antes de 2026 con automatización.',
+      'Codelco reporta pÃ©rdidas operacionales de US$219M en H1 con costo C1 en US$1,82/lb.',
+      'El alza de costos de energÃ­a y mano de obra se combina con menor ley de mineral.',
+      'El programa de transformaciÃ³n apunta a recuperar competitividad antes de 2026 con automatizaciÃ³n.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── Economía y Negocios (El Mercurio) ────────────────────
+  // â”€â”€ EconomÃ­a y Negocios (El Mercurio) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-eyn-001',
     title: 'Industrial electricity tariffs to fall 12% in upcoming regulatory period',
-    title_es: 'Tarifas eléctricas industriales bajarán 12% en próximo proceso de tarificación',
+    title_es: 'Tarifas elÃ©ctricas industriales bajarÃ¡n 12% en prÃ³ximo proceso de tarificaciÃ³n',
     source: 'Economia y Negocios',
     source_type: 'Press',
     location: 'Chile',
     category: 'Energy',
     date: d(2),
-    url: 'https://www.economiaynegocios.cl/noticias/noticias.asp?id=tarifas-electricas-bajan',
-    extended_description: 'La Comisión Nacional de Energía informó que las tarifas eléctricas para clientes industriales registrarán una reducción promedio de 12% en el siguiente período tarifario, reflejo de la mayor penetración renovable y la caída en los precios del gas natural licuado. Las empresas mineras de la zona norte son las principales beneficiadas, con reducciones que podrían superar el 18% en algunos nodos del sistema. La medida abarata los costos operacionales del sector y mejora la competitividad de la producción nacional de cobre.',
-    extended_description_es: 'La CNE informó que las tarifas eléctricas industriales bajarán un promedio de 12% en el siguiente período tarifario, por mayor penetración renovable y caída del GNL. Las mineras del norte son las principales beneficiadas.',
+    url: 'https://www.economiaynegocios.cl/',
+    extended_description: 'La ComisiÃ³n Nacional de EnergÃ­a informÃ³ que las tarifas elÃ©ctricas para clientes industriales registrarÃ¡n una reducciÃ³n promedio de 12% en el siguiente perÃ­odo tarifario, reflejo de la mayor penetraciÃ³n renovable y la caÃ­da en los precios del gas natural licuado. Las empresas mineras de la zona norte son las principales beneficiadas, con reducciones que podrÃ­an superar el 18% en algunos nodos del sistema. La medida abarata los costos operacionales del sector y mejora la competitividad de la producciÃ³n nacional de cobre.',
+    extended_description_es: 'La CNE informÃ³ que las tarifas elÃ©ctricas industriales bajarÃ¡n un promedio de 12% en el siguiente perÃ­odo tarifario, por mayor penetraciÃ³n renovable y caÃ­da del GNL. Las mineras del norte son las principales beneficiadas.',
     short_summary: [
       'CNE confirms 12% average reduction in industrial electricity tariffs for next regulatory period.',
       'Mining companies in northern Chile to benefit most, with cuts exceeding 18% at some grid nodes.',
       'Lower power costs improve competitiveness of Chilean copper production vs. global peers.',
     ],
     short_summary_es: [
-      'CNE confirma rebaja promedio del 12% en tarifas eléctricas industriales para el próximo período.',
-      'Las mineras del norte serán las más beneficiadas, con rebajas superiores al 18% en algunos nodos.',
-      'Los menores costos eléctricos mejoran la competitividad de la producción de cobre frente a pares globales.',
+      'CNE confirma rebaja promedio del 12% en tarifas elÃ©ctricas industriales para el prÃ³ximo perÃ­odo.',
+      'Las mineras del norte serÃ¡n las mÃ¡s beneficiadas, con rebajas superiores al 18% en algunos nodos.',
+      'Los menores costos elÃ©ctricos mejoran la competitividad de la producciÃ³n de cobre frente a pares globales.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
@@ -276,9 +276,9 @@ export const MOCK_ARTICLES: Article[] = [
     location: 'Chile',
     category: 'Data Centers',
     date: d(3),
-    url: 'https://www.economiaynegocios.cl/noticias/noticias.asp?id=data-centers-300mw',
-    extended_description: 'La capacidad instalada de centros de datos en Chile alcanzó los 300 MW, con 12 nuevos proyectos en construcción que agregarán otros 180 MW antes de fines de 2025, según un reporte del sector tecnológico. El crecimiento es impulsado por la llegada de hiperescaladores internacionales que ven en Chile condiciones ventajosas: estabilidad política, fibra submarina y energía renovable abundante. La demanda de energía del sector podría representar el 8% del consumo eléctrico total del país hacia 2028.',
-    extended_description_es: 'La capacidad instalada de centros de datos en Chile alcanzó los 300 MW, con 12 nuevos proyectos que agregarán 180 MW antes de fines de 2025. El crecimiento es impulsado por hiperescaladores internacionales atraídos por la estabilidad y la energía renovable.',
+    url: 'https://www.economiaynegocios.cl/noticias/',
+    extended_description: 'La capacidad instalada de centros de datos en Chile alcanzÃ³ los 300 MW, con 12 nuevos proyectos en construcciÃ³n que agregarÃ¡n otros 180 MW antes de fines de 2025, segÃºn un reporte del sector tecnolÃ³gico. El crecimiento es impulsado por la llegada de hiperescaladores internacionales que ven en Chile condiciones ventajosas: estabilidad polÃ­tica, fibra submarina y energÃ­a renovable abundante. La demanda de energÃ­a del sector podrÃ­a representar el 8% del consumo elÃ©ctrico total del paÃ­s hacia 2028.',
+    extended_description_es: 'La capacidad instalada de centros de datos en Chile alcanzÃ³ los 300 MW, con 12 nuevos proyectos que agregarÃ¡n 180 MW antes de fines de 2025. El crecimiento es impulsado por hiperescaladores internacionales atraÃ­dos por la estabilidad y la energÃ­a renovable.',
     short_summary: [
       'Chile reaches 300 MW installed data center capacity with 12 projects adding 180 MW by end-2025.',
       'Hyperscalers cite political stability, subsea fiber, and abundant renewables as key location drivers.',
@@ -286,35 +286,35 @@ export const MOCK_ARTICLES: Article[] = [
     ],
     short_summary_es: [
       'Chile alcanza 300 MW de capacidad instalada en centros de datos con 12 proyectos adicionales.',
-      'Los hiperescaladores destacan la estabilidad, fibra submarina y energía renovable como factores clave.',
-      'La demanda eléctrica del sector podría representar el 8% del consumo total del país hacia 2028.',
+      'Los hiperescaladores destacan la estabilidad, fibra submarina y energÃ­a renovable como factores clave.',
+      'La demanda elÃ©ctrica del sector podrÃ­a representar el 8% del consumo total del paÃ­s hacia 2028.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── Global sources ───────────────────────────────────────
+  // â”€â”€ Global sources â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-iea-001',
     title: 'IEA: Global clean energy investment set to exceed $2 trillion for first time in 2024',
-    title_es: 'AIE: La inversión global en energía limpia superará los 2 billones de dólares por primera vez en 2024',
+    title_es: 'AIE: La inversiÃ³n global en energÃ­a limpia superarÃ¡ los 2 billones de dÃ³lares por primera vez en 2024',
     source: 'IEA',
     source_type: 'Institutional',
     location: 'Global',
     category: 'Energy',
     date: d(1),
-    url: 'https://www.iea.org/news/clean-energy-investment-2024',
+    url: 'https://www.iea.org/news',
     extended_description: 'The International Energy Agency reports global clean energy investment is on track to surpass $2 trillion in 2024, with solar and wind accounting for roughly $1.1 trillion. Emerging markets in Latin America and Southeast Asia show accelerated growth driven by declining technology costs. The milestone represents a doubling of clean-energy spending in five years. Grid infrastructure and storage remain the most under-invested segments relative to what the energy transition requires.',
-    extended_description_es: 'La Agencia Internacional de Energía informa que la inversión mundial en energía limpia superará los 2 billones de dólares en 2024, con solar y eólica representando 1,1 billones. Los mercados emergentes en América Latina muestran crecimiento acelerado.',
+    extended_description_es: 'La Agencia Internacional de EnergÃ­a informa que la inversiÃ³n mundial en energÃ­a limpia superarÃ¡ los 2 billones de dÃ³lares en 2024, con solar y eÃ³lica representando 1,1 billones. Los mercados emergentes en AmÃ©rica Latina muestran crecimiento acelerado.',
     short_summary: [
       'Global clean energy investment hits $2 trillion milestone in 2024, led by $1.1T in solar and wind.',
       'Latin America and Southeast Asia emerge as fastest-growing markets due to lower technology costs.',
       'Grid infrastructure and storage remain critically underfunded relative to net-zero requirements.',
     ],
     short_summary_es: [
-      'La inversión global en energía limpia alcanza 2 billones en 2024, liderada por solar y eólica.',
-      'América Latina y el Sudeste Asiático son los mercados de más rápido crecimiento.',
-      'La infraestructura de redes y el almacenamiento siguen siendo insuficientes para la transición.',
+      'La inversiÃ³n global en energÃ­a limpia alcanza 2 billones en 2024, liderada por solar y eÃ³lica.',
+      'AmÃ©rica Latina y el Sudeste AsiÃ¡tico son los mercados de mÃ¡s rÃ¡pido crecimiento.',
+      'La infraestructura de redes y el almacenamiento siguen siendo insuficientes para la transiciÃ³n.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
@@ -322,24 +322,24 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: 'mock-mining-001',
     title: 'Mining.com: Copper deficit widens as AI infrastructure boom accelerates demand',
-    title_es: 'Déficit de cobre se amplía a medida que el auge de infraestructura IA acelera la demanda',
+    title_es: 'DÃ©ficit de cobre se amplÃ­a a medida que el auge de infraestructura IA acelera la demanda',
     source: 'Mining.com',
     source_type: 'Press',
     location: 'Global',
     category: 'Mining',
     date: d(2),
-    url: 'https://www.mining.com/copper-deficit-ai-infrastructure-2024/',
+    url: 'https://www.mining.com/',
     extended_description: 'A structural copper deficit is widening as AI-driven data center construction accelerates demand for the metal beyond supply growth projections. Goldman Sachs estimates the market could face a 500,000-tonne shortfall by 2026 if major greenfield projects remain delayed. Chile and Peru together account for 40% of global supply, making permitting timelines in both countries critical to whether the deficit triggers sustained price appreciation.',
-    extended_description_es: 'Un déficit estructural de cobre se amplía a medida que la construcción de centros de datos impulsada por IA acelera la demanda más allá de las proyecciones de oferta. Goldman Sachs estima un déficit de 500.000 t para 2026 si los proyectos greenfield permanecen retrasados.',
+    extended_description_es: 'Un dÃ©ficit estructural de cobre se amplÃ­a a medida que la construcciÃ³n de centros de datos impulsada por IA acelera la demanda mÃ¡s allÃ¡ de las proyecciones de oferta. Goldman Sachs estima un dÃ©ficit de 500.000 t para 2026 si los proyectos greenfield permanecen retrasados.',
     short_summary: [
       'Structural copper deficit widens to potential 500,000t by 2026 as AI data centers accelerate demand.',
       'Chile and Peru supply 40% of global copper; permitting timelines are critical to price trajectory.',
       'Goldman Sachs warns sustained greenfield delays could trigger multi-year price appreciation.',
     ],
     short_summary_es: [
-      'El déficit estructural de cobre podría alcanzar 500.000 t para 2026 por demanda de centros de datos IA.',
-      'Chile y Perú aportan el 40% de la oferta global; los plazos de permisos son críticos.',
-      'Goldman Sachs advierte que los retrasos en proyectos greenfield podrían generar apreciación plurianual.',
+      'El dÃ©ficit estructural de cobre podrÃ­a alcanzar 500.000 t para 2026 por demanda de centros de datos IA.',
+      'Chile y PerÃº aportan el 40% de la oferta global; los plazos de permisos son crÃ­ticos.',
+      'Goldman Sachs advierte que los retrasos en proyectos greenfield podrÃ­an generar apreciaciÃ³n plurianual.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
@@ -347,24 +347,24 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: 'mock-dcd-001',
     title: 'Data Center Dynamics: Hyperscalers commit $50B to Latin American DC expansion through 2027',
-    title_es: 'Hiperescaladores comprometen US$50.000M en expansión de centros de datos en Latinoamérica hasta 2027',
+    title_es: 'Hiperescaladores comprometen US$50.000M en expansiÃ³n de centros de datos en LatinoamÃ©rica hasta 2027',
     source: 'Data Center Dynamics',
     source_type: 'Press',
     location: 'Global',
     category: 'Data Centers',
     date: d(1),
-    url: 'https://www.datacenterdynamics.com/latam-hyperscaler-expansion-2027/',
+    url: 'https://www.datacenterdynamics.com/',
     extended_description: 'Amazon Web Services, Microsoft Azure, and Google Cloud have collectively announced over $50 billion in planned data center investments across Latin America through 2027, with Chile, Brazil, and Mexico as primary deployment markets. The accelerated timeline is driven by AI workload demand, data sovereignty regulations, and improving subsea cable connectivity. Chile emerges as a preferred hub due to political stability, renewable energy abundance, and favorable cooling conditions.',
-    extended_description_es: 'AWS, Azure y Google Cloud anunciaron conjuntamente más de US$50.000 millones en inversiones en centros de datos en Latinoamérica hasta 2027, con Chile, Brasil y México como principales mercados.',
+    extended_description_es: 'AWS, Azure y Google Cloud anunciaron conjuntamente mÃ¡s de US$50.000 millones en inversiones en centros de datos en LatinoamÃ©rica hasta 2027, con Chile, Brasil y MÃ©xico como principales mercados.',
     short_summary: [
       'AWS, Azure, and Google commit $50B to Latin American data center expansion through 2027.',
       'Chile leads regional appeal: political stability, renewables, and favorable cooling conditions.',
       'AI workload growth and data sovereignty regulations are the primary investment drivers.',
     ],
     short_summary_es: [
-      'AWS, Azure y Google comprometen US$50.000M en expansión de centros de datos en Latinoamérica hasta 2027.',
-      'Chile lidera el atractivo regional por estabilidad, energía renovable y condiciones de refrigeración.',
-      'El crecimiento de IA y las regulaciones de soberanía de datos son los principales impulsores.',
+      'AWS, Azure y Google comprometen US$50.000M en expansiÃ³n de centros de datos en LatinoamÃ©rica hasta 2027.',
+      'Chile lidera el atractivo regional por estabilidad, energÃ­a renovable y condiciones de refrigeraciÃ³n.',
+      'El crecimiento de IA y las regulaciones de soberanÃ­a de datos son los principales impulsores.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
@@ -372,30 +372,30 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: 'mock-cochilco-001',
     title: 'Cochilco projects 5.7 Mt copper output for 2024 with mild H2 recovery',
-    title_es: 'Cochilco proyecta producción de cobre de 5,7 Mt para 2024 con leve recuperación en H2',
+    title_es: 'Cochilco proyecta producciÃ³n de cobre de 5,7 Mt para 2024 con leve recuperaciÃ³n en H2',
     source: 'Cochilco',
     source_type: 'Institutional',
     location: 'Chile',
     category: 'Mining',
     date: d(2),
-    url: 'https://www.cochilco.cl/Listado%20Materias/proyeccion-produccion-cobre-2024.pdf',
-    extended_description: 'La Comisión Chilena del Cobre proyecta una producción nacional de 5,7 millones de toneladas métricas de cobre fino para 2024, con una leve recuperación esperada en el segundo semestre tras los problemas operacionales del primer half. Escondida y Collahuasi son los yacimientos que liderarán la recuperación. Cochilco anticipa que Chile recuperará su participación del 27% en la oferta global hacia fines de año, luego del deterioro observado en los últimos tres periodos.',
-    extended_description_es: 'Cochilco proyecta producción de 5,7 Mt de cobre fino para 2024, con recuperación en H2 liderada por Escondida y Collahuasi. Chile recuperaría su participación del 27% en la oferta global.',
+    url: 'https://www.cochilco.cl/',
+    extended_description: 'La ComisiÃ³n Chilena del Cobre proyecta una producciÃ³n nacional de 5,7 millones de toneladas mÃ©tricas de cobre fino para 2024, con una leve recuperaciÃ³n esperada en el segundo semestre tras los problemas operacionales del primer half. Escondida y Collahuasi son los yacimientos que liderarÃ¡n la recuperaciÃ³n. Cochilco anticipa que Chile recuperarÃ¡ su participaciÃ³n del 27% en la oferta global hacia fines de aÃ±o, luego del deterioro observado en los Ãºltimos tres periodos.',
+    extended_description_es: 'Cochilco proyecta producciÃ³n de 5,7 Mt de cobre fino para 2024, con recuperaciÃ³n en H2 liderada por Escondida y Collahuasi. Chile recuperarÃ­a su participaciÃ³n del 27% en la oferta global.',
     short_summary: [
       'Cochilco projects 5.7Mt copper output for 2024 with H2 recovery led by Escondida and Collahuasi.',
       'Chile targets recovery of 27% global supply share after deterioration in recent periods.',
       'Operational issues in H1 at major mines expected to be resolved through Q3 maintenance campaigns.',
     ],
     short_summary_es: [
-      'Cochilco proyecta 5,7 Mt de cobre para 2024 con recuperación en H2 por Escondida y Collahuasi.',
-      'Chile apunta a recuperar su participación del 27% en la oferta global.',
-      'Los problemas operacionales del H1 se espera resolver en campañas de mantenimiento del Q3.',
+      'Cochilco proyecta 5,7 Mt de cobre para 2024 con recuperaciÃ³n en H2 por Escondida y Collahuasi.',
+      'Chile apunta a recuperar su participaciÃ³n del 27% en la oferta global.',
+      'Los problemas operacionales del H1 se espera resolver en campaÃ±as de mantenimiento del Q3.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── ACERA (Conglomerado) ─────────────────────────────────
+  // â”€â”€ ACERA (Conglomerado) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-acera-001',
     title: 'ACERA: Chile installed solar capacity reaches 15 GW milestone in Q2',
@@ -405,7 +405,7 @@ export const MOCK_ARTICLES: Article[] = [
     location: 'Chile',
     category: 'Energy',
     date: d(2),
-    url: 'https://www.acera.cl/noticias/capacidad-solar-15gw',
+    url: 'https://acera.cl/',
     extended_description: 'La Asociacion Chilena de Energias Renovables y Almacenamiento reporto que Chile alcanzo el hito de 15 GW de capacidad solar fotovoltaica instalada al cierre del segundo trimestre, consolidando al pais como el mayor mercado solar per capita de America Latina. El 68% de la nueva capacidad corresponde a proyectos utility-scale en las regiones de Antofagasta y Atacama.',
     extended_description_es: 'ACERA reporto que Chile alcanzo el hito de 15 GW de capacidad solar fotovoltaica instalada al cierre del segundo trimestre, consolidando al pais como el mayor mercado solar per capita de America Latina.',
     short_summary: [
@@ -422,7 +422,7 @@ export const MOCK_ARTICLES: Article[] = [
     processed: true,
   },
 
-  // ── ACENOR (Conglomerado) ────────────────────────────────
+  // â”€â”€ ACENOR (Conglomerado) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-acenor-001',
     title: 'ACENOR proposes regulatory reform to accelerate small hydro and run-of-river projects',
@@ -432,7 +432,7 @@ export const MOCK_ARTICLES: Article[] = [
     location: 'Chile',
     category: 'Energy',
     date: d(4),
-    url: 'https://www.acenor.cl/noticias/reforma-regulatoria-hidro-pasada',
+    url: 'https://acenor.cl/',
     extended_description: 'ACENOR presento ante la Comision Nacional de Energia una propuesta de reforma regulatoria para simplificar los permisos ambientales de proyectos hidroelectricos de pasada menores a 20 MW. La asociacion argumenta que estos proyectos ofrecen generacion de bajo impacto ambiental y complementan la variabilidad solar y eolica al proveer potencia firme durante las noches.',
     extended_description_es: 'ACENOR presento una propuesta de reforma para simplificar permisos de proyectos hidro de pasada menores a 20 MW, argumentando que proveen potencia firme complementaria a solar y eolica.',
     short_summary: [
@@ -449,7 +449,7 @@ export const MOCK_ARTICLES: Article[] = [
     processed: true,
   },
 
-  // ── SOFOFA (Conglomerado) ────────────────────────────────
+  // â”€â”€ SOFOFA (Conglomerado) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-sofofa-001',
     title: 'SOFOFA: Industrial energy costs remain key barrier to Chilean competitiveness',
@@ -459,7 +459,7 @@ export const MOCK_ARTICLES: Article[] = [
     location: 'Chile',
     category: 'Energy',
     date: d(3),
-    url: 'https://www.sofofa.cl/noticias/costos-energeticos-competitividad',
+    url: 'https://www.sofofa.cl/',
     extended_description: 'La Sociedad de Fomento Fabril publico un informe destacando que los costos energeticos industriales en Chile son un 35% superiores al promedio de la OCDE, afectando la competitividad del sector manufacturero y minero. SOFOFA propone acelerar el despliegue de almacenamiento a gran escala y revisar los cargos de transmision para distribuir los costos mas equitativamente entre todos los sectores consumidores.',
     extended_description_es: 'SOFOFA publico un informe destacando que los costos energeticos industriales en Chile son un 35% superiores al promedio OCDE, afectando la competitividad del sector manufacturero y minero.',
     short_summary: [
@@ -476,7 +476,7 @@ export const MOCK_ARTICLES: Article[] = [
     processed: true,
   },
 
-  // ── Aurora Energy Research (Market Advisor) ──────────────
+  // â”€â”€ Aurora Energy Research (Market Advisor) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-aurora-001',
     title: 'Aurora: South American power markets to attract $180B in clean energy by 2030',
@@ -486,7 +486,7 @@ export const MOCK_ARTICLES: Article[] = [
     location: 'Global',
     category: 'Energy',
     date: d(3),
-    url: 'https://www.auroraer.com/insight/south-america-clean-energy-2030',
+    url: 'https://www.auroraer.com/',
     extended_description: 'Aurora Energy Research projects South American power markets will attract $180 billion in clean energy investment through 2030, led by Chile, Brazil, and Colombia. The firm identifies Chile as the highest-return market due to its exceptional solar resources in the Atacama and maturing regulatory framework. Aurora forecasts Chilean wholesale power prices to remain among the lowest in the region through 2035, supporting data center and mining electrification.',
     extended_description_es: 'Aurora Energy Research proyecta que los mercados electricos de Sudamerica atraeran US$180.000 millones en inversion en energia limpia hasta 2030, liderados por Chile, Brasil y Colombia.',
     short_summary: [
@@ -503,7 +503,7 @@ export const MOCK_ARTICLES: Article[] = [
     processed: true,
   },
 
-  // ── Ember (Market Advisor) ───────────────────────────────
+  // â”€â”€ Ember (Market Advisor) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-ember-001',
     title: 'Ember: Global electricity from clean sources hits 40% for first time in 2024',
@@ -513,13 +513,13 @@ export const MOCK_ARTICLES: Article[] = [
     location: 'Global',
     category: 'Energy',
     date: d(1),
-    url: 'https://ember-energy.org/latest-insights/global-electricity-review-2024',
-    extended_description: 'Ember\'s Global Electricity Review 2024 finds that clean sources — solar, wind, nuclear, and hydro — generated 40% of global electricity for the first time on record. Solar alone grew 23% year-on-year to become the fastest-growing power source for the 19th consecutive year. The report highlights that solar and wind together now exceed gas generation globally, a milestone reached five years ahead of most forecasts.',
+    url: 'https://ember-energy.org/',
+    extended_description: 'Ember\'s Global Electricity Review 2024 finds that clean sources â€” solar, wind, nuclear, and hydro â€” generated 40% of global electricity for the first time on record. Solar alone grew 23% year-on-year to become the fastest-growing power source for the 19th consecutive year. The report highlights that solar and wind together now exceed gas generation globally, a milestone reached five years ahead of most forecasts.',
     extended_description_es: 'El Global Electricity Review 2024 de Ember concluye que las fuentes limpias generaron el 40% de la electricidad mundial por primera vez. La solar crecio un 23% interanual, siendo la fuente mas rapida por 19 anos consecutivos.',
     short_summary: [
       'Ember: clean power hits 40% of global electricity in 2024 for the first time on record.',
       'Solar grew 23% YoY and is the world\'s fastest-growing electricity source for 19 consecutive years.',
-      'Solar and wind together now exceed global gas generation — five years ahead of most forecasts.',
+      'Solar and wind together now exceed global gas generation â€” five years ahead of most forecasts.',
     ],
     short_summary_es: [
       'Ember: las fuentes limpias alcanzan el 40% de la electricidad global en 2024 por primera vez.',
@@ -530,7 +530,7 @@ export const MOCK_ARTICLES: Article[] = [
     processed: true,
   },
 
-  // ── Lazard (Market Advisor) ──────────────────────────────
+  // â”€â”€ Lazard (Market Advisor) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-lazard-001',
     title: 'Lazard LCOE 2024: Utility solar and wind remain cheapest sources of new power generation',
@@ -540,7 +540,7 @@ export const MOCK_ARTICLES: Article[] = [
     location: 'Global',
     category: 'Energy',
     date: d(5),
-    url: 'https://www.lazard.com/research-insights/2024-levelized-cost-of-energy-plus',
+    url: 'https://www.lazard.com/',
     extended_description: 'Lazard\'s 17th annual Levelized Cost of Energy analysis finds utility-scale solar and onshore wind remain the least-cost options for new electricity generation in most markets, with solar at $24-96/MWh and wind at $27-73/MWh. The report notes that battery storage costs have declined 90% over the past decade and are now enabling round-the-clock renewable power at costs competitive with natural gas peakers.',
     extended_description_es: 'El analisis LCOE de Lazard encuentra que la solar y la eolica terrestre siguen siendo las opciones de menor costo para nueva generacion en la mayoria de los mercados, con solar a US$24-96/MWh.',
     short_summary: [
@@ -557,7 +557,7 @@ export const MOCK_ARTICLES: Article[] = [
     processed: true,
   },
 
-  // ── BloombergNEF (Market Advisor) ───────────────────────
+  // â”€â”€ BloombergNEF (Market Advisor) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-bnef-001',
     title: 'BloombergNEF: Energy transition investment reaches record $1.8 trillion in 2023',
@@ -567,12 +567,12 @@ export const MOCK_ARTICLES: Article[] = [
     location: 'Global',
     category: 'Energy',
     date: d(4),
-    url: 'https://about.bnef.com/energy-transition-investment',
+    url: 'https://about.bnef.com/',
     extended_description: 'BloombergNEF\'s Energy Transition Investment Trends report finds global investment in the energy transition reached a record $1.8 trillion in 2023, more than double the level five years earlier. Solar dominated with $393 billion deployed, followed by EVs at $634 billion. The report highlights that for the first time, energy transition investment exceeded fossil fuel supply investment on a global basis.',
     extended_description_es: 'El informe de BloombergNEF concluye que la inversion global en transicion energetica alcanzo un record de US$1,8 billones en 2023, mas del doble del nivel de hace cinco anos. La solar domino con US$393.000 millones.',
     short_summary: [
       'BloombergNEF: global energy transition investment hits record $1.8T in 2023, doubling in five years.',
-      'EVs led at $634B invested; solar second at $393B — both surpassing all previous annual records.',
+      'EVs led at $634B invested; solar second at $393B â€” both surpassing all previous annual records.',
       'For the first time, energy transition investment globally exceeded fossil fuel supply investment.',
     ],
     short_summary_es: [
@@ -584,7 +584,7 @@ export const MOCK_ARTICLES: Article[] = [
     processed: true,
   },
 
-  // ── Wood Mackenzie (Market Advisor) ─────────────────────
+  // â”€â”€ Wood Mackenzie (Market Advisor) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-woodmac-001',
     title: 'Wood Mackenzie: Data center power demand to add 100 GW of new capacity need by 2030',
@@ -594,7 +594,7 @@ export const MOCK_ARTICLES: Article[] = [
     location: 'Global',
     category: 'Data Centers',
     date: d(2),
-    url: 'https://www.woodmac.com/reports/power-markets-data-center-power-demand-2030',
+    url: 'https://www.woodmac.com/',
     extended_description: 'Wood Mackenzie\'s latest power market analysis projects data center electricity demand will require 100 GW of dedicated new generation capacity globally by 2030, driven primarily by AI training and inference workloads. The firm finds hyperscalers are increasingly contracting directly with developers for dedicated renewable capacity, bypassing spot markets and creating a two-tier power procurement landscape.',
     extended_description_es: 'Wood Mackenzie proyecta que la demanda electrica de centros de datos requerira 100 GW de nueva capacidad de generacion dedicada globalmente al 2030, impulsada principalmente por cargas de trabajo de IA.',
     short_summary: [
@@ -612,63 +612,63 @@ export const MOCK_ARTICLES: Article[] = [
   },
 
 
-  // ════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   // ITALIA
-  // ════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-  // ── Terna (Institutional) ────────────────────────────────
+  // â”€â”€ Terna (Institutional) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-terna-001',
     title: 'Terna: Italy sets new renewable generation record with 43% clean share in Q1',
-    title_es: 'Terna: Italia marca récord de generación renovable con 43% de participación limpia en Q1',
+    title_es: 'Terna: Italia marca rÃ©cord de generaciÃ³n renovable con 43% de participaciÃ³n limpia en Q1',
     source: 'Terna',
     source_type: 'Institutional',
     location: 'Italy',
     category: 'Energy',
     date: d(2),
-    url: 'https://www.terna.it/it/media/notizie/2024/record-rinnovabili-q1',
+    url: 'https://www.terna.it/it/sistema-elettrico/statistiche.html',
     extended_description: 'Terna, the Italian transmission system operator, reported that renewables covered 43% of national electricity demand in Q1, a new record driven by strong hydro recovery and continued solar expansion. Wind and solar combined generated 28% of demand, while hydropower contributed 15% following above-average rainfall in the Alps and Apennines. Italy added 5.2 GW of new solar in the past 12 months, accelerating toward its 2030 PNIEC targets.',
-    extended_description_es: 'Terna informó que las renovables cubrieron el 43% de la demanda eléctrica nacional en Q1, un nuevo récord impulsado por la recuperación hidráulica y la expansión solar. Italia añadió 5,2 GW de nueva energía solar en los últimos 12 meses.',
+    extended_description_es: 'Terna informÃ³ que las renovables cubrieron el 43% de la demanda elÃ©ctrica nacional en Q1, un nuevo rÃ©cord impulsado por la recuperaciÃ³n hidrÃ¡ulica y la expansiÃ³n solar. Italia aÃ±adiÃ³ 5,2 GW de nueva energÃ­a solar en los Ãºltimos 12 meses.',
     short_summary: [
       'Italy sets Q1 renewable record at 43% of electricity demand, driven by hydro recovery and solar growth.',
       'Wind and solar provided 28% of demand; hydro contributed 15% after above-average Alpine rainfall.',
       'Italy added 5.2 GW of solar in 12 months, accelerating toward 2030 PNIEC renewable targets.',
     ],
     short_summary_es: [
-      'Italia marca récord de renovables en Q1 con 43% de la demanda eléctrica, liderado por hidro y solar.',
-      'Solar y eólica aportaron el 28%; la hidro contribuyó el 15% tras lluvias por encima de lo normal en los Alpes.',
-      'Italia sumó 5,2 GW de solar en 12 meses, acelerando hacia los objetivos del PNIEC 2030.',
+      'Italia marca rÃ©cord de renovables en Q1 con 43% de la demanda elÃ©ctrica, liderado por hidro y solar.',
+      'Solar y eÃ³lica aportaron el 28%; la hidro contribuyÃ³ el 15% tras lluvias por encima de lo normal en los Alpes.',
+      'Italia sumÃ³ 5,2 GW de solar en 12 meses, acelerando hacia los objetivos del PNIEC 2030.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
   {
     id: 'mock-terna-002',
-    title: 'Terna approves €18 billion grid development plan to enable renewable integration through 2035',
-    title_es: 'Terna aprueba plan de desarrollo de red de €18.000M para integrar renovables hasta 2035',
+    title: 'Terna approves â‚¬18 billion grid development plan to enable renewable integration through 2035',
+    title_es: 'Terna aprueba plan de desarrollo de red de â‚¬18.000M para integrar renovables hasta 2035',
     source: 'Terna',
     source_type: 'Institutional',
     location: 'Italy',
     category: 'Energy',
     date: d(5),
-    url: 'https://www.terna.it/it/media/notizie/2024/piano-sviluppo-rete-2035',
-    extended_description: 'Terna approved an €18 billion grid development plan for 2024-2035, the largest infrastructure investment in Italian electricity history. The plan prioritizes high-voltage backbone reinforcement in Southern Italy and Sicily to evacuate growing wind and solar generation, as well as three new submarine interconnectors with Tunisia, Greece, and Montenegro. The investment is expected to reduce congestion costs by €2 billion annually and unlock 70 GW of additional renewable capacity.',
-    extended_description_es: 'Terna aprobó un plan de desarrollo de red de €18.000 millones para 2024-2035, la mayor inversión en infraestructura eléctrica de la historia italiana. El plan prioriza el refuerzo de la red troncal en el sur de Italia y Sicilia.',
+    url: 'https://www.terna.it/it/sistema-elettrico/sviluppo-rete.html',
+    extended_description: 'Terna approved an â‚¬18 billion grid development plan for 2024-2035, the largest infrastructure investment in Italian electricity history. The plan prioritizes high-voltage backbone reinforcement in Southern Italy and Sicily to evacuate growing wind and solar generation, as well as three new submarine interconnectors with Tunisia, Greece, and Montenegro. The investment is expected to reduce congestion costs by â‚¬2 billion annually and unlock 70 GW of additional renewable capacity.',
+    extended_description_es: 'Terna aprobÃ³ un plan de desarrollo de red de â‚¬18.000 millones para 2024-2035, la mayor inversiÃ³n en infraestructura elÃ©ctrica de la historia italiana. El plan prioriza el refuerzo de la red troncal en el sur de Italia y Sicilia.',
     short_summary: [
-      'Terna approves record €18B grid plan to 2035 — Italy\'s largest-ever electricity infrastructure program.',
+      'Terna approves record â‚¬18B grid plan to 2035 â€” Italy\'s largest-ever electricity infrastructure program.',
       'Southern Italy and Sicily backbone reinforcement to unlock 70 GW of blocked renewable capacity.',
       'Three new submarine cables to Tunisia, Greece, and Montenegro included in the investment scope.',
     ],
     short_summary_es: [
-      'Terna aprueba plan de red de €18.000M hasta 2035 — el mayor programa de infraestructura eléctrica de Italia.',
+      'Terna aprueba plan de red de â‚¬18.000M hasta 2035 â€” el mayor programa de infraestructura elÃ©ctrica de Italia.',
       'Refuerzo de la red troncal en el sur y Sicilia para desbloquear 70 GW de capacidad renovable.',
-      'Tres nuevos cables submarinos a Túnez, Grecia y Montenegro incluidos en el plan.',
+      'Tres nuevos cables submarinos a TÃºnez, Grecia y Montenegro incluidos en el plan.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── Ministero dell'Ambiente (Institutional) ──────────────
+  // â”€â”€ Ministero dell'Ambiente (Institutional) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-mase-001',
     title: "Italy's MASE publishes updated National Integrated Energy and Climate Plan targeting 65% renewables by 2030",
@@ -678,70 +678,70 @@ export const MOCK_ARTICLES: Article[] = [
     location: 'Italy',
     category: 'Energy',
     date: d(3),
-    url: 'https://www.mase.gov.it/notizie/pniec-aggiornamento-2024',
-    extended_description: 'The Italian Ministry of Environment and Energy Security published the revised National Integrated Energy and Climate Plan (PNIEC), raising the 2030 renewables target to 65% of electricity consumption from the previous 55% objective. The plan mandates 80 GW of solar, 28 GW of wind, and 8 GW of storage by 2030. It also outlines a €300 billion total decarbonization investment pathway and includes new mechanisms to streamline permitting for large-scale renewable projects.',
-    extended_description_es: 'El Ministerio italiano publicó el PNIEC revisado, elevando el objetivo de renovables al 65% del consumo eléctrico para 2030 desde el 55% anterior. El plan exige 80 GW solar, 28 GW eólico y 8 GW de almacenamiento para 2030.',
+    url: 'https://www.mase.gov.it/',
+    extended_description: 'The Italian Ministry of Environment and Energy Security published the revised National Integrated Energy and Climate Plan (PNIEC), raising the 2030 renewables target to 65% of electricity consumption from the previous 55% objective. The plan mandates 80 GW of solar, 28 GW of wind, and 8 GW of storage by 2030. It also outlines a â‚¬300 billion total decarbonization investment pathway and includes new mechanisms to streamline permitting for large-scale renewable projects.',
+    extended_description_es: 'El Ministerio italiano publicÃ³ el PNIEC revisado, elevando el objetivo de renovables al 65% del consumo elÃ©ctrico para 2030 desde el 55% anterior. El plan exige 80 GW solar, 28 GW eÃ³lico y 8 GW de almacenamiento para 2030.',
     short_summary: [
-      'Italy raises 2030 renewable electricity target to 65% in updated PNIEC — up from 55% previously.',
-      'Plan mandates 80 GW solar, 28 GW wind, and 8 GW storage by 2030 with €300B total investment.',
+      'Italy raises 2030 renewable electricity target to 65% in updated PNIEC â€” up from 55% previously.',
+      'Plan mandates 80 GW solar, 28 GW wind, and 8 GW storage by 2030 with â‚¬300B total investment.',
       'Streamlined permitting for large-scale renewable projects is a key new mechanism in the revised plan.',
     ],
     short_summary_es: [
       'Italia eleva el objetivo de renovables al 65% para 2030 en el PNIEC actualizado, desde el 55% anterior.',
-      'El plan exige 80 GW solar, 28 GW eólico y 8 GW de almacenamiento, con €300.000M de inversión total.',
-      'La agilización de permisos para proyectos renovables a gran escala es el nuevo mecanismo clave del plan.',
+      'El plan exige 80 GW solar, 28 GW eÃ³lico y 8 GW de almacenamiento, con â‚¬300.000M de inversiÃ³n total.',
+      'La agilizaciÃ³n de permisos para proyectos renovables a gran escala es el nuevo mecanismo clave del plan.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── Il Sole 24 Ore (Press) ───────────────────────────────
+  // â”€â”€ Il Sole 24 Ore (Press) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-sole24-001',
-    title: 'Il Sole 24 Ore: Italian solar sector attracts €4.2 billion in new investment in first half 2024',
-    title_es: 'Il Sole 24 Ore: El sector solar italiano atrae €4.200M en nueva inversión en el primer semestre de 2024',
+    title: 'Il Sole 24 Ore: Italian solar sector attracts â‚¬4.2 billion in new investment in first half 2024',
+    title_es: 'Il Sole 24 Ore: El sector solar italiano atrae â‚¬4.200M en nueva inversiÃ³n en el primer semestre de 2024',
     source: 'Il Sole 24 Ore',
     source_type: 'Press',
     location: 'Italy',
     category: 'Energy',
     date: d(2),
-    url: 'https://www.ilsole24ore.com/art/investimenti-solare-italia-2024',
-    extended_description: 'Italy attracted €4.2 billion in solar energy investment in H1 2024, making it the second-largest European market for new solar deployment after Spain, according to Il Sole 24 Ore. Agrivoltaic projects — combining solar panels with agricultural use — accounted for 35% of new capacity requests, reflecting Italy\'s innovative approach to land-use conflicts. The Conto Energia incentive scheme revision is expected to further accelerate investment in H2.',
-    extended_description_es: 'Italia atrajo €4.200 millones en inversión solar en el primer semestre de 2024, convirtiéndose en el segundo mayor mercado europeo de solar tras España. Los proyectos agrivoltaicos representaron el 35% de las nuevas solicitudes de capacidad.',
+    url: 'https://www.ilsole24ore.com/finanza-e-mercati',
+    extended_description: 'Italy attracted â‚¬4.2 billion in solar energy investment in H1 2024, making it the second-largest European market for new solar deployment after Spain, according to Il Sole 24 Ore. Agrivoltaic projects â€” combining solar panels with agricultural use â€” accounted for 35% of new capacity requests, reflecting Italy\'s innovative approach to land-use conflicts. The Conto Energia incentive scheme revision is expected to further accelerate investment in H2.',
+    extended_description_es: 'Italia atrajo â‚¬4.200 millones en inversiÃ³n solar en el primer semestre de 2024, convirtiÃ©ndose en el segundo mayor mercado europeo de solar tras EspaÃ±a. Los proyectos agrivoltaicos representaron el 35% de las nuevas solicitudes de capacidad.',
     short_summary: [
-      'Italy becomes Europe\'s second-largest solar market in H1 2024, attracting €4.2B in new investment.',
+      'Italy becomes Europe\'s second-largest solar market in H1 2024, attracting â‚¬4.2B in new investment.',
       'Agrivoltaic projects (solar + farming) represent 35% of new capacity requests, leading European innovation.',
       'Revised Conto Energia incentives expected to further accelerate deployment in H2 2024.',
     ],
     short_summary_es: [
-      'Italia se convierte en el segundo mayor mercado solar europeo en H1 2024, con €4.200M de nueva inversión.',
+      'Italia se convierte en el segundo mayor mercado solar europeo en H1 2024, con â‚¬4.200M de nueva inversiÃ³n.',
       'Los proyectos agrivoltaicos (solar + agricultura) representan el 35% de solicitudes de nueva capacidad.',
-      'La revisión del Conto Energia impulsará la instalación en el segundo semestre.',
+      'La revisiÃ³n del Conto Energia impulsarÃ¡ la instalaciÃ³n en el segundo semestre.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── Energia Oltre (Press) ────────────────────────────────
+  // â”€â”€ Energia Oltre (Press) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-eoltre-001',
     title: 'Energia Oltre: Italian grid-scale battery storage pipeline reaches 12 GW amid AI data center boom',
-    title_es: 'Energia Oltre: El pipeline de baterías a gran escala en Italia alcanza los 12 GW por el auge de los data centers IA',
+    title_es: 'Energia Oltre: El pipeline de baterÃ­as a gran escala en Italia alcanza los 12 GW por el auge de los data centers IA',
     source: 'Energia Oltre',
     source_type: 'Press',
     location: 'Italy',
     category: 'Energy',
     date: d(4),
-    url: 'https://www.energiaoltre.it/bess-pipeline-12gw-datacenter',
+    url: 'https://www.energiaoltre.it/',
     extended_description: 'The pipeline of grid-scale battery energy storage projects in Italy has reached 12 GW of authorized or authorized-pending capacity, driven in part by the surge in data center construction in the Milan and Rome corridors. Developers are increasingly co-locating storage with renewable generation to provide stable power to hyperscaler campuses. The Italian regulatory authority ARERA opened a consultation on capacity market reforms to better remunerate storage flexibility services.',
-    extended_description_es: 'El pipeline de proyectos de almacenamiento de baterías a gran escala en Italia ha alcanzado los 12 GW de capacidad autorizada o pendiente de autorización, impulsado en parte por el auge de la construcción de centros de datos en los corredores de Milán y Roma.',
+    extended_description_es: 'El pipeline de proyectos de almacenamiento de baterÃ­as a gran escala en Italia ha alcanzado los 12 GW de capacidad autorizada o pendiente de autorizaciÃ³n, impulsado en parte por el auge de la construcciÃ³n de centros de datos en los corredores de MilÃ¡n y Roma.',
     short_summary: [
       'Italy\'s grid-scale battery pipeline reaches 12 GW, driven by data center demand in Milan and Rome.',
       'Developers co-locating storage with renewables to supply stable power to hyperscaler campuses.',
       'ARERA opens capacity market reform consultation to improve remuneration for storage flexibility.',
     ],
     short_summary_es: [
-      'El pipeline de baterías a gran escala en Italia alcanza los 12 GW, impulsado por la demanda de data centers.',
+      'El pipeline de baterÃ­as a gran escala en Italia alcanza los 12 GW, impulsado por la demanda de data centers.',
       'Los desarrolladores co-ubican almacenamiento con renovables para abastecer a los hiperescaladores.',
       'ARERA abre consulta sobre la reforma del mercado de capacidad para remunerar mejor la flexibilidad.',
     ],
@@ -749,32 +749,32 @@ export const MOCK_ARTICLES: Article[] = [
     processed: true,
   },
 
-  // ════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   // POLONIA
-  // ════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-  // ── PSE (Institutional) ──────────────────────────────────
+  // â”€â”€ PSE (Institutional) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-pse-001',
     title: 'PSE: Polish power grid passes 10 GW wind capacity milestone as offshore projects advance',
-    title_es: 'PSE: La red eléctrica polaca supera los 10 GW de capacidad eólica a medida que avanzan los proyectos offshore',
+    title_es: 'PSE: La red elÃ©ctrica polaca supera los 10 GW de capacidad eÃ³lica a medida que avanzan los proyectos offshore',
     source: 'PSE',
     source_type: 'Institutional',
     location: 'Poland',
     category: 'Energy',
     date: d(3),
-    url: 'https://www.pse.pl/aktualnosci/rekord-mocy-wiatrowej-2024',
-    extended_description: 'Polish transmission system operator PSE announced that total wind power capacity connected to the national grid exceeded 10 GW for the first time, with onshore wind representing 9.2 GW and the first 800 MW of Baltic offshore now operational. The grid operator is accelerating transmission upgrades along the northern coast ahead of the planned commissioning of 6 additional GW of offshore wind by 2030. PSE estimates €4.5 billion in grid investment will be required to integrate the offshore pipeline.',
-    extended_description_es: 'El operador polaco PSE anunció que la capacidad eólica total superó los 10 GW por primera vez, con 9,2 GW eólicos terrestres y los primeros 800 MW marítimos en el Mar Báltico ya operativos.',
+    url: 'https://www.pse.pl/aktualnosci',
+    extended_description: 'Polish transmission system operator PSE announced that total wind power capacity connected to the national grid exceeded 10 GW for the first time, with onshore wind representing 9.2 GW and the first 800 MW of Baltic offshore now operational. The grid operator is accelerating transmission upgrades along the northern coast ahead of the planned commissioning of 6 additional GW of offshore wind by 2030. PSE estimates â‚¬4.5 billion in grid investment will be required to integrate the offshore pipeline.',
+    extended_description_es: 'El operador polaco PSE anunciÃ³ que la capacidad eÃ³lica total superÃ³ los 10 GW por primera vez, con 9,2 GW eÃ³licos terrestres y los primeros 800 MW marÃ­timos en el Mar BÃ¡ltico ya operativos.',
     short_summary: [
       'Poland surpasses 10 GW wind capacity milestone with first 800 MW of Baltic offshore now operational.',
       'PSE accelerates northern grid upgrades ahead of 6 additional GW of offshore wind by 2030.',
-      'Grid integration for offshore pipeline requires €4.5B in transmission investment through 2030.',
+      'Grid integration for offshore pipeline requires â‚¬4.5B in transmission investment through 2030.',
     ],
     short_summary_es: [
-      'Polonia supera los 10 GW de capacidad eólica con los primeros 800 MW marítimos ya operativos.',
-      'PSE acelera las actualizaciones de la red en el norte para otros 6 GW de eólica marina hasta 2030.',
-      'La integración de la eólica marina requiere €4.500M en inversión en transmisión hasta 2030.',
+      'Polonia supera los 10 GW de capacidad eÃ³lica con los primeros 800 MW marÃ­timos ya operativos.',
+      'PSE acelera las actualizaciones de la red en el norte para otros 6 GW de eÃ³lica marina hasta 2030.',
+      'La integraciÃ³n de la eÃ³lica marina requiere â‚¬4.500M en inversiÃ³n en transmisiÃ³n hasta 2030.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
@@ -782,329 +782,329 @@ export const MOCK_ARTICLES: Article[] = [
   {
     id: 'mock-pse-002',
     title: 'PSE: Poland\'s coal share in electricity generation falls below 60% for first time',
-    title_es: 'PSE: La cuota del carbón en la generación eléctrica polaca cae por debajo del 60% por primera vez',
+    title_es: 'PSE: La cuota del carbÃ³n en la generaciÃ³n elÃ©ctrica polaca cae por debajo del 60% por primera vez',
     source: 'PSE',
     source_type: 'Institutional',
     location: 'Poland',
     category: 'Energy',
     date: d(6),
-    url: 'https://www.pse.pl/aktualnosci/wegiel-ponizej-60-procent-2024',
-    extended_description: 'For the first time in modern history, coal\'s share of Polish electricity generation dropped below 60%, reaching 58.4% in the latest monthly statistics from PSE. Renewables — primarily wind and solar — now cover 31% of demand, up from 22% just three years ago. The shift reflects both accelerated renewable deployment and the gradual retirement of older coal units that can no longer compete economically with low-marginal-cost renewables during peak generation hours.',
-    extended_description_es: 'Por primera vez, la cuota del carbón en la generación eléctrica polaca cayó por debajo del 60%, alcanzando el 58,4%. Las renovables ahora cubren el 31% de la demanda, frente al 22% de hace tres años.',
+    url: 'https://www.pse.pl/dane-systemowe',
+    extended_description: 'For the first time in modern history, coal\'s share of Polish electricity generation dropped below 60%, reaching 58.4% in the latest monthly statistics from PSE. Renewables â€” primarily wind and solar â€” now cover 31% of demand, up from 22% just three years ago. The shift reflects both accelerated renewable deployment and the gradual retirement of older coal units that can no longer compete economically with low-marginal-cost renewables during peak generation hours.',
+    extended_description_es: 'Por primera vez, la cuota del carbÃ³n en la generaciÃ³n elÃ©ctrica polaca cayÃ³ por debajo del 60%, alcanzando el 58,4%. Las renovables ahora cubren el 31% de la demanda, frente al 22% de hace tres aÃ±os.',
     short_summary: [
       'Coal falls below 60% of Polish electricity generation for the first time, reaching 58.4% in latest data.',
       'Renewables now cover 31% of Polish power demand, up sharply from 22% three years ago.',
       'Economic uncompetitiveness of older coal units during solar and wind peaks accelerates retirements.',
     ],
     short_summary_es: [
-      'El carbón cae por debajo del 60% de la generación eléctrica polaca por primera vez, al 58,4%.',
-      'Las renovables cubren ahora el 31% de la demanda polaca, frente al 22% de hace tres años.',
-      'La falta de competitividad de las viejas centrales de carbón acelera su retirada del mercado.',
+      'El carbÃ³n cae por debajo del 60% de la generaciÃ³n elÃ©ctrica polaca por primera vez, al 58,4%.',
+      'Las renovables cubren ahora el 31% de la demanda polaca, frente al 22% de hace tres aÃ±os.',
+      'La falta de competitividad de las viejas centrales de carbÃ³n acelera su retirada del mercado.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── Ministry of Climate Poland (Institutional) ───────────
+  // â”€â”€ Ministry of Climate Poland (Institutional) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-mcp-001',
     title: 'Poland\'s Ministry of Climate announces accelerated coal phase-out plan for Silesia region by 2035',
-    title_es: 'El Ministerio de Clima de Polonia anuncia un plan acelerado de eliminación del carbón en Silesia para 2035',
+    title_es: 'El Ministerio de Clima de Polonia anuncia un plan acelerado de eliminaciÃ³n del carbÃ³n en Silesia para 2035',
     source: 'Ministry of Climate Poland',
     source_type: 'Institutional',
     location: 'Poland',
     category: 'Energy',
     date: d(4),
-    url: 'https://www.gov.pl/web/klimat/plan-odejscia-od-wegla-slask-2035',
-    extended_description: 'Poland\'s Ministry of Climate and Environment announced an accelerated transition plan for the Silesian coal region, targeting full phase-out of coal mining by 2035 — five years ahead of the previous 2040 objective. The plan includes €12 billion in EU Just Transition Fund support for worker retraining, clean energy industry development, and environmental remediation of former mining sites. The announcement followed renewed pressure from the European Commission over Poland\'s delayed climate commitments.',
-    extended_description_es: 'El Ministerio de Clima de Polonia anunció un plan de transición acelerado para la región carbonífera de Silesia, con cierre total de la minería de carbón para 2035, cinco años antes del objetivo previo de 2040.',
+    url: 'https://www.gov.pl/web/klimat',
+    extended_description: 'Poland\'s Ministry of Climate and Environment announced an accelerated transition plan for the Silesian coal region, targeting full phase-out of coal mining by 2035 â€” five years ahead of the previous 2040 objective. The plan includes â‚¬12 billion in EU Just Transition Fund support for worker retraining, clean energy industry development, and environmental remediation of former mining sites. The announcement followed renewed pressure from the European Commission over Poland\'s delayed climate commitments.',
+    extended_description_es: 'El Ministerio de Clima de Polonia anunciÃ³ un plan de transiciÃ³n acelerado para la regiÃ³n carbonÃ­fera de Silesia, con cierre total de la minerÃ­a de carbÃ³n para 2035, cinco aÃ±os antes del objetivo previo de 2040.',
     short_summary: [
-      'Poland moves Silesian coal phase-out forward to 2035 — five years ahead of previous 2040 schedule.',
-      '€12 billion in EU Just Transition Funds allocated for worker retraining and clean industry development.',
+      'Poland moves Silesian coal phase-out forward to 2035 â€” five years ahead of previous 2040 schedule.',
+      'â‚¬12 billion in EU Just Transition Funds allocated for worker retraining and clean industry development.',
       'European Commission pressure over delayed climate commitments accelerated the revised timeline.',
     ],
     short_summary_es: [
-      'Polonia adelanta el fin del carbón en Silesia a 2035, cinco años antes del objetivo de 2040.',
-      '€12.000 millones del Fondo de Transición Justa de la UE para reentrenamiento e industria limpia.',
-      'La presión de la Comisión Europea sobre los compromisos climáticos aceleró el nuevo calendario.',
+      'Polonia adelanta el fin del carbÃ³n en Silesia a 2035, cinco aÃ±os antes del objetivo de 2040.',
+      'â‚¬12.000 millones del Fondo de TransiciÃ³n Justa de la UE para reentrenamiento e industria limpia.',
+      'La presiÃ³n de la ComisiÃ³n Europea sobre los compromisos climÃ¡ticos acelerÃ³ el nuevo calendario.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── BiznesAlert (Press) ──────────────────────────────────
+  // â”€â”€ BiznesAlert (Press) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-biz-001',
     title: 'BiznesAlert: Orlen and Equinor sign 1.5 GW Baltic offshore wind partnership agreement',
-    title_es: 'BiznesAlert: Orlen y Equinor firman acuerdo de asociación para 1,5 GW de eólica marina en el Báltico',
+    title_es: 'BiznesAlert: Orlen y Equinor firman acuerdo de asociaciÃ³n para 1,5 GW de eÃ³lica marina en el BÃ¡ltico',
     source: 'BiznesAlert',
     source_type: 'Press',
     location: 'Poland',
     category: 'Energy',
     date: d(2),
-    url: 'https://biznesalert.pl/orlen-equinor-offshore-baltyk-2024',
+    url: 'https://biznesalert.pl/',
     extended_description: 'PKN Orlen and Equinor formalized a partnership to jointly develop 1.5 GW of offshore wind capacity in the Polish Baltic Sea exclusive economic zone. The project, targeting commissioning in 2030-2031, will require approximately PLN 22 billion in total investment. BiznesAlert reports the partnership leverages Equinor\'s offshore expertise from the North Sea with Orlen\'s domestic regulatory and supply chain relationships. Grid connection contracts with PSE have been signed.',
-    extended_description_es: 'Orlen y Equinor formalizaron una asociación para desarrollar conjuntamente 1,5 GW de eólica marina en la ZEE polaca del Mar Báltico, con puesta en servicio prevista para 2030-2031 y una inversión total de 22.000 millones de PLN.',
+    extended_description_es: 'Orlen y Equinor formalizaron una asociaciÃ³n para desarrollar conjuntamente 1,5 GW de eÃ³lica marina en la ZEE polaca del Mar BÃ¡ltico, con puesta en servicio prevista para 2030-2031 y una inversiÃ³n total de 22.000 millones de PLN.',
     short_summary: [
       'Orlen and Equinor partner to develop 1.5 GW of Baltic offshore wind, targeting 2030-2031 commissioning.',
       'Total investment estimated at PLN 22 billion; PSE grid connection contracts already signed.',
       'Deal combines Equinor\'s North Sea offshore expertise with Orlen\'s Polish regulatory relationships.',
     ],
     short_summary_es: [
-      'Orlen y Equinor se asocian para desarrollar 1,5 GW de eólica marina báltica, con puesta en marcha en 2030-2031.',
-      'Inversión total estimada en 22.000 millones de PLN; contratos de conexión a red con PSE ya firmados.',
+      'Orlen y Equinor se asocian para desarrollar 1,5 GW de eÃ³lica marina bÃ¡ltica, con puesta en marcha en 2030-2031.',
+      'InversiÃ³n total estimada en 22.000 millones de PLN; contratos de conexiÃ³n a red con PSE ya firmados.',
       'El acuerdo combina la experiencia offshore del Mar del Norte de Equinor con las relaciones regulatorias de Orlen.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── Warsaw Business Journal (Press) ─────────────────────
+  // â”€â”€ Warsaw Business Journal (Press) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-wbj-001',
     title: 'Warsaw Business Journal: Poland emerges as Central Europe\'s top data center investment destination',
-    title_es: 'Warsaw Business Journal: Polonia emerge como el principal destino de inversión en data centers de Europa Central',
+    title_es: 'Warsaw Business Journal: Polonia emerge como el principal destino de inversiÃ³n en data centers de Europa Central',
     source: 'Warsaw Business Journal',
     source_type: 'Press',
     location: 'Poland',
     category: 'Data Centers',
     date: d(3),
-    url: 'https://wbj.pl/poland-data-center-investment-2024',
-    extended_description: 'Poland attracted over €3.2 billion in data center investment commitments in 2024, surpassing the Czech Republic and Hungary to become Central Europe\'s leading market, according to Warsaw Business Journal. Microsoft, Google, and a consortium of co-location operators announced Warsaw campus expansions totaling 480 MW. The country\'s competitive electricity prices, EU membership, and skilled technical workforce are cited as key competitive advantages.',
-    extended_description_es: 'Polonia atrajo más de €3.200 millones en compromisos de inversión en centros de datos en 2024, superando a República Checa y Hungría para convertirse en el principal mercado de Europa Central.',
+    url: 'https://wbj.pl/',
+    extended_description: 'Poland attracted over â‚¬3.2 billion in data center investment commitments in 2024, surpassing the Czech Republic and Hungary to become Central Europe\'s leading market, according to Warsaw Business Journal. Microsoft, Google, and a consortium of co-location operators announced Warsaw campus expansions totaling 480 MW. The country\'s competitive electricity prices, EU membership, and skilled technical workforce are cited as key competitive advantages.',
+    extended_description_es: 'Polonia atrajo mÃ¡s de â‚¬3.200 millones en compromisos de inversiÃ³n en centros de datos en 2024, superando a RepÃºblica Checa y HungrÃ­a para convertirse en el principal mercado de Europa Central.',
     short_summary: [
-      'Poland attracts €3.2B in data center investment in 2024, topping Central Europe ahead of Czech Republic.',
+      'Poland attracts â‚¬3.2B in data center investment in 2024, topping Central Europe ahead of Czech Republic.',
       'Microsoft, Google, and co-location operators announce Warsaw campus expansions totaling 480 MW.',
       'Competitive power prices, EU membership, and technical talent cited as Poland\'s key advantages.',
     ],
     short_summary_es: [
-      'Polonia atrae €3.200M en inversión en data centers en 2024, liderando Europa Central.',
+      'Polonia atrae â‚¬3.200M en inversiÃ³n en data centers en 2024, liderando Europa Central.',
       'Microsoft, Google y operadores de colocation anuncian ampliaciones en Varsovia por 480 MW.',
-      'Precios eléctricos competitivos, membresía UE y talento técnico como ventajas clave de Polonia.',
+      'Precios elÃ©ctricos competitivos, membresÃ­a UE y talento tÃ©cnico como ventajas clave de Polonia.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ════════════════════════════════════════════════════════
-  // ESPAÑA
-  // ════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // ESPAÃ‘A
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-  // ── Red Eléctrica (Institutional) ───────────────────────
+  // â”€â”€ Red ElÃ©ctrica (Institutional) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-ree-001',
-    title: 'Red Eléctrica: Spain surpasses 80 GW installed renewable capacity, wind leads with 31 GW',
-    title_es: 'Red Eléctrica: España supera los 80 GW de capacidad renovable instalada, la eólica lidera con 31 GW',
+    title: 'Red ElÃ©ctrica: Spain surpasses 80 GW installed renewable capacity, wind leads with 31 GW',
+    title_es: 'Red ElÃ©ctrica: EspaÃ±a supera los 80 GW de capacidad renovable instalada, la eÃ³lica lidera con 31 GW',
     source: 'Red Electrica',
     source_type: 'Institutional',
     location: 'Spain',
     category: 'Energy',
     date: d(1),
-    url: 'https://www.ree.es/es/sala-de-prensa/noticias/2024/80gw-renovables',
-    extended_description: 'Red Eléctrica de España reported that total installed renewable capacity exceeded 80 GW for the first time, with wind leading at 31 GW, solar at 29 GW, and hydro at 20 GW. Spain generated 56% of its electricity from renewables in the first half of the year, on track to exceed its 74% target for 2030 ahead of schedule. The operator also highlighted growing curtailment challenges in southern Spain during peak solar hours, requiring urgent storage and interconnection investment.',
-    extended_description_es: 'Red Eléctrica informó que la capacidad renovable instalada superó los 80 GW por primera vez, con la eólica liderando con 31 GW, la solar con 29 GW y la hidráulica con 20 GW. España generó el 56% de su electricidad de renovables en el primer semestre.',
+    url: 'https://www.ree.es/es/sala-de-prensa/noticias',
+    extended_description: 'Red ElÃ©ctrica de EspaÃ±a reported that total installed renewable capacity exceeded 80 GW for the first time, with wind leading at 31 GW, solar at 29 GW, and hydro at 20 GW. Spain generated 56% of its electricity from renewables in the first half of the year, on track to exceed its 74% target for 2030 ahead of schedule. The operator also highlighted growing curtailment challenges in southern Spain during peak solar hours, requiring urgent storage and interconnection investment.',
+    extended_description_es: 'Red ElÃ©ctrica informÃ³ que la capacidad renovable instalada superÃ³ los 80 GW por primera vez, con la eÃ³lica liderando con 31 GW, la solar con 29 GW y la hidrÃ¡ulica con 20 GW. EspaÃ±a generÃ³ el 56% de su electricidad de renovables en el primer semestre.',
     short_summary: [
       'Spain surpasses 80 GW installed renewables: wind 31 GW, solar 29 GW, hydro 20 GW.',
       '56% renewable electricity share in H1 puts Spain on track to exceed 2030 74% target early.',
       'Growing curtailment in southern Spain during solar peaks signals urgent need for storage investment.',
     ],
     short_summary_es: [
-      'España supera los 80 GW de renovables instaladas: eólica 31 GW, solar 29 GW, hidro 20 GW.',
-      'El 56% de electricidad renovable en H1 pone a España en camino de superar el objetivo del 74% antes de 2030.',
-      'El creciente vertimiento en el sur durante las horas solares señala la urgencia de invertir en almacenamiento.',
+      'EspaÃ±a supera los 80 GW de renovables instaladas: eÃ³lica 31 GW, solar 29 GW, hidro 20 GW.',
+      'El 56% de electricidad renovable en H1 pone a EspaÃ±a en camino de superar el objetivo del 74% antes de 2030.',
+      'El creciente vertimiento en el sur durante las horas solares seÃ±ala la urgencia de invertir en almacenamiento.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── MITECO (Institutional) ───────────────────────────────
+  // â”€â”€ MITECO (Institutional) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-miteco-001',
-    title: 'MITECO approves Spain\'s first green hydrogen valley in Puertollano with €800M state backing',
-    title_es: 'MITECO aprueba el primer valle de hidrógeno verde de España en Puertollano con €800M de respaldo estatal',
+    title: 'MITECO approves Spain\'s first green hydrogen valley in Puertollano with â‚¬800M state backing',
+    title_es: 'MITECO aprueba el primer valle de hidrÃ³geno verde de EspaÃ±a en Puertollano con â‚¬800M de respaldo estatal',
     source: 'MITECO',
     source_type: 'Institutional',
     location: 'Spain',
     category: 'Energy',
     date: d(4),
-    url: 'https://www.miteco.gob.es/es/prensa/hidrogeno-verde-puertollano-aprobacion.html',
-    extended_description: 'Spain\'s Ministry for Ecological Transition approved the first designated Green Hydrogen Valley in Puertollano, Castilla-La Mancha, with €800 million in public-private financing supported by EU Innovation Fund grants. The project will develop 500 MW of dedicated electrolysis capacity supplied by collocated solar, targeting green steel, ammonia, and mobility applications. MITECO expects the valley to produce 40,000 tonnes of green hydrogen annually by 2028.',
-    extended_description_es: 'El MITECO aprobó el primer Valle de Hidrógeno Verde en Puertollano, con €800 millones de financiación público-privada y apoyo del Fondo de Innovación de la UE. El proyecto desarrollará 500 MW de electrólisis abastecida por solar colocalizada.',
+    url: 'https://www.miteco.gob.es/es/prensa/',
+    extended_description: 'Spain\'s Ministry for Ecological Transition approved the first designated Green Hydrogen Valley in Puertollano, Castilla-La Mancha, with â‚¬800 million in public-private financing supported by EU Innovation Fund grants. The project will develop 500 MW of dedicated electrolysis capacity supplied by collocated solar, targeting green steel, ammonia, and mobility applications. MITECO expects the valley to produce 40,000 tonnes of green hydrogen annually by 2028.',
+    extended_description_es: 'El MITECO aprobÃ³ el primer Valle de HidrÃ³geno Verde en Puertollano, con â‚¬800 millones de financiaciÃ³n pÃºblico-privada y apoyo del Fondo de InnovaciÃ³n de la UE. El proyecto desarrollarÃ¡ 500 MW de electrÃ³lisis abastecida por solar colocalizada.',
     short_summary: [
-      'MITECO approves Spain\'s first Green Hydrogen Valley in Puertollano with €800M public-private financing.',
+      'MITECO approves Spain\'s first Green Hydrogen Valley in Puertollano with â‚¬800M public-private financing.',
       '500 MW electrolysis capacity collocated with solar, targeting green steel, ammonia, and mobility.',
       'Project targets 40,000 tonnes of green hydrogen annually by 2028, backed by EU Innovation Fund.',
     ],
     short_summary_es: [
-      'MITECO aprueba el primer Valle de Hidrógeno Verde de España en Puertollano con €800M de financiación.',
-      '500 MW de electrólisis colocalizada con solar, para acero verde, amoníaco y movilidad.',
-      'El proyecto apunta a 40.000 toneladas anuales de H2 verde para 2028, con apoyo del Fondo de Innovación UE.',
+      'MITECO aprueba el primer Valle de HidrÃ³geno Verde de EspaÃ±a en Puertollano con â‚¬800M de financiaciÃ³n.',
+      '500 MW de electrÃ³lisis colocalizada con solar, para acero verde, amonÃ­aco y movilidad.',
+      'El proyecto apunta a 40.000 toneladas anuales de H2 verde para 2028, con apoyo del Fondo de InnovaciÃ³n UE.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── El País (Press) ──────────────────────────────────────
+  // â”€â”€ El PaÃ­s (Press) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-elpais-001',
-    title: 'El País: Spain becomes Europe\'s largest exporter of renewable electricity for second consecutive year',
-    title_es: 'El País: España se convierte en el mayor exportador de electricidad renovable de Europa por segundo año consecutivo',
+    title: 'El PaÃ­s: Spain becomes Europe\'s largest exporter of renewable electricity for second consecutive year',
+    title_es: 'El PaÃ­s: EspaÃ±a se convierte en el mayor exportador de electricidad renovable de Europa por segundo aÃ±o consecutivo',
     source: 'El Pais',
     source_type: 'Press',
     location: 'Spain',
     category: 'Energy',
     date: d(2),
-    url: 'https://elpais.com/economia/2024/espana-mayor-exportador-electricidad-renovable-europa',
+    url: 'https://elpais.com/clima-y-medio-ambiente/',
     extended_description: 'Spain consolidated its position as Europe\'s largest net exporter of renewable electricity for the second consecutive year, with net exports of 28 TWh to France, Portugal, and Morocco in 2024. The structural surplus reflects the rapid accumulation of solar and wind capacity, which frequently exceeds domestic demand during daytime hours. Energy economists warn that without sufficient storage or new interconnections, the surplus will increasingly result in negative prices and curtailment rather than export revenue.',
-    extended_description_es: 'España consolidó su posición como mayor exportador neto de electricidad renovable de Europa por segundo año consecutivo, con exportaciones netas de 28 TWh a Francia, Portugal y Marruecos.',
+    extended_description_es: 'EspaÃ±a consolidÃ³ su posiciÃ³n como mayor exportador neto de electricidad renovable de Europa por segundo aÃ±o consecutivo, con exportaciones netas de 28 TWh a Francia, Portugal y Marruecos.',
     short_summary: [
       'Spain is Europe\'s largest net renewable electricity exporter for the second year running, with 28 TWh in 2024.',
       'Structural surplus driven by solar and wind capacity frequently exceeding domestic daytime demand.',
       'Economists warn that without storage or interconnections, surplus will lead to curtailment not revenue.',
     ],
     short_summary_es: [
-      'España es el mayor exportador neto de electricidad renovable de Europa por segundo año consecutivo, con 28 TWh.',
-      'El excedente estructural refleja la capacidad solar y eólica que supera frecuentemente la demanda diurna.',
-      'Sin almacenamiento o interconexiones, el excedente derivará en vertimiento, no en ingresos de exportación.',
+      'EspaÃ±a es el mayor exportador neto de electricidad renovable de Europa por segundo aÃ±o consecutivo, con 28 TWh.',
+      'El excedente estructural refleja la capacidad solar y eÃ³lica que supera frecuentemente la demanda diurna.',
+      'Sin almacenamiento o interconexiones, el excedente derivarÃ¡ en vertimiento, no en ingresos de exportaciÃ³n.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── Expansión (Press) ────────────────────────────────────
+  // â”€â”€ ExpansiÃ³n (Press) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-expansion-001',
-    title: 'Expansión: Iberdrola and Repsol announce €3B Spanish offshore wind joint venture in the Atlantic',
-    title_es: 'Expansión: Iberdrola y Repsol anuncian una joint venture de €3.000M de eólica marina en el Atlántico español',
+    title: 'ExpansiÃ³n: Iberdrola and Repsol announce â‚¬3B Spanish offshore wind joint venture in the Atlantic',
+    title_es: 'ExpansiÃ³n: Iberdrola y Repsol anuncian una joint venture de â‚¬3.000M de eÃ³lica marina en el AtlÃ¡ntico espaÃ±ol',
     source: 'Expansion',
     source_type: 'Press',
     location: 'Spain',
     category: 'Energy',
     date: d(3),
-    url: 'https://www.expansion.com/empresas/energia/2024/iberdrola-repsol-eolica-marina-atlantico',
-    extended_description: 'Iberdrola and Repsol announced a €3 billion joint venture to develop 2 GW of floating offshore wind in the Spanish Atlantic — Spain\'s first major offshore wind industrial-scale project. The partnership, to be developed off the coasts of Galicia and the Canary Islands, leverages Iberdrola\'s offshore wind experience with Repsol\'s oil and gas marine engineering capabilities. Commercial operations are targeted for 2031, subject to environmental permitting expected to conclude in 2026.',
-    extended_description_es: 'Iberdrola y Repsol anunciaron una joint venture de €3.000 millones para desarrollar 2 GW de eólica marina flotante en el Atlántico español, el primer proyecto offshore de escala industrial de España.',
+    url: 'https://www.expansion.com/empresas/energia/',
+    extended_description: 'Iberdrola and Repsol announced a â‚¬3 billion joint venture to develop 2 GW of floating offshore wind in the Spanish Atlantic â€” Spain\'s first major offshore wind industrial-scale project. The partnership, to be developed off the coasts of Galicia and the Canary Islands, leverages Iberdrola\'s offshore wind experience with Repsol\'s oil and gas marine engineering capabilities. Commercial operations are targeted for 2031, subject to environmental permitting expected to conclude in 2026.',
+    extended_description_es: 'Iberdrola y Repsol anunciaron una joint venture de â‚¬3.000 millones para desarrollar 2 GW de eÃ³lica marina flotante en el AtlÃ¡ntico espaÃ±ol, el primer proyecto offshore de escala industrial de EspaÃ±a.',
     short_summary: [
-      'Iberdrola and Repsol launch €3B JV for 2 GW floating offshore wind off Galicia and Canary Islands.',
+      'Iberdrola and Repsol launch â‚¬3B JV for 2 GW floating offshore wind off Galicia and Canary Islands.',
       'Spain\'s first industrial-scale offshore wind project targets commercial operation in 2031.',
       'Permitting process expected to conclude in 2026; Repsol\'s marine engineering key to floating design.',
     ],
     short_summary_es: [
-      'Iberdrola y Repsol lanzan una JV de €3.000M para 2 GW de eólica marina flotante en Galicia y Canarias.',
-      'El primer proyecto offshore de escala industrial de España apunta a operación comercial en 2031.',
-      'El proceso de permisos concluirá en 2026; la ingeniería marina de Repsol es clave para el diseño flotante.',
+      'Iberdrola y Repsol lanzan una JV de â‚¬3.000M para 2 GW de eÃ³lica marina flotante en Galicia y Canarias.',
+      'El primer proyecto offshore de escala industrial de EspaÃ±a apunta a operaciÃ³n comercial en 2031.',
+      'El proceso de permisos concluirÃ¡ en 2026; la ingenierÃ­a marina de Repsol es clave para el diseÃ±o flotante.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ════════════════════════════════════════════════════════
-  // MÉXICO
-  // ════════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // MÃ‰XICO
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-  // ── SENER (Institutional) ────────────────────────────────
+  // â”€â”€ SENER (Institutional) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-sener-001',
     title: 'SENER: Mexico launches 5 GW renewable energy tender as part of energy security strategy',
-    title_es: 'SENER: México lanza una licitación de 5 GW de energías renovables como parte de la estrategia de seguridad energética',
+    title_es: 'SENER: MÃ©xico lanza una licitaciÃ³n de 5 GW de energÃ­as renovables como parte de la estrategia de seguridad energÃ©tica',
     source: 'SENER',
     source_type: 'Institutional',
     location: 'Mexico',
     category: 'Energy',
     date: d(2),
-    url: 'https://www.gob.mx/sener/prensa/licitacion-renovables-5gw-2024',
-    extended_description: 'Mexico\'s Secretariat of Energy launched a 5 GW competitive tender for solar and wind projects as part of the new National Energy Security Strategy. The tender targets capacity additions in Sonora, Oaxaca, and Tamaulipas — states with the highest renewable resource quality. Projects must include a 20% local content requirement and are eligible for 25-year power purchase agreements with CFE at guaranteed floor prices. Bids are due in Q4 2024 with commercial operations expected by 2027.',
-    extended_description_es: 'La Secretaría de Energía de México lanzó una licitación competitiva de 5 GW para proyectos solares y eólicos en Sonora, Oaxaca y Tamaulipas. Los proyectos deben cumplir un requisito de contenido local del 20% y son elegibles para contratos de largo plazo con CFE.',
+    url: 'https://www.gob.mx/sener',
+    extended_description: 'Mexico\'s Secretariat of Energy launched a 5 GW competitive tender for solar and wind projects as part of the new National Energy Security Strategy. The tender targets capacity additions in Sonora, Oaxaca, and Tamaulipas â€” states with the highest renewable resource quality. Projects must include a 20% local content requirement and are eligible for 25-year power purchase agreements with CFE at guaranteed floor prices. Bids are due in Q4 2024 with commercial operations expected by 2027.',
+    extended_description_es: 'La SecretarÃ­a de EnergÃ­a de MÃ©xico lanzÃ³ una licitaciÃ³n competitiva de 5 GW para proyectos solares y eÃ³licos en Sonora, Oaxaca y Tamaulipas. Los proyectos deben cumplir un requisito de contenido local del 20% y son elegibles para contratos de largo plazo con CFE.',
     short_summary: [
       'Mexico SENER launches 5 GW renewable tender covering solar and wind in Sonora, Oaxaca, and Tamaulipas.',
       '25-year CFE PPAs with floor prices offered; 20% local content required for project eligibility.',
       'Bids due Q4 2024 with commercial operations targeted by 2027 under new Energy Security Strategy.',
     ],
     short_summary_es: [
-      'SENER México lanza licitación de 5 GW de renovables en Sonora, Oaxaca y Tamaulipas.',
-      'Se ofrecen PPA de 25 años con la CFE a precios mínimos; se requiere 20% de contenido local.',
-      'Ofertas en Q4 2024, con operación comercial prevista para 2027 bajo la nueva Estrategia de Seguridad Energética.',
+      'SENER MÃ©xico lanza licitaciÃ³n de 5 GW de renovables en Sonora, Oaxaca y Tamaulipas.',
+      'Se ofrecen PPA de 25 aÃ±os con la CFE a precios mÃ­nimos; se requiere 20% de contenido local.',
+      'Ofertas en Q4 2024, con operaciÃ³n comercial prevista para 2027 bajo la nueva Estrategia de Seguridad EnergÃ©tica.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── CFE (Institutional) ──────────────────────────────────
+  // â”€â”€ CFE (Institutional) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-cfe-001',
     title: 'CFE announces $4.2 billion transmission modernization plan to reduce technical losses by 2028',
-    title_es: 'CFE anuncia plan de modernización de transmisión de US$4.200M para reducir pérdidas técnicas para 2028',
+    title_es: 'CFE anuncia plan de modernizaciÃ³n de transmisiÃ³n de US$4.200M para reducir pÃ©rdidas tÃ©cnicas para 2028',
     source: 'CFE',
     source_type: 'Institutional',
     location: 'Mexico',
     category: 'Energy',
     date: d(5),
-    url: 'https://www.cfe.mx/noticias/plan-transmision-modernizacion-2028',
-    extended_description: 'Comisión Federal de Electricidad announced a $4.2 billion five-year transmission modernization program targeting a reduction of technical losses from the current 14.5% to below 10% by 2028. The plan prioritizes 380 kV backbone upgrades across Mexico\'s central plateau, smart grid technology deployment, and the interconnection of 14 new renewable energy zones. CFE also announced a pilot program for 500 MW of grid-scale battery storage at five strategic substations.',
-    extended_description_es: 'La CFE anunció un programa de modernización de transmisión de US$4.200 millones a cinco años, con objetivo de reducir las pérdidas técnicas del 14,5% actual a menos del 10% para 2028.',
+    url: 'https://www.cfe.mx/',
+    extended_description: 'ComisiÃ³n Federal de Electricidad announced a $4.2 billion five-year transmission modernization program targeting a reduction of technical losses from the current 14.5% to below 10% by 2028. The plan prioritizes 380 kV backbone upgrades across Mexico\'s central plateau, smart grid technology deployment, and the interconnection of 14 new renewable energy zones. CFE also announced a pilot program for 500 MW of grid-scale battery storage at five strategic substations.',
+    extended_description_es: 'La CFE anunciÃ³ un programa de modernizaciÃ³n de transmisiÃ³n de US$4.200 millones a cinco aÃ±os, con objetivo de reducir las pÃ©rdidas tÃ©cnicas del 14,5% actual a menos del 10% para 2028.',
     short_summary: [
       'CFE announces $4.2B transmission modernization to cut technical losses from 14.5% to under 10% by 2028.',
       'Plan upgrades 380 kV backbone across central Mexico and connects 14 new renewable energy zones.',
       '500 MW battery storage pilot at five strategic substations included in modernization program.',
     ],
     short_summary_es: [
-      'CFE anuncia modernización de transmisión de US$4.200M para reducir pérdidas del 14,5% al 10% para 2028.',
+      'CFE anuncia modernizaciÃ³n de transmisiÃ³n de US$4.200M para reducir pÃ©rdidas del 14,5% al 10% para 2028.',
       'El plan actualiza la red troncal de 380 kV en el altiplano central y conecta 14 nuevas zonas de renovables.',
-      'Piloto de 500 MW de almacenamiento en baterías en cinco subestaciones estratégicas.',
+      'Piloto de 500 MW de almacenamiento en baterÃ­as en cinco subestaciones estratÃ©gicas.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── El Financiero Mexico (Press) ──────────────────────────
+  // â”€â”€ El Financiero Mexico (Press) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-elfin-001',
     title: 'El Financiero: Nearshoring boom drives 35% surge in industrial electricity demand in northern Mexico',
-    title_es: 'El Financiero: El auge del nearshoring impulsa un aumento del 35% en la demanda industrial de electricidad en el norte de México',
+    title_es: 'El Financiero: El auge del nearshoring impulsa un aumento del 35% en la demanda industrial de electricidad en el norte de MÃ©xico',
     source: 'El Financiero',
     source_type: 'Press',
     location: 'Mexico',
     category: 'Energy',
     date: d(2),
-    url: 'https://www.elfinanciero.com.mx/economia/nearshoring-electricidad-norte-mexico-2024',
-    extended_description: 'Industrial electricity demand in northern Mexico surged 35% over the past two years, driven by nearshoring investments from US, Asian, and European manufacturers relocating supply chains to leverage proximity to the US market. Nuevo León, Chihuahua, and Coahuila are experiencing power shortages during peak hours, forcing some industrial parks to negotiate dedicated generation contracts. CFE and private developers are racing to add capacity, with over 8 GW of industrial solar projects in permitting.',
-    extended_description_es: 'La demanda industrial de electricidad en el norte de México creció un 35% en los últimos dos años, impulsada por inversiones de nearshoring de fabricantes que trasladan cadenas de suministro para aprovechar la proximidad al mercado de EE.UU.',
+    url: 'https://www.elfinanciero.com.mx/economia/',
+    extended_description: 'Industrial electricity demand in northern Mexico surged 35% over the past two years, driven by nearshoring investments from US, Asian, and European manufacturers relocating supply chains to leverage proximity to the US market. Nuevo LeÃ³n, Chihuahua, and Coahuila are experiencing power shortages during peak hours, forcing some industrial parks to negotiate dedicated generation contracts. CFE and private developers are racing to add capacity, with over 8 GW of industrial solar projects in permitting.',
+    extended_description_es: 'La demanda industrial de electricidad en el norte de MÃ©xico creciÃ³ un 35% en los Ãºltimos dos aÃ±os, impulsada por inversiones de nearshoring de fabricantes que trasladan cadenas de suministro para aprovechar la proximidad al mercado de EE.UU.',
     short_summary: [
       'Nearshoring boom drives 35% industrial electricity demand surge in northern Mexico in two years.',
-      'Nuevo León, Chihuahua, and Coahuila face peak-hour shortages forcing dedicated industrial power deals.',
+      'Nuevo LeÃ³n, Chihuahua, and Coahuila face peak-hour shortages forcing dedicated industrial power deals.',
       'Over 8 GW of industrial solar projects in permitting as CFE and private developers race to add supply.',
     ],
     short_summary_es: [
-      'El nearshoring impulsa un aumento del 35% en la demanda industrial de electricidad en el norte de México.',
-      'Nuevo León, Chihuahua y Coahuila enfrentan escasez en horas pico, forzando contratos de generación dedicada.',
-      'Más de 8 GW de proyectos solares industriales en tramitación para cubrir la nueva demanda.',
+      'El nearshoring impulsa un aumento del 35% en la demanda industrial de electricidad en el norte de MÃ©xico.',
+      'Nuevo LeÃ³n, Chihuahua y Coahuila enfrentan escasez en horas pico, forzando contratos de generaciÃ³n dedicada.',
+      'MÃ¡s de 8 GW de proyectos solares industriales en tramitaciÃ³n para cubrir la nueva demanda.',
     ],
     created_at: new Date().toISOString(),
     processed: true,
   },
 
-  // ── Energía Hoy Mexico (Press) ────────────────────────────
+  // â”€â”€ EnergÃ­a Hoy Mexico (Press) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 'mock-enhoy-001',
-    title: 'Energía Hoy: Mexico\'s clean energy capacity reaches 30 GW — surpassing natural gas for first time',
-    title_es: 'Energía Hoy: La capacidad de energía limpia de México alcanza los 30 GW y supera al gas natural por primera vez',
-    source: 'Energía Hoy',
+    title: 'EnergÃ­a Hoy: Mexico\'s clean energy capacity reaches 30 GW â€” surpassing natural gas for first time',
+    title_es: 'EnergÃ­a Hoy: La capacidad de energÃ­a limpia de MÃ©xico alcanza los 30 GW y supera al gas natural por primera vez',
+    source: 'EnergÃ­a Hoy',
     source_type: 'Press',
     location: 'Mexico',
     category: 'Energy',
     date: d(3),
-    url: 'https://energiahoy.com/2024/energia-limpia-30gw-supera-gas-natural',
-    extended_description: 'Mexico\'s total clean energy capacity — including large hydro, wind, solar, and geothermal — reached 30 GW, surpassing natural gas as a single technology for the first time, according to Energía Hoy. Solar has been the fastest-growing segment, adding 4 GW in the past 18 months driven by industrial self-supply contracts and IPP projects. The milestone comes despite regulatory uncertainty and reflects the strong economics of new solar and wind relative to combined-cycle gas.',
-    extended_description_es: 'La capacidad de energía limpia de México alcanzó los 30 GW, superando al gas natural como tecnología individual por primera vez. La solar ha sido el segmento de más rápido crecimiento, añadiendo 4 GW en los últimos 18 meses.',
+    url: 'https://energiahoy.com/',
+    extended_description: 'Mexico\'s total clean energy capacity â€” including large hydro, wind, solar, and geothermal â€” reached 30 GW, surpassing natural gas as a single technology for the first time, according to EnergÃ­a Hoy. Solar has been the fastest-growing segment, adding 4 GW in the past 18 months driven by industrial self-supply contracts and IPP projects. The milestone comes despite regulatory uncertainty and reflects the strong economics of new solar and wind relative to combined-cycle gas.',
+    extended_description_es: 'La capacidad de energÃ­a limpia de MÃ©xico alcanzÃ³ los 30 GW, superando al gas natural como tecnologÃ­a individual por primera vez. La solar ha sido el segmento de mÃ¡s rÃ¡pido crecimiento, aÃ±adiendo 4 GW en los Ãºltimos 18 meses.',
     short_summary: [
       'Mexico\'s clean energy capacity hits 30 GW, surpassing natural gas as a single technology for the first time.',
       'Solar added 4 GW in 18 months via industrial self-supply and IPP contracts despite regulatory uncertainty.',
       'Strong solar and wind economics vs. combined-cycle gas drive the capacity milestone regardless of policy.',
     ],
     short_summary_es: [
-      'La capacidad limpia de México alcanza los 30 GW y supera al gas natural como tecnología individual.',
-      'La solar sumó 4 GW en 18 meses por contratos de autoabasto industrial y proyectos de IPP.',
-      'La economía del solar y la eólica frente al ciclo combinado impulsa el hito pese a la incertidumbre regulatoria.',
+      'La capacidad limpia de MÃ©xico alcanza los 30 GW y supera al gas natural como tecnologÃ­a individual.',
+      'La solar sumÃ³ 4 GW en 18 meses por contratos de autoabasto industrial y proyectos de IPP.',
+      'La economÃ­a del solar y la eÃ³lica frente al ciclo combinado impulsa el hito pese a la incertidumbre regulatoria.',
     ],
     created_at: new Date().toISOString(),
     processed: true,

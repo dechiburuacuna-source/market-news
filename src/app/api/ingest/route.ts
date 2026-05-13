@@ -15,6 +15,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, errors: ['OPENAI_API_KEY not set'] })
   }
 
-  const result = await runIngest()
+  const { searchParams } = new URL(req.url)
+  const fullRefresh = searchParams.get('fullRefresh') === 'true'
+
+  const result = await runIngest({ fullRefresh })
   return NextResponse.json({ success: result.errors.filter(e => e.startsWith('Fatal')).length === 0, ...result })
 }

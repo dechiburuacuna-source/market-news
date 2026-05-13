@@ -5,7 +5,7 @@ import type { Article, ArticleFilters } from '@/types/article'
 import { getSupabaseClient, isSupabaseConfigured } from './supabase'
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'articles.json')
-const RETENTION_DAYS = 60
+const RETENTION_DAYS = 5  // show only last 5 days
 
 async function readJSON(): Promise<Article[]> {
   try { return JSON.parse(await fs.readFile(DATA_FILE, 'utf8')) }
@@ -36,20 +36,37 @@ export async function articleExistsByUrl(url: string): Promise<boolean> {
   }
   return (await readJSON()).some(a => a.url === url)
 }
+
+/** Delete articles older than RETENTION_DAYS. Used by daily cron. */
 export async function purgeOldArticles(): Promise<number> {
   const cutoff = cutoffDate()
   if (isSupabaseConfigured()) {
     const sb = getSupabaseClient()
     const { count } = await sb.from('articles').delete({ count: 'exact' }).lt('date', cutoff)
-    console.log('[Purge] Supabase deleted', count, 'articles older than', cutoff)
+    console.log('[Purge] Deleted', count, 'articles older than', cutoff)
     return count || 0
   }
   const all = await readJSON()
   const kept = all.filter(a => a.date >= cutoff)
   const removed = all.length - kept.length
-  if (removed > 0) { await writeJSON(kept); console.log('[Purge] JSON deleted', removed, 'old articles') }
+  if (removed > 0) { await writeJSON(kept) }
   return removed
 }
+
+/** Delete ALL articles. Used on deploy to force a full fresh refresh. */
+export async function purgeAllArticles(): Promise<number> {
+  if (isSupabaseConfigured()) {
+    const sb = getSupabaseClient()
+    // Delete everything (use a condition that's always true)
+    const { count } = await sb.from('articles').delete({ count: 'exact' }).gte('date', '2000-01-01')
+    console.log('[Purge] Full refresh — deleted ALL', count, 'articles')
+    return count || 0
+  }
+  const all = await readJSON()
+  await writeJSON([])
+  return all.length
+}
+
 export function makeId(): string { return randomUUID() }
 
 async function getArticlesSupabase(filters?: ArticleFilters): Promise<Article[]> {

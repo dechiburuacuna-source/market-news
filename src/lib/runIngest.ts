@@ -1,20 +1,29 @@
 import { fetchAllRSSFeeds } from '@/lib/rss'
 import { searchAllWebSources, WEB_SEARCH_SOURCES } from '@/lib/webSearchIngest'
 import { processArticlesBatch } from '@/lib/openai'
-import { upsertArticle, articleExistsByUrl, makeId, purgeOldArticles } from '@/lib/storage'
+import { upsertArticle, articleExistsByUrl, makeId, purgeOldArticles, purgeAllArticles } from '@/lib/storage'
 import { RSS_SOURCES } from '@/lib/sources'
 import type { Article, IngestResult } from '@/types/article'
 
-export async function runIngest(): Promise<IngestResult> {
+export interface IngestOptions {
+  /** When true: delete ALL existing articles before fetching (used on deploy). */
+  fullRefresh?: boolean
+}
+
+export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult> {
   const startTime = Date.now()
   const result: IngestResult = { fetched: 0, new_articles: 0, processed: 0, errors: [], duration_ms: 0 }
 
   try {
-    // 0. Purge articles older than 60 days
-    const purged = await purgeOldArticles()
-    console.log(`[Ingest] Purged ${purged} old articles`)
+    if (opts.fullRefresh) {
+      const deleted = await purgeAllArticles()
+      console.log(`[Ingest] Full refresh — cleared ${deleted} existing articles`)
+    } else {
+      const purged = await purgeOldArticles()
+      console.log(`[Ingest] Purged ${purged} articles older than 5 days`)
+    }
 
-    // 1a. Fetch RSS feeds
+    // 1a. RSS feeds
     console.log(`[Ingest] Fetching RSS from ${RSS_SOURCES.length} sources...`)
     const { articles: rssArticles, failed: rssFailed } = await fetchAllRSSFeeds(RSS_SOURCES)
     if (rssFailed.length) console.log(`[Ingest] RSS failed: ${rssFailed.join(', ')}`)
@@ -27,7 +36,6 @@ export async function runIngest(): Promise<IngestResult> {
       webArticles = wa
       if (webFailed.length) result.errors.push(`Gemini failed: ${webFailed.join(', ')}`)
     } else {
-      console.log('[Ingest] Skipping Gemini — GEMINI_API_KEY not set')
       result.errors.push('GEMINI_API_KEY not set — web search skipped')
     }
 
@@ -39,17 +47,17 @@ export async function runIngest(): Promise<IngestResult> {
       return true
     })
     result.fetched = allRaw.length
-    console.log(`[Ingest] Total fetched: ${allRaw.length} (RSS: ${rssArticles.length}, Web: ${webArticles.length})`)
+    console.log(`[Ingest] Fetched ${allRaw.length} total (RSS: ${rssArticles.length}, Web: ${webArticles.length})`)
 
-    // 2. Filter only new articles
+    // 2. Filter new articles only (skip if fullRefresh since we cleared everything)
     const newRaw = []
     for (const raw of allRaw) {
       try {
-        if (!(await articleExistsByUrl(raw.url))) newRaw.push(raw)
+        if (opts.fullRefresh || !(await articleExistsByUrl(raw.url))) newRaw.push(raw)
       } catch { result.errors.push(`URL check failed: ${raw.url}`) }
     }
     result.new_articles = newRaw.length
-    console.log(`[Ingest] ${newRaw.length} new articles to process`)
+    console.log(`[Ingest] ${newRaw.length} articles to process`)
 
     if (newRaw.length === 0) {
       result.duration_ms = Date.now() - startTime
@@ -61,7 +69,7 @@ export async function runIngest(): Promise<IngestResult> {
       console.log(`[Ingest] AI processing: ${done}/${total}`)
     })
 
-    // 4. Store
+    // 4. Store — date comes from the source, never overwritten
     for (const { raw, processed: fields } of processed) {
       if (!fields) { result.errors.push(`AI failed: ${raw.url}`); continue }
       const article: Article = {
@@ -69,7 +77,7 @@ export async function runIngest(): Promise<IngestResult> {
         title: raw.title, title_es: fields.title_es,
         source: raw.source, source_type: raw.source_type,
         location: fields.location, category: fields.category,
-        date: raw.date,          // publication date — preserved from source
+        date: raw.date,  // publication date from RSS/Gemini — never replaced with today
         url: raw.url, content: raw.content,
         extended_description: fields.extended_description,
         extended_description_es: fields.extended_description_es,
