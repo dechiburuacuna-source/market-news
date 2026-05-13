@@ -75,39 +75,7 @@ export const WEB_SEARCH_SOURCES: WebSearchSource[] = [
   { name: 'Mining.com',           location: 'Global', source_type: 'Press',         categories: ['Mining'],                            lang: 'en', domain: 'mining.com',                topics: 'copper gold lithium mining, major miners, commodity prices, mining projects' },
 ]
 
-function buildPrompt(source: WebSearchSource): string {
-  const today = new Date().toISOString().split('T')[0]
-  const typeDesc = source.source_type === 'Conglomerado'
-    ? `trade association / industry group`
-    : source.source_type === 'Market Advisor'
-    ? `market research and advisory firm`
-    : source.source_type
-  const langNote = source.lang !== 'en'
-    ? `The articles are in ${source.lang === 'es' ? 'Spanish' : source.lang === 'it' ? 'Italian' : source.lang === 'pl' ? 'Polish' : 'the source language'}.`
-    : ''
-
-  return `Today is ${today}. Use Google Search to find the 4 most recent news articles or reports published in the last 21 days from "${source.name}" — a ${typeDesc} — at domain: ${source.domain}.
-${langNote}
-
-Topics: ${source.topics}
-
-Search Google right now and return ONLY a valid JSON array (no markdown, no code fences, no extra text):
-[
-  {
-    "title": "exact article title as published",
-    "url": "https://${source.domain}/actual-path-to-article",
-    "date": "YYYY-MM-DD",
-    "content": "2-3 sentence description of what the article is about"
-  }
-]
-
-Rules:
-- Use Google Search to find REAL articles published in the last 21 days (after ${getDateDaysAgo(21)})
-- Every URL must be from the domain "${source.domain}"
-- Dates must be real publication dates in YYYY-MM-DD format
-- Return [] if no recent articles can be verified
-- Never invent or fabricate titles, URLs, or dates`
-}
+// ── Helpers ──────────────────────────────────────────────────────────────────
 
 function getDateDaysAgo(days: number): string {
   const d = new Date()
@@ -115,10 +83,73 @@ function getDateDaysAgo(days: number): string {
   return d.toISOString().split('T')[0]
 }
 
-// Strip citation markers like [1], [2] that Gemini grounding adds to URLs
+function isValidRecentDate(s: string): boolean {
+  if (!s || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false
+  const d = new Date(s)
+  if (isNaN(d.getTime())) return false
+  const now = new Date()
+  const cutoff = new Date()
+  cutoff.setDate(cutoff.getDate() - 90)
+  return d <= now && d >= cutoff
+}
+
+// Strip citation markers like [1], [2] that Gemini grounding inserts into URLs
 function cleanUrl(url: string): string {
   return url.replace(/\[\d+\]/g, '').trim()
 }
+
+// Quick HEAD probe to verify a URL actually resolves (not 404/403)
+async function urlExists(url: string): Promise<boolean> {
+  try {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 5000)
+    const res = await fetch(url, {
+      method: 'HEAD',
+      signal: controller.signal,
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; MarketNewsBot/1.0)' },
+      redirect: 'follow',
+    })
+    clearTimeout(timeout)
+    // Accept 200-399; many paywalled sites return 200 for the article page itself
+    return res.status < 400
+  } catch {
+    return false
+  }
+}
+
+// ── Prompt builder ────────────────────────────────────────────────────────────
+
+function buildPrompt(source: WebSearchSource): string {
+  const today = new Date().toISOString().split('T')[0]
+  const typeDesc = source.source_type === 'Conglomerado'
+    ? 'trade association / industry group'
+    : source.source_type === 'Market Advisor'
+    ? 'market research and advisory firm'
+    : source.source_type
+  const langNote = source.lang !== 'en'
+    ? `Articles are in ${source.lang === 'es' ? 'Spanish' : source.lang === 'it' ? 'Italian' : source.lang === 'pl' ? 'Polish' : 'the source language'}.`
+    : ''
+
+  return `Today is ${today}. Search Google for the 4 most recent articles or reports published in the last 21 days (after ${getDateDaysAgo(21)}) from "${source.name}" — a ${typeDesc} — at domain: ${source.domain}.
+${langNote}Topics: ${source.topics}
+
+For each article found, return ONLY a valid JSON array (no markdown, no code fences):
+[
+  {
+    "title": "exact article title as published",
+    "url": "https://full-url-to-article",
+    "date": "YYYY-MM-DD",
+    "content": "2-3 sentence description of the article"
+  }
+]
+
+Rules:
+- Only include articles from domain "${source.domain}"
+- Dates must be real publication dates in YYYY-MM-DD format within the last 21 days
+- Return [] if no recent articles are found`
+}
+
+// ── Core search function ──────────────────────────────────────────────────────
 
 export async function searchArticlesBySource(source: WebSearchSource): Promise<RawArticle[]> {
   try {
@@ -133,44 +164,88 @@ export async function searchArticlesBySource(source: WebSearchSource): Promise<R
       },
     })
 
-    const text = response.text ?? ''
-    const match = text.match(/\[[\s\S]*?\](?=\s*$|\s*\n|$)/) || text.match(/\[[\s\S]*\]/)
-    if (!match) return []
-
-    let items: Array<{ title: string; url: string; date: string; content: string }>
-    try {
-      items = JSON.parse(match[0])
-    } catch {
-      return []
-    }
-
     const domainKey = source.domain.replace('www.', '').split('.')[0]
 
-    return items
-      .filter(item =>
-        item.title &&
-        item.url &&
-        typeof item.url === 'string' &&
-        cleanUrl(item.url).startsWith('http') &&
-        cleanUrl(item.url).toLowerCase().includes(domainKey)
-      )
+    // ── Step 1: extract real URLs from groundingChunks (verified by Google Search) ──
+    const candidate = response.candidates?.[0]
+    const groundedUris = new Set<string>(
+      (candidate?.groundingMetadata?.groundingChunks ?? [])
+        .map((c: { web?: { uri?: string } }) => c.web?.uri)
+        .filter((uri): uri is string => !!uri && uri.toLowerCase().includes(domainKey))
+    )
+
+    // ── Step 2: parse the JSON the model wrote for title/date/content ──
+    const text = response.text ?? ''
+    const match = text.match(/\[[\s\S]*?\](?=\s*$|\s*\n)/) ?? text.match(/\[[\s\S]*\]/)
+    let modelItems: Array<{ title: string; url: string; date: string; content: string }> = []
+    if (match) {
+      try { modelItems = JSON.parse(match[0]) } catch { /* ignore parse errors */ }
+    }
+
+    // ── Step 3: build candidate list ──────────────────────────────────────────
+    // Primary: grounded URIs from Google (guaranteed real); secondary: model JSON
+    const candidateUrls: Array<{ uri: string; title: string; date: string; content: string }> = []
+
+    // Add grounded URIs first — these are real Google search results
+    for (const uri of Array.from(groundedUris)) {
+      const matched = modelItems.find(item => {
+        const cleaned = cleanUrl(item.url ?? '')
+        return cleaned === uri || uri.startsWith(cleaned.split('?')[0]) || cleaned.startsWith(uri.split('?')[0])
+      })
+      candidateUrls.push({
+        uri,
+        title:   matched?.title?.trim() || '',
+        date:    matched?.date || '',
+        content: matched?.content?.trim() || '',
+      })
+    }
+
+    // Fall back to model JSON items whose URL is NOT already covered by grounding
+    for (const item of modelItems) {
+      const uri = cleanUrl(item.url ?? '')
+      if (
+        uri.startsWith('http') &&
+        uri.toLowerCase().includes(domainKey) &&
+        !candidateUrls.some(c => c.uri === uri)
+      ) {
+        candidateUrls.push({ uri, title: item.title?.trim() || '', date: item.date || '', content: item.content?.trim() || '' })
+      }
+    }
+
+    if (candidateUrls.length === 0) return []
+
+    // ── Step 4: validate URLs (HEAD check) — remove 404s / dead links ─────────
+    const validated = await Promise.all(
+      candidateUrls.slice(0, 6).map(async c => ({
+        ...c,
+        alive: await urlExists(c.uri),
+      }))
+    )
+
+    const today = new Date().toISOString().split('T')[0]
+
+    return validated
+      .filter(c => c.alive)
       .slice(0, 4)
-      .map(item => ({
-        title:       item.title.trim(),
-        url:         cleanUrl(item.url),
+      .map(c => ({
+        title:       c.title || c.uri.split('/').pop() || source.name,
+        url:         c.uri,
         source:      source.name,
         source_type: source.source_type,
         location:    source.location,
         categories:  source.categories,
-        date:        isValidRecentDate(item.date) ? item.date : new Date().toISOString().split('T')[0],
-        content:     item.content?.trim() || item.title,
+        date:        isValidRecentDate(c.date) ? c.date : today,
+        content:     c.content || c.title || source.name,
         lang:        source.lang,
       } satisfies RawArticle))
+
   } catch (err) {
     console.warn(`[GeminiSearch] Failed for ${source.name}:`, (err as Error).message)
     return []
   }
 }
+
+// ── Batch runner ─────────────────────────────────────────────────────────────
 
 export async function searchAllWebSources(
   sources: WebSearchSource[] = WEB_SEARCH_SOURCES,
@@ -184,11 +259,11 @@ export async function searchAllWebSources(
     const results = await Promise.all(batch.map(async s => {
       const arts = await searchArticlesBySource(s)
       if (arts.length === 0) failed.push(s.name)
-      console.log(`[GeminiSearch] ${s.name} (${s.location}, ${s.source_type}): ${arts.length} articles`)
+      console.log(`[GeminiSearch] ${s.name} (${s.location}): ${arts.length} articles`)
       return arts
     }))
     results.forEach(r => allArticles.push(...r))
-    if (i + concurrency < sources.length) await new Promise(r => setTimeout(r, 800))
+    if (i + concurrency < sources.length) await new Promise(r => setTimeout(r, 1000))
   }
 
   const seen = new Set<string>()
@@ -200,15 +275,4 @@ export async function searchAllWebSources(
     }),
     failed,
   }
-}
-
-function isValidRecentDate(s: string): boolean {
-  if (!s || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false
-  const d = new Date(s)
-  if (isNaN(d.getTime())) return false
-  // Reject dates in the future or older than 90 days
-  const now = new Date()
-  const ninetyDaysAgo = new Date()
-  ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90)
-  return d <= now && d >= ninetyDaysAgo
 }
