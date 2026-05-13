@@ -201,13 +201,12 @@ export async function searchArticlesBySource(source: WebSearchSource): Promise<R
 
     if (candidateUrls.length === 0) return []
 
-    // ── Step 4: filter by date window — skip HEAD validation (blocks real sites) ─
-    // Don't filter strictly by date here — trust Gemini's "last N days" prompt.
-    // Storage retention handles the final cutoff. Filtering here was dropping
-    // valid grounded URLs that had ambiguous publication dates.
+    // ── Step 4: enforce the lookback window — drop anything older than N days ─
+    const since = getDateDaysAgo(LOOKBACK_DAYS)
     return candidateUrls
       .slice(0, 4)
       .map(c => ({ ...c, resolvedDate: bestDate(c.date, c.uri) }))
+      .filter(c => c.resolvedDate >= since)
       .map(c => ({
         title:       c.title || source.name,
         url:         c.uri,

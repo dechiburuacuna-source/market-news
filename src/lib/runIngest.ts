@@ -9,6 +9,15 @@ export interface IngestOptions {
   fullRefresh?: boolean
 }
 
+/** Lookback window for both Gemini and RSS — drop anything older than this. */
+const LOOKBACK_DAYS = 20
+
+function cutoffDate(): string {
+  const d = new Date()
+  d.setDate(d.getDate() - LOOKBACK_DAYS)
+  return d.toISOString().split('T')[0]
+}
+
 export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult> {
   const startTime = Date.now()
   const result: IngestResult = { fetched: 0, new_articles: 0, processed: 0, errors: [], duration_ms: 0, articles: [] }
@@ -38,15 +47,17 @@ export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult>
       result.errors.push('GEMINI_API_KEY not set — web search skipped')
     }
 
-    // 1c. Merge and deduplicate
+    // 1c. Merge, deduplicate, and enforce the date window
+    const cutoff = cutoffDate()
     const seen = new Set<string>()
     const allRaw = [...rssArticles, ...webArticles].filter(a => {
       if (!a.url || seen.has(a.url)) return false
+      if (!a.date || a.date < cutoff) return false   // drop anything older than the window
       seen.add(a.url)
       return true
     })
     result.fetched = allRaw.length
-    console.log(`[Ingest] Fetched ${allRaw.length} total (RSS: ${rssArticles.length}, Web: ${webArticles.length})`)
+    console.log(`[Ingest] Fetched ${allRaw.length} within last ${LOOKBACK_DAYS} days (RSS: ${rssArticles.length}, Web: ${webArticles.length})`)
 
     // 2. Filter new articles only
     const newRaw = []

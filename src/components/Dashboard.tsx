@@ -35,6 +35,14 @@ function articleHaystack(a: Article): string {
   ].join(' ').toLowerCase()
 }
 
+/** Articles older than this are hidden regardless of where they came from. */
+const LOOKBACK_DAYS = 20
+function dateCutoff(): string {
+  const d = new Date()
+  d.setDate(d.getDate() - LOOKBACK_DAYS)
+  return d.toISOString().split('T')[0]
+}
+
 export default function Dashboard() {
   // `articles` holds the FULL set returned by the last fetch/ingest.
   // All filtering (category, location, source, search) happens client-side
@@ -66,8 +74,10 @@ export default function Dashboard() {
   // Apply ALL filters client-side, then sort.
   const sortedArticles = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
+    const cutoff = dateCutoff()
     return articles
       .filter(a => {
+        if (!a.date || a.date < cutoff) return false  // hide anything outside the window
         if (cat !== 'all' && a.category !== cat) return false
         if (locations.length && !locations.includes(a.location)) return false
         if (srcType && a.source_type !== srcType) return false
