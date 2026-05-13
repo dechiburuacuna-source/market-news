@@ -3,31 +3,32 @@ import type { SortOrder } from './Dashboard'
 
 const TX: Record<string, Record<string, string>> = {
   en: {
-    updated: 'Updated', refresh: 'Refresh',
+    updated: 'Updated', fetch: 'Search News', fetching: 'Searching…',
     mining: 'Mining', energy: 'Energy', dc: 'Data Centers',
     newestFirst: 'Newest first', oldestFirst: 'Oldest first',
-    tagline: 'Trusted sources · AI-summarized · Auto-updated 08:00 CLT',
+    tagline: 'Trusted sources · AI-summarized · Gemini Search',
     articles: 'articles',
   },
   es: {
-    updated: 'Actualizado', refresh: 'Actualizar',
+    updated: 'Actualizado', fetch: 'Buscar Noticias', fetching: 'Buscando…',
     mining: 'Minería', energy: 'Energía', dc: 'Data Centers',
     newestFirst: 'Más recientes', oldestFirst: 'Más antiguos',
-    tagline: 'Fuentes confiables · Resumido por IA · Actualización 08:00 CLT',
+    tagline: 'Fuentes confiables · Resumido por IA · Búsqueda Gemini',
     articles: 'artículos',
   },
 }
 
 interface HeaderProps {
   lang: 'en' | 'es'; onLangChange: (l: 'en' | 'es') => void
-  onRefresh: () => void; isRefreshing: boolean; lastUpdated: string | null
+  onFetchNews: () => void; ingesting: boolean; ingestMsg: string | null
+  lastUpdated: string | null
   sortOrder: SortOrder; onSortChange: (s: SortOrder) => void
   articleCount: number
 }
 
 export default function Header({
-  lang, onLangChange, onRefresh, isRefreshing, lastUpdated,
-  sortOrder, onSortChange, articleCount,
+  lang, onLangChange, onFetchNews, ingesting, ingestMsg,
+  lastUpdated, sortOrder, onSortChange, articleCount,
 }: HeaderProps) {
   const t = TX[lang]
   const today = new Date().toLocaleDateString(lang === 'es' ? 'es-CL' : 'en-US', {
@@ -44,18 +45,31 @@ export default function Header({
       <div style={{ background: 'var(--ink-black)', borderBottom: '1px solid var(--rule)' }}
         className="px-4 md:px-6 py-1 flex items-center justify-between gap-3">
 
-        {/* Left: status */}
-        <span className="font-mono text-xxs tracking-widest uppercase flex items-center gap-1.5 flex-shrink-0"
+        {/* Left: status / ingest message */}
+        <span className="font-mono text-xxs tracking-widest uppercase flex items-center gap-1.5 flex-shrink-0 min-w-0"
           style={{ color: 'var(--rule)' }}>
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0"
-            style={{ boxShadow: '0 0 4px #4ade80', animation: 'blink 2s infinite' }} />
-          {lastUpdated ? `${t.updated} ${lastUpdated}` : 'Live'}
-          <span className="hidden md:inline" style={{ color: 'var(--rule-dark)' }}>
-            &nbsp;·&nbsp;{articleCount} {t.articles}
+          {ingesting ? (
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-yellow-400 flex-shrink-0"
+              style={{ animation: 'blink 0.6s infinite' }} />
+          ) : (
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0"
+              style={{ boxShadow: '0 0 4px #4ade80', animation: 'blink 2s infinite' }} />
+          )}
+          <span className="truncate">
+            {ingestMsg
+              ? ingestMsg
+              : lastUpdated
+                ? `${t.updated} ${lastUpdated}`
+                : 'Live'}
           </span>
+          {!ingestMsg && (
+            <span className="hidden md:inline flex-shrink-0" style={{ color: 'var(--rule-dark)' }}>
+              &nbsp;·&nbsp;{articleCount} {t.articles}
+            </span>
+          )}
         </span>
 
-        {/* Right: sort + refresh + language */}
+        {/* Right: sort + fetch news + language */}
         <div className="flex items-center gap-2 flex-shrink-0">
 
           {/* Sort order toggle */}
@@ -77,13 +91,19 @@ export default function Header({
 
           <div className="h-3 w-px hidden md:block" style={{ background: 'var(--rule-dark)' }} />
 
-          {/* Refresh */}
-          <button onClick={onRefresh} disabled={isRefreshing}
-            className="font-mono text-xxs tracking-widest uppercase transition-colors disabled:opacity-40"
-            style={{ color: 'var(--rule)' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'white')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--rule)')}>
-            {isRefreshing ? '···' : t.refresh}
+          {/* Fetch news button */}
+          <button
+            onClick={onFetchNews}
+            disabled={ingesting}
+            className="font-mono text-xxs tracking-widest uppercase transition-colors disabled:opacity-40 px-2 py-0.5 rounded"
+            style={{
+              color: ingesting ? 'var(--rule-dark)' : 'white',
+              background: ingesting ? 'transparent' : 'var(--accent-red)',
+              border: '1px solid',
+              borderColor: ingesting ? 'var(--rule-dark)' : 'var(--accent-red)',
+            }}
+          >
+            {ingesting ? t.fetching : t.fetch}
           </button>
 
           <div className="h-3 w-px" style={{ background: 'var(--rule-dark)' }} />

@@ -29,7 +29,8 @@ export default function Dashboard() {
   const [loading,     setLoading]     = useState(true)
   const [loadMsg,     setLoadMsg]     = useState('Loading intelligence feed')
   const [loadPct,     setLoadPct]     = useState(10)
-  const [refreshing,  setRefreshing]  = useState(false)
+  const [ingesting,   setIngesting]   = useState(false)
+  const [ingestMsg,   setIngestMsg]   = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState<string | null>(null)
   const [selected,    setSelected]    = useState<Article | null>(null)
   const [lang,        setLang]        = useState<'en' | 'es'>('en')
@@ -51,14 +52,13 @@ export default function Dashboard() {
     return (data.articles || []) as Article[]
   }, [cat, locations, srcType, source])
 
-  // Sort articles by date
   const sortedArticles = [...articles].sort((a, b) => {
     const da = new Date(a.date).getTime()
     const db = new Date(b.date).getTime()
     return sortOrder === 'desc' ? db - da : da - db
   })
 
-  // Initial load
+  // Initial load — just fetch what's in storage (no ingest on page load)
   useEffect(() => {
     let cancelled = false
     setLoading(true)
@@ -88,14 +88,30 @@ export default function Dashboard() {
     fetchArticles().then(arts => { setArticles(arts); setSelected(null) })
   }, [cat, locations, srcType, source]) // eslint-disable-line
 
-  const handleRefresh = async () => {
-    setRefreshing(true)
+  // Trigger Gemini search + re-fetch results
+  const handleFetchNews = async () => {
+    setIngesting(true)
+    setIngestMsg(lang === 'es' ? 'Buscando noticias con Gemini…' : 'Searching news with Gemini…')
     try {
+      const res = await fetch('/api/ingest?fullRefresh=true', { method: 'POST' })
+      const data = await res.json()
+      const count = data.processed ?? 0
+      setIngestMsg(
+        lang === 'es'
+          ? `Listo — ${count} artículos nuevos encontrados`
+          : `Done — ${count} new articles found`
+      )
+      // Reload articles from storage
       const arts = await fetchArticles()
       setArticles(arts)
       setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
       setSelected(null)
-    } finally { setRefreshing(false) }
+    } catch {
+      setIngestMsg(lang === 'es' ? 'Error al buscar noticias' : 'Error fetching news')
+    } finally {
+      setIngesting(false)
+      setTimeout(() => setIngestMsg(null), 5000)
+    }
   }
 
   const handleLocation = (l: Location) =>
@@ -115,7 +131,7 @@ export default function Dashboard() {
     <div className="flex flex-col h-screen overflow-hidden" style={{ background: 'var(--paper)' }}>
       <Header
         lang={lang} onLangChange={setLang}
-        onRefresh={handleRefresh} isRefreshing={refreshing}
+        onFetchNews={handleFetchNews} ingesting={ingesting} ingestMsg={ingestMsg}
         lastUpdated={lastUpdated}
         sortOrder={sortOrder} onSortChange={setSortOrder}
         articleCount={sortedArticles.length}
@@ -146,7 +162,6 @@ export default function Dashboard() {
 
       {/* Main layout */}
       <div className="flex flex-1 overflow-hidden relative">
-        {/* Sidebar */}
         <div className={`${sidebarOpen ? 'flex' : 'hidden'} md:flex flex-col absolute md:relative z-20 h-full shadow-xl md:shadow-none`}>
           <Sidebar
             articles={articles} filtered={sortedArticles}
@@ -158,14 +173,14 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* Center feed */}
         <MainFeed
           articles={sortedArticles} selected={selected}
           cat={cat} lang={lang} sortOrder={sortOrder}
+          ingesting={ingesting}
           onSelect={setSelected}
+          onFetchNews={handleFetchNews}
         />
 
-        {/* Right panel */}
         <div className="hidden lg:flex">
           <RightPanel selected={selected} filtered={sortedArticles} lang={lang} />
         </div>

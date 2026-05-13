@@ -6,18 +6,30 @@ import ArticleCard from './ArticleCard'
 interface MainFeedProps {
   articles: Article[]; selected: Article | null
   cat: Category | 'all'; lang: 'en' | 'es'
-  sortOrder: SortOrder; onSelect: (a: Article) => void
+  sortOrder: SortOrder; ingesting: boolean
+  onSelect: (a: Article) => void
+  onFetchNews: () => void
 }
 
 const TX: Record<string, Record<string, string>> = {
   en: {
     all: 'Intelligence Feed', mining: 'Mining', energy: 'Energy', dc: 'Data Centers',
-    articles: 'articles', empty: 'No articles match the current filters.',
+    articles: 'articles',
+    emptyFiltered: 'No articles match the current filters.',
+    emptyNoNews: 'No articles yet.',
+    emptyHint: 'Click "Search News" to fetch the latest industry news via Gemini.',
+    fetchBtn: 'Search News',
+    searching: 'Searching…',
     newest: '↓ Newest first', oldest: '↑ Oldest first',
   },
   es: {
     all: 'Feed de Inteligencia', mining: 'Minería', energy: 'Energía', dc: 'Data Centers',
-    articles: 'artículos', empty: 'No hay artículos con los filtros actuales.',
+    articles: 'artículos',
+    emptyFiltered: 'No hay artículos con los filtros actuales.',
+    emptyNoNews: 'Aún no hay noticias.',
+    emptyHint: 'Presiona "Buscar Noticias" para obtener las últimas noticias del sector vía Gemini.',
+    fetchBtn: 'Buscar Noticias',
+    searching: 'Buscando…',
     newest: '↓ Más recientes', oldest: '↑ Más antiguos',
   },
 }
@@ -27,7 +39,9 @@ const CAT_COLORS: Record<string, string> = {
   Energy: 'var(--energy-ink)', 'Data Centers': 'var(--dc-ink)',
 }
 
-export default function MainFeed({ articles, selected, cat, lang, sortOrder, onSelect }: MainFeedProps) {
+export default function MainFeed({
+  articles, selected, cat, lang, sortOrder, ingesting, onSelect, onFetchNews,
+}: MainFeedProps) {
   const t = TX[lang]
   const title = cat === 'all' ? t.all : cat === 'Mining' ? t.mining : cat === 'Energy' ? t.energy : t.dc
   const cc = CAT_COLORS[cat]
@@ -46,7 +60,6 @@ export default function MainFeed({ articles, selected, cat, lang, sortOrder, onS
             {title}
           </h2>
           <div className="flex items-center gap-3">
-            {/* Sort label indicator */}
             <span className="font-mono text-xxs hidden md:inline"
               style={{ color: 'var(--ink-faint)' }}>
               {sortLabel}
@@ -61,9 +74,25 @@ export default function MainFeed({ articles, selected, cat, lang, sortOrder, onS
       {/* Article list */}
       <div className="flex-1 overflow-y-auto">
         {articles.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-            <div className="font-display text-4xl mb-3" style={{ color: 'var(--rule)' }}>§</div>
-            <p className="font-body text-sm" style={{ color: 'var(--ink-muted)' }}>{t.empty}</p>
+          <div className="flex flex-col items-center justify-center py-20 px-6 text-center gap-4">
+            <div className="font-display text-4xl mb-1" style={{ color: 'var(--rule)' }}>§</div>
+            <p className="font-body text-sm font-semibold" style={{ color: 'var(--ink-dark)' }}>
+              {ingesting ? t.searching : t.emptyNoNews}
+            </p>
+            {!ingesting && (
+              <>
+                <p className="font-body text-xs max-w-xs" style={{ color: 'var(--ink-muted)' }}>
+                  {t.emptyHint}
+                </p>
+                <button
+                  onClick={onFetchNews}
+                  className="font-mono text-xs tracking-widest uppercase px-4 py-2 rounded"
+                  style={{ background: 'var(--accent-red)', color: 'white' }}
+                >
+                  {t.fetchBtn}
+                </button>
+              </>
+            )}
           </div>
         ) : (
           articles.map((a, i) => (
