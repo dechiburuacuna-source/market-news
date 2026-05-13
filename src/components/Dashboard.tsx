@@ -95,29 +95,50 @@ export default function Dashboard() {
     try {
       const res = await fetch('/api/ingest?fullRefresh=true', { method: 'POST' })
       const data = await res.json()
+      const diag = data.diagnostics || {}
+
+      // Diagnose missing API keys explicitly
+      if (!diag.gemini_configured) {
+        setIngestMsg(lang === 'es'
+          ? '⚠ GEMINI_API_KEY no configurado en Vercel'
+          : '⚠ GEMINI_API_KEY not configured in Vercel')
+        return
+      }
 
       // Use articles returned directly in the response (works even without Supabase)
       let arts: typeof articles = data.articles ?? []
 
-      // If storage worked, re-fetch to pick up previously stored articles too
-      if (arts.length === 0 || data.errors?.length === 0) {
-        try { arts = await fetchArticles() } catch { /* keep ingest articles */ }
-      }
+      // Also try storage in case there are previously stored articles
+      try {
+        const stored = await fetchArticles()
+        if (stored.length > arts.length) arts = stored
+      } catch { /* keep ingest articles */ }
 
       const count = arts.length
-      setIngestMsg(
-        lang === 'es'
-          ? `Listo — ${count} artículos encontrados`
-          : `Done — ${count} articles found`
-      )
+      const fetched = data.fetched ?? 0
+      const newCount = data.new_articles ?? 0
+
+      if (count === 0) {
+        setIngestMsg(lang === 'es'
+          ? `Gemini buscó ${fetched} fuentes pero no encontró artículos. ${data.errors?.length ? 'Ver consola Vercel.' : ''}`
+          : `Gemini searched ${fetched} sources but found 0 articles. ${data.errors?.length ? 'See Vercel logs.' : ''}`)
+      } else {
+        setIngestMsg(lang === 'es'
+          ? `Listo — ${count} artículos (${newCount} nuevos)`
+          : `Done — ${count} articles (${newCount} new)`)
+      }
+
       setArticles(arts)
       setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
       setSelected(null)
-    } catch {
-      setIngestMsg(lang === 'es' ? 'Error al buscar noticias' : 'Error fetching news')
+
+      // Log full diagnostics to browser console for debugging
+      console.log('[Ingest result]', data)
+    } catch (err) {
+      setIngestMsg(lang === 'es' ? `Error: ${(err as Error).message}` : `Error: ${(err as Error).message}`)
     } finally {
       setIngesting(false)
-      setTimeout(() => setIngestMsg(null), 6000)
+      setTimeout(() => setIngestMsg(null), 10000)
     }
   }
 

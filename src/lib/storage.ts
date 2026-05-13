@@ -9,7 +9,7 @@ const DATA_FILE = process.env.VERCEL
   ? '/tmp/articles.json'
   : path.join(process.cwd(), 'data', 'articles.json')
 
-const RETENTION_DAYS = 5
+const RETENTION_DAYS = 20
 
 async function readJSON(): Promise<Article[]> {
   try { return JSON.parse(await fs.readFile(DATA_FILE, 'utf8')) }

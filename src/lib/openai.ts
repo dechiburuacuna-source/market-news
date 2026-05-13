@@ -41,6 +41,20 @@ Return JSON with EXACTLY these fields:
 Rules: single best-fit category; location = geographic focus of the article; no impact level.`
 }
 
+/** Basic fallback so an article still appears even if AI classification fails. */
+function fallbackFields(raw: RawArticle): ProcessedFields {
+  const content = (raw.content || raw.title).slice(0, 400)
+  return {
+    title_es: raw.title,
+    category: (raw.categories[0] as Category) || 'Energy',
+    location: raw.location as Location,
+    extended_description:    content,
+    extended_description_es: content,
+    short_summary:    [raw.title.slice(0, 140)],
+    short_summary_es: [raw.title.slice(0, 140)],
+  }
+}
+
 export async function processArticle(raw: RawArticle): Promise<ProcessedFields | null> {
   const client = getClient()
   try {
@@ -68,7 +82,7 @@ export async function processArticle(raw: RawArticle): Promise<ProcessedFields |
     }
   } catch (err) {
     console.error('[OpenAI] Failed:', raw.url, (err as Error).message)
-    return null
+    return fallbackFields(raw)
   }
 }
 

@@ -3,7 +3,7 @@ import { searchAllWebSources, WEB_SEARCH_SOURCES } from '@/lib/webSearchIngest'
 import { processArticlesBatch } from '@/lib/openai'
 import { upsertArticle, articleExistsByUrl, makeId, purgeOldArticles, purgeAllArticles } from '@/lib/storage'
 import { RSS_SOURCES } from '@/lib/sources'
-import type { Article, IngestResult } from '@/types/article'
+import type { Article, Category, Location, IngestResult } from '@/types/article'
 
 export interface IngestOptions {
   fullRefresh?: boolean
@@ -63,10 +63,28 @@ export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult>
       return result
     }
 
-    // 3. GPT-4o-mini: classify + bilingual summaries
-    const processed = await processArticlesBatch(newRaw, 3, (done, total) => {
-      console.log(`[Ingest] AI processing: ${done}/${total}`)
-    })
+    // 3. GPT-4o-mini: classify + bilingual summaries.
+    // processArticle now returns a fallback object instead of null, so every
+    // raw article gets a Processed result (even if AI is unavailable).
+    const processed = process.env.OPENAI_API_KEY
+      ? await processArticlesBatch(newRaw, 3, (done, total) => {
+          console.log(`[Ingest] AI processing: ${done}/${total}`)
+        })
+      : (() => {
+          result.errors.push('OPENAI_API_KEY not set — using basic fallback')
+          return newRaw.map(raw => ({
+            raw,
+            processed: {
+              title_es: raw.title,
+              category: (raw.categories[0] || 'Energy') as Category,
+              location: raw.location as Location,
+              extended_description:    raw.content?.slice(0, 400) || raw.title,
+              extended_description_es: raw.content?.slice(0, 400) || raw.title,
+              short_summary:    [raw.title.slice(0, 140)],
+              short_summary_es: [raw.title.slice(0, 140)],
+            },
+          }))
+        })()
 
     // 4. Store and collect results
     const storedArticles: Article[] = []
