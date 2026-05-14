@@ -201,8 +201,17 @@ export const WEB_SEARCH_SOURCES: WebSearchSource[] = [
   {
     name: 'Data Center Dynamics', location: 'Global', source_type: 'Press',
     categories: ['Data Centers'], lang: 'en', domain: 'datacenterdynamics.com',
-    topics: 'data centers, hyperscalers, AI infrastructure, colocation, energy efficiency, power demand',
-    sections: ['en/news', 'en/analysis', 'en/news/power-cooling'],
+    topics: 'data centers, hyperscalers, AI infrastructure, colocation, power demand, cooling, sustainability, Latin America data centers',
+    sections: [
+      'en/news',
+      'en/analysis',
+      'en/news/power-cooling',
+      'en/news/servers-storage',
+      'en/news/cloud-and-hybrid',
+      'en/news/critical-environment',
+      'es-la/noticias',
+      'es-la/analisis',
+    ],
   },
   {
     name: 'Mining.com', location: 'Global', source_type: 'Press',

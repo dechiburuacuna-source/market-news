@@ -94,15 +94,19 @@ export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult>
       : (() => {
           result.errors.push('OPENAI_API_KEY not set — using basic fallback')
           return newRaw.map(raw => {
-            // Build at least 2 bullets from title + sentences in content
+            // Body sentences (skip ones that paraphrase the title)
+            const titleLower = raw.title.toLowerCase()
             const sentences = (raw.content || '')
               .split(/(?<=[.!?])\s+/)
               .map(s => s.trim())
-              .filter(s => s.length > 20)
-              .slice(0, 3)
-            const bullets: string[] = [raw.title.slice(0, 200)]
-            for (const s of sentences) bullets.push(s.length > 220 ? s.slice(0, 217) + '…' : s)
-            if (bullets.length < 2) bullets.push(`${raw.source} — ${raw.location} (${raw.date})`)
+              .filter(s => s.length > 25 && !titleLower.includes(s.slice(0, 40).toLowerCase()))
+            const bullets: string[] = []
+            for (const s of sentences) {
+              if (bullets.length >= 3) break
+              const trimmed = s.length > 220 ? s.slice(0, 217) + '…' : s
+              if (!bullets.some(b => b.slice(0, 40) === trimmed.slice(0, 40))) bullets.push(trimmed)
+            }
+            if (bullets.length === 0) bullets.push(`${raw.source} (${raw.location}) — ${raw.date}`)
             return {
               raw,
               processed: {

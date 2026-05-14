@@ -33,26 +33,29 @@ Return JSON with EXACTLY these fields:
   "title_es": "Title in Spanish (keep if already Spanish)",
   "category": "Mining" | "Energy" | "Data Centers",
   "location": "Chile" | "Italy" | "Poland" | "Mexico" | "Spain" | "Global",
-  "extended_description": "4-6 sentence English paragraph adding context, market significance, and implications for industry professionals",
+  "extended_description": "3-5 sentence English paragraph adding context, market significance, and implications for industry professionals",
   "extended_description_es": "Same paragraph in Spanish",
   "short_summary": [
-    "Bullet 1 EN — Headline insight: WHAT happened (verb + key fact, 18-28 words)",
-    "Bullet 2 EN — Market/financial impact or scale: numbers, capacity, investment, price",
-    "Bullet 3 EN — Strategic or technical detail: who is involved, technology, timeline",
-    "Bullet 4 EN — Wider context: regulation, competitive position, or what to watch next"
+    "Bullet 1 EN — THE FACT: what specifically happened (action verb + concrete subject + measurable detail). Do NOT restate the title.",
+    "Bullet 2 EN — THE NUMBERS / SCALE: monetary value, MW, GW, tonnes, capacity, deadline, percentage growth, etc. Skip if no numbers exist (drop this bullet entirely).",
+    "Bullet 3 EN — WHY IT MATTERS: strategic implication, regulatory consequence, competitive shift, or signal to watch."
   ],
   "short_summary_es": [
-    "Punto 1 ES — Insight principal: QUÉ pasó (verbo + hecho clave, 18-28 palabras)",
-    "Punto 2 ES — Impacto de mercado/financiero o escala: números, capacidad, inversión, precio",
-    "Punto 3 ES — Detalle estratégico o técnico: quién está involucrado, tecnología, plazos",
-    "Punto 4 ES — Contexto: regulación, posición competitiva, o qué observar"
+    "Punto 1 ES — EL HECHO: qué pasó específicamente (verbo de acción + sujeto concreto + dato medible). NO repitas el título.",
+    "Punto 2 ES — LOS NÚMEROS / ESCALA: monto, MW, GW, toneladas, capacidad, plazo, % de crecimiento. Si no hay cifras, omite este punto completamente.",
+    "Punto 3 ES — POR QUÉ IMPORTA: implicancia estratégica, consecuencia regulatoria, cambio competitivo o señal a vigilar."
   ]
 }
-Rules:
+QUALITY RULES — STRICT:
+1. MAX 3 bullets. Better 2 strong bullets than 3 weak ones.
+2. NO REDUNDANCY: each bullet must add information not present in the others. If two bullets would say the same thing, keep only one.
+3. NO TITLE REPETITION: the first bullet cannot paraphrase the title — it must add a concrete detail the title doesn't have.
+4. NO FILLER: drop bullets like "this is important for the industry" or "stakeholders are watching". If you can't write something specific, omit the bullet.
+5. NO NUMBERS, NO BULLET 2: if the article truly has no numbers or scale, return only 2 bullets (fact + why-it-matters). Do not invent figures.
+6. PROFESSIONAL TONE: write for an industry analyst, not a general reader.
+Other rules:
 - single best-fit category
 - location = geographic focus of the article
-- ALWAYS provide at least 2 bullets per language; ideally 4. If content is thin, infer from title + context to fill at least 2.
-- bullets must be substantive intelligence — no fluff, no headline repetition
 - no impact level`
 }
 
@@ -65,22 +68,60 @@ function splitSentences(text: string, max: number): string[] {
     .slice(0, max)
 }
 
-/** Build at least 2 bullets from title + content. Used when AI is unavailable or returns too few. */
-function deriveBullets(raw: RawArticle): string[] {
-  const title    = raw.title.trim()
-  const content  = (raw.content || '').trim()
-  const sentences = splitSentences(content, 4)
-  // Always start with the title (compressed) as the headline bullet
-  const bullets: string[] = [title.length > 200 ? title.slice(0, 197) + '…' : title]
-  for (const s of sentences) {
-    if (!bullets.some(b => b.toLowerCase().includes(s.toLowerCase().slice(0, 40)))) {
-      bullets.push(s.length > 220 ? s.slice(0, 217) + '…' : s)
-    }
-    if (bullets.length >= 4) break
+/** Normalize text for similarity comparison: lowercase, alphanumeric only. */
+function normalize(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9áéíóúñ\s]/gi, '').replace(/\s+/g, ' ').trim()
+}
+
+/** Jaccard similarity over word sets — 0 (different) to 1 (identical). */
+function similarity(a: string, b: string): number {
+  const aw = new Set(normalize(a).split(' ').filter(w => w.length > 3))
+  const bw = new Set(normalize(b).split(' ').filter(w => w.length > 3))
+  if (aw.size === 0 || bw.size === 0) return 0
+  let inter = 0
+  Array.from(aw).forEach(w => { if (bw.has(w)) inter++ })
+  return inter / Math.min(aw.size, bw.size)
+}
+
+/**
+ * Drop bullets that are:
+ *  - too similar to the title (>60% word overlap → just paraphrasing the headline)
+ *  - too similar to a previous bullet (>55% word overlap → redundant)
+ *  - too short or pure filler
+ * Caps result at 3 bullets.
+ */
+function dedupeBullets(bullets: string[], title: string): string[] {
+  const FILLER_RE = /^(this is important|stakeholders|industry observers|it remains to be seen|going forward|in summary)/i
+  const out: string[] = []
+  for (const raw of bullets) {
+    const b = raw.trim()
+    if (!b || b.length < 15) continue
+    if (FILLER_RE.test(b)) continue
+    if (similarity(b, title) > 0.60) continue           // paraphrase of title
+    if (out.some(prev => similarity(b, prev) > 0.55)) continue  // redundant vs prior bullet
+    out.push(b)
+    if (out.length >= 3) break
   }
-  // Guarantee at least 2 bullets — if content was empty, derive a second one
-  if (bullets.length < 2) {
-    bullets.push(`${raw.source} — ${raw.location} (${raw.date})`)
+  return out
+}
+
+/**
+ * Build up to 3 bullets from the article body sentences. Used when AI is
+ * unavailable or returns too few bullets. We deliberately DO NOT use the
+ * title here — dedupeBullets() will reject anything that paraphrases it.
+ */
+function deriveBullets(raw: RawArticle): string[] {
+  const content  = (raw.content || '').trim()
+  const sentences = splitSentences(content, 6)
+  const bullets: string[] = []
+  for (const s of sentences) {
+    if (similarity(s, raw.title) > 0.60) continue
+    if (bullets.some(prev => similarity(s, prev) > 0.55)) continue
+    bullets.push(s.length > 220 ? s.slice(0, 217) + '…' : s)
+    if (bullets.length >= 3) break
+  }
+  if (bullets.length === 0) {
+    bullets.push(`${raw.source} (${raw.location}) — ${raw.date}`)
   }
   return bullets
 }
@@ -117,12 +158,16 @@ export async function processArticle(raw: RawArticle): Promise<ProcessedFields |
     const validCats: Category[] = ['Mining', 'Energy', 'Data Centers']
     const validLocs: Location[] = ['Chile', 'Italy', 'Poland', 'Mexico', 'Spain', 'Global']
 
-    let shortEn = Array.isArray(parsed.short_summary)    ? parsed.short_summary.slice(0, 5).map(String).filter(s => s.trim().length > 0)    : []
-    let shortEs = Array.isArray(parsed.short_summary_es) ? parsed.short_summary_es.slice(0, 5).map(String).filter(s => s.trim().length > 0) : []
+    const rawEn = Array.isArray(parsed.short_summary)    ? parsed.short_summary.map(String).filter(s => s.trim().length > 0)    : []
+    const rawEs = Array.isArray(parsed.short_summary_es) ? parsed.short_summary_es.map(String).filter(s => s.trim().length > 0) : []
 
-    // Guarantee at least 2 bullets per language — pad from title/content if AI returned fewer
-    if (shortEn.length < 2) shortEn = [...shortEn, ...deriveBullets(raw)].slice(0, 4)
-    if (shortEs.length < 2) shortEs = [...shortEs, ...deriveBullets(raw)].slice(0, 4)
+    // Strip redundant / title-paraphrase / filler bullets, cap at 3
+    let shortEn = dedupeBullets(rawEn, raw.title)
+    let shortEs = dedupeBullets(rawEs, parsed.title_es || raw.title)
+
+    // If AI failed to produce useful bullets, derive from content
+    if (shortEn.length === 0) shortEn = deriveBullets(raw)
+    if (shortEs.length === 0) shortEs = deriveBullets(raw)
 
     return {
       title_es: String(parsed.title_es || raw.title),
