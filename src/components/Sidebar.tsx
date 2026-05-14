@@ -4,7 +4,12 @@ import { ALL_LOCATIONS, ALL_SOURCE_TYPES } from '@/lib/sources'
 import type { SortOrder } from './Dashboard'
 
 interface SidebarProps {
-  articles: Article[]; filtered: Article[]
+  // Each set has all OTHER filters applied. Counts derived from these match
+  // exactly what the feed will show when the user clicks the option.
+  forCategory: Article[]
+  forLocation: Article[]
+  forSrcType:  Article[]
+  forSource:   Article[]
   cat: Category | 'all'; locations: Location[]
   srcType: SourceType | null; source: string | null
   lang: 'en' | 'es'; sortOrder: SortOrder
@@ -48,19 +53,35 @@ const CAT_COLORS: Record<string, string> = {
   Energy: 'var(--energy-ink)', 'Data Centers': 'var(--dc-ink)',
 }
 
+function countBy<T extends string>(arr: Article[], key: (a: Article) => T): Record<T, number> {
+  const out: Partial<Record<T, number>> = {}
+  for (const a of arr) {
+    const k = key(a)
+    out[k] = (out[k] || 0) + 1
+  }
+  return out as Record<T, number>
+}
+
 export default function Sidebar({
-  articles, cat, locations, srcType, source, lang, sortOrder,
+  forCategory, forLocation, forSrcType, forSource,
+  cat, locations, srcType, source, lang, sortOrder,
   onCat, onLocation, onSrcType, onSrc, onSortChange,
 }: SidebarProps) {
   const t = TX[lang]
-  const counts = {
-    all: articles.length,
-    Mining:         articles.filter(a => a.category === 'Mining').length,
-    Energy:         articles.filter(a => a.category === 'Energy').length,
-    'Data Centers': articles.filter(a => a.category === 'Data Centers').length,
+
+  // Counts per dimension — each respects all OTHER active filters
+  const catCounts = {
+    all: forCategory.length,
+    Mining:         forCategory.filter(a => a.category === 'Mining').length,
+    Energy:         forCategory.filter(a => a.category === 'Energy').length,
+    'Data Centers': forCategory.filter(a => a.category === 'Data Centers').length,
   }
-  const allSources  = Array.from(new Set(articles.map(a => a.source))).sort()
-  const hasFilters  = locations.length > 0 || srcType !== null || source !== null
+  const locCounts: Record<string, number> = countBy(forLocation, a => a.location)
+  const stCounts:  Record<string, number> = countBy(forSrcType,  a => a.source_type)
+  const srcCounts: Record<string, number> = countBy(forSource,   a => a.source)
+
+  const allSources = Object.keys(srcCounts).sort()
+  const hasFilters = locations.length > 0 || srcType !== null || source !== null
 
   const srcTypeLabel = (st: SourceType) => {
     if (st === 'Institutional')  return t.institutional
@@ -93,14 +114,15 @@ export default function Sidebar({
         {navItems.map(({ key, label }) => {
           const active = cat === key
           const cc = CAT_COLORS[key]
+          const count = catCounts[key as keyof typeof catCounts] ?? 0
           return (
             <button key={key} onClick={() => onCat(key as Category | 'all')}
               className="w-full flex items-center justify-between py-1.5 text-left transition-all"
               style={{ borderLeft: `3px solid ${active ? cc : 'transparent'}`, paddingLeft: '8px', background: active ? 'var(--paper-3)' : 'transparent' }}>
               <span className="font-display text-sm font-semibold" style={{ color: active ? cc : 'var(--ink-dark)' }}>{label}</span>
               <span className="font-mono text-xxs px-1 rounded"
-                style={{ color: 'var(--ink-faint)', background: 'var(--paper-3)', border: '1px solid var(--rule)' }}>
-                {counts[key as keyof typeof counts] ?? 0}
+                style={{ color: count === 0 ? 'var(--ink-faint)' : 'var(--ink-muted)', background: 'var(--paper-3)', border: '1px solid var(--rule)' }}>
+                {count}
               </span>
             </button>
           )
@@ -146,15 +168,23 @@ export default function Sidebar({
         <div className="mb-4">
           <div className="font-sans text-xxs font-medium tracking-wide uppercase mb-2 pb-1"
             style={{ color: 'var(--ink-muted)', borderBottom: '1px solid var(--rule)' }}>{t.loc}</div>
-          {ALL_LOCATIONS.map(loc => (
-            <label key={loc} className="flex items-center gap-2 py-0.5 cursor-pointer">
-              <input type="checkbox" checked={locations.includes(loc as Location)}
-                onChange={() => onLocation(loc as Location)}
-                className="w-3 h-3 cursor-pointer accent-red-700" />
-              <span className="font-body text-xs"
-                style={{ color: locations.includes(loc as Location) ? 'var(--ink-black)' : 'var(--ink-muted)' }}>{loc}</span>
-            </label>
-          ))}
+          {ALL_LOCATIONS.map(loc => {
+            const n = locCounts[loc] ?? 0
+            const active = locations.includes(loc as Location)
+            return (
+              <label key={loc} className="flex items-center justify-between gap-2 py-0.5 cursor-pointer">
+                <span className="flex items-center gap-2 min-w-0">
+                  <input type="checkbox" checked={active}
+                    onChange={() => onLocation(loc as Location)}
+                    className="w-3 h-3 cursor-pointer accent-red-700 flex-shrink-0" />
+                  <span className="font-body text-xs truncate"
+                    style={{ color: active ? 'var(--ink-black)' : (n === 0 ? 'var(--ink-faint)' : 'var(--ink-muted)') }}>{loc}</span>
+                </span>
+                <span className="font-mono text-xxs flex-shrink-0"
+                  style={{ color: n === 0 ? 'var(--ink-faint)' : 'var(--ink-muted)' }}>{n}</span>
+              </label>
+            )
+          })}
         </div>
 
         {/* Source Type */}
@@ -164,25 +194,30 @@ export default function Sidebar({
           {(ALL_SOURCE_TYPES as readonly SourceType[]).map(st => {
             const col = SRC_TYPE_COLORS[st]
             const active = srcType === st
+            const n = stCounts[st] ?? 0
             return (
-              <label key={st} className="flex items-center gap-2 py-1 cursor-pointer">
-                <input type="checkbox" checked={active} onChange={() => onSrcType(st)}
-                  className="w-3 h-3 cursor-pointer accent-red-700" />
-                <span className="font-mono text-xxs px-1.5 py-0.5 rounded-sm"
-                  style={{
-                    color:      active ? col.text : 'var(--ink-muted)',
-                    background: active ? col.bg   : 'transparent',
-                    border:     `1px solid ${active ? col.border : 'transparent'}`,
-                    transition: 'all 0.1s',
-                  }}>
-                  {srcTypeLabel(st)}
+              <label key={st} className="flex items-center justify-between gap-2 py-1 cursor-pointer">
+                <span className="flex items-center gap-2 min-w-0">
+                  <input type="checkbox" checked={active} onChange={() => onSrcType(st)}
+                    className="w-3 h-3 cursor-pointer accent-red-700 flex-shrink-0" />
+                  <span className="font-mono text-xxs px-1.5 py-0.5 rounded-sm truncate"
+                    style={{
+                      color:      active ? col.text : (n === 0 ? 'var(--ink-faint)' : 'var(--ink-muted)'),
+                      background: active ? col.bg   : 'transparent',
+                      border:     `1px solid ${active ? col.border : 'transparent'}`,
+                      transition: 'all 0.1s',
+                    }}>
+                    {srcTypeLabel(st)}
+                  </span>
                 </span>
+                <span className="font-mono text-xxs flex-shrink-0"
+                  style={{ color: n === 0 ? 'var(--ink-faint)' : 'var(--ink-muted)' }}>{n}</span>
               </label>
             )
           })}
         </div>
 
-        {/* Source — full list, sidebar itself scrolls */}
+        {/* Source — full list with per-source counts */}
         <div>
           <div className="flex items-center justify-between mb-2 pb-1"
             style={{ borderBottom: '1px solid var(--rule)' }}>
@@ -193,15 +228,23 @@ export default function Sidebar({
             </span>
           </div>
           <div className="flex flex-col gap-0.5">
-            {allSources.map(s => (
-              <label key={s} className="flex items-center gap-2 py-0.5 cursor-pointer">
-                <input type="checkbox" checked={source === s} onChange={() => onSrc(s)}
-                  className="w-3 h-3 cursor-pointer accent-red-700 flex-shrink-0" />
-                <span className="font-body text-xxs leading-snug"
-                  style={{ color: source === s ? 'var(--ink-black)' : 'var(--ink-muted)' }}
-                  title={s}>{s}</span>
-              </label>
-            ))}
+            {allSources.map(s => {
+              const n = srcCounts[s] ?? 0
+              const active = source === s
+              return (
+                <label key={s} className="flex items-center justify-between gap-2 py-0.5 cursor-pointer">
+                  <span className="flex items-center gap-2 min-w-0">
+                    <input type="checkbox" checked={active} onChange={() => onSrc(s)}
+                      className="w-3 h-3 cursor-pointer accent-red-700 flex-shrink-0" />
+                    <span className="font-body text-xxs leading-snug"
+                      style={{ color: active ? 'var(--ink-black)' : (n === 0 ? 'var(--ink-faint)' : 'var(--ink-muted)') }}
+                      title={s}>{s}</span>
+                  </span>
+                  <span className="font-mono text-xxs flex-shrink-0"
+                    style={{ color: n === 0 ? 'var(--ink-faint)' : 'var(--ink-muted)' }}>{n}</span>
+                </label>
+              )
+            })}
           </div>
         </div>
       </div>
@@ -209,7 +252,7 @@ export default function Sidebar({
       {/* Footer */}
       <div className="px-4 py-3" style={{ borderTop: '1px solid var(--rule)' }}>
         <p className="font-mono text-xxs leading-loose" style={{ color: 'var(--ink-faint)' }}>
-          {lang === 'en' ? 'Updated 08:00 CLT · AI-summarized' : 'Actualizado 08:00 CLT · Resumido por IA'}
+          {lang === 'en' ? 'Manual refresh · AI-summarized' : 'Actualización manual · Resumido por IA'}
         </p>
       </div>
     </aside>

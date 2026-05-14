@@ -71,26 +71,44 @@ export default function Dashboard() {
     return (data.articles || []) as Article[]
   }
 
-  // Apply ALL filters client-side, then sort.
-  const sortedArticles = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase()
+  // Apply filters in layers so the Sidebar can show counts that match the feed.
+  // - `baseFiltered` applies the "always-on" filters: date window + search query.
+  // - `for*` arrays apply every filter EXCEPT the named dimension.
+  //   The Sidebar uses these to show "how many you'd see if you clicked this".
+  // - `sortedArticles` applies every filter and is what the feed renders.
+  const filterSets = useMemo(() => {
     const cutoff = dateCutoff()
-    return articles
-      .filter(a => {
-        if (!a.date || a.date < cutoff) return false  // hide anything outside the window
-        if (cat !== 'all' && a.category !== cat) return false
-        if (locations.length && !locations.includes(a.location)) return false
-        if (srcType && a.source_type !== srcType) return false
-        if (source  && a.source !== source) return false
-        if (q && !articleHaystack(a).includes(q)) return false
-        return true
-      })
+    const q = searchQuery.trim().toLowerCase()
+
+    const passesBase     = (a: Article) => {
+      if (!a.date || a.date < cutoff) return false
+      if (q && !articleHaystack(a).includes(q)) return false
+      return true
+    }
+    const passesCategory = (a: Article) => cat === 'all' || a.category === cat
+    const passesLocation = (a: Article) => locations.length === 0 || locations.includes(a.location)
+    const passesSrcType  = (a: Article) => !srcType || a.source_type === srcType
+    const passesSource   = (a: Article) => !source  || a.source === source
+
+    const baseFiltered = articles.filter(passesBase)
+
+    const forCategory = baseFiltered.filter(a => passesLocation(a) && passesSrcType(a) && passesSource(a))
+    const forLocation = baseFiltered.filter(a => passesCategory(a) && passesSrcType(a) && passesSource(a))
+    const forSrcType  = baseFiltered.filter(a => passesCategory(a) && passesLocation(a) && passesSource(a))
+    const forSource   = baseFiltered.filter(a => passesCategory(a) && passesLocation(a) && passesSrcType(a))
+
+    const sorted = baseFiltered
+      .filter(a => passesCategory(a) && passesLocation(a) && passesSrcType(a) && passesSource(a))
       .sort((a, b) => {
         const da = new Date(a.date).getTime()
         const db = new Date(b.date).getTime()
         return sortOrder === 'desc' ? db - da : da - db
       })
+
+    return { sorted, forCategory, forLocation, forSrcType, forSource }
   }, [articles, cat, locations, srcType, source, searchQuery, sortOrder])
+
+  const sortedArticles = filterSets.sorted
 
   // Initial load — fetch once, then filter purely client-side.
   useEffect(() => {
@@ -217,7 +235,10 @@ export default function Dashboard() {
       <div className="flex flex-1 overflow-hidden relative">
         <div className={`${sidebarOpen ? 'flex' : 'hidden'} md:flex flex-col absolute md:relative z-20 h-full shadow-xl md:shadow-none`}>
           <Sidebar
-            articles={articles} filtered={sortedArticles}
+            forCategory={filterSets.forCategory}
+            forLocation={filterSets.forLocation}
+            forSrcType={filterSets.forSrcType}
+            forSource={filterSets.forSource}
             cat={cat} locations={locations} srcType={srcType} source={source}
             lang={lang} sortOrder={sortOrder}
             onCat={c => { setCat(c); setSidebarOpen(false) }}
