@@ -84,7 +84,7 @@ export default function Sidebar({
 
   return (
     <aside className="flex flex-col overflow-y-auto"
-      style={{ background: 'var(--paper-2)', borderRight: '1px solid var(--rule)', width: '204px', flexShrink: 0 }}>
+      style={{ background: 'var(--paper-2)', borderRight: '1px solid var(--rule)', width: '260px', flexShrink: 0 }}>
 
       {/* ── Navigation ────────────────────────────────────── */}
       <div className="px-4 pt-4 pb-3" style={{ borderBottom: '2px solid var(--ink-black)' }}>
@@ -182,17 +182,24 @@ export default function Sidebar({
           })}
         </div>
 
-        {/* Source */}
+        {/* Source — full list, sidebar itself scrolls */}
         <div>
-          <div className="font-sans text-xxs font-medium tracking-wide uppercase mb-2 pb-1"
-            style={{ color: 'var(--ink-muted)', borderBottom: '1px solid var(--rule)' }}>{t.src}</div>
-          <div className="flex flex-col max-h-48 overflow-y-auto gap-0.5">
+          <div className="flex items-center justify-between mb-2 pb-1"
+            style={{ borderBottom: '1px solid var(--rule)' }}>
+            <span className="font-sans text-xxs font-medium tracking-wide uppercase"
+              style={{ color: 'var(--ink-muted)' }}>{t.src}</span>
+            <span className="font-mono text-xxs" style={{ color: 'var(--ink-faint)' }}>
+              {allSources.length}
+            </span>
+          </div>
+          <div className="flex flex-col gap-0.5">
             {allSources.map(s => (
               <label key={s} className="flex items-center gap-2 py-0.5 cursor-pointer">
                 <input type="checkbox" checked={source === s} onChange={() => onSrc(s)}
-                  className="w-3 h-3 cursor-pointer accent-red-700" />
-                <span className="font-body text-xxs truncate"
-                  style={{ color: source === s ? 'var(--ink-black)' : 'var(--ink-muted)' }}>{s}</span>
+                  className="w-3 h-3 cursor-pointer accent-red-700 flex-shrink-0" />
+                <span className="font-body text-xxs leading-snug"
+                  style={{ color: source === s ? 'var(--ink-black)' : 'var(--ink-muted)' }}
+                  title={s}>{s}</span>
               </label>
             ))}
           </div>

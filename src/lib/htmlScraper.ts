@@ -151,10 +151,28 @@ async function tryFetchSection(domain: string, section: string): Promise<{ url: 
   return null
 }
 
-/** Pull metadata (real pub date + og:description) from an individual article page. */
-async function enrichArticle(stub: ArticleStub): Promise<ArticleStub> {
-  if (stub.date && stub.description) return stub  // nothing missing
+/** Extract the body text of an article: first paragraphs of <div class="entry-content"> or <article>. */
+function extractBodyText(html: string): string {
+  // Try common CMS containers first
+  const bodyMatch =
+    html.match(/<div[^>]+class="[^"]*entry-content[^"]*"[^>]*>([\s\S]*?)<\/div>/i) ||
+    html.match(/<div[^>]+class="[^"]*post-content[^"]*"[^>]*>([\s\S]*?)<\/div>/i) ||
+    html.match(/<div[^>]+class="[^"]*article-body[^"]*"[^>]*>([\s\S]*?)<\/div>/i) ||
+    html.match(/<article\b[^>]*>([\s\S]*?)<\/article>/i)
+  const body = bodyMatch ? bodyMatch[1] : html
+  // Pull <p> contents
+  const paragraphs: string[] = []
+  const pRe = /<p[^>]*>([\s\S]*?)<\/p>/gi
+  let m
+  while ((m = pRe.exec(body)) !== null && paragraphs.length < 6) {
+    const txt = decodeHtml(m[1])
+    if (txt.length > 40) paragraphs.push(txt)
+  }
+  return paragraphs.join(' ').slice(0, 1800)
+}
 
+/** Pull metadata (real pub date + description + body text) from an individual article page. */
+async function enrichArticle(stub: ArticleStub): Promise<ArticleStub> {
   const html = await fetchHtml(stub.url)
   if (!html) return stub
 
@@ -170,12 +188,13 @@ async function enrichArticle(stub: ArticleStub): Promise<ArticleStub> {
     }
   }
 
-  if (!stub.description) {
-    const m =
-      html.match(/<meta\s+property=["']og:description["']\s+content=["']([^"']+)["']/i) ||
-      html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)
-    if (m) stub.description = decodeHtml(m[1]).slice(0, 400)
-  }
+  // Always try to grab the body text — gives OpenAI substantive content to summarize
+  const ogDesc =
+    html.match(/<meta\s+property=["']og:description["']\s+content=["']([^"']+)["']/i)?.[1] ||
+    html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)?.[1]
+  const body = extractBodyText(html)
+  const combined = [ogDesc ? decodeHtml(ogDesc) : '', body].filter(Boolean).join(' ').trim()
+  if (combined.length > (stub.description?.length || 0)) stub.description = combined.slice(0, 1800)
 
   return stub
 }
@@ -200,8 +219,11 @@ export async function scrapeSourceSections(source: WebSearchSource): Promise<Raw
   }
   const unique = Array.from(byUrl.values())
 
-  // Enrich any stub that still lacks a date (one extra fetch per article — bounded)
-  const needsEnrich = unique.filter(s => !s.date).slice(0, 25)  // cap to keep latency sane
+  // Enrich any stub that lacks date OR has thin description.
+  // OpenAI needs substantive text to generate 4 substantive bullets.
+  const needsEnrich = unique
+    .filter(s => !s.date || !s.description || (s.description?.length || 0) < 250)
+    .slice(0, 20)  // cap to keep latency sane
   for (let i = 0; i < needsEnrich.length; i += SECTION_FETCH_CONCURRENCY) {
     const batch = needsEnrich.slice(i, i + SECTION_FETCH_CONCURRENCY)
     await Promise.all(batch.map(s => enrichArticle(s)))

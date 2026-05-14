@@ -95,7 +95,7 @@ export default function RightPanel({ selected, filtered, lang }: RightPanelProps
 
   return (
     <aside
-      style={{ width: '268px', flexShrink: 0, background: 'var(--paper-2)', borderLeft: '1px solid var(--rule)' }}
+      style={{ width: '340px', flexShrink: 0, background: 'var(--paper-2)', borderLeft: '1px solid var(--rule)' }}
       className="flex flex-col overflow-hidden"
     >
       {/* Header */}

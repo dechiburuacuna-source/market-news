@@ -93,18 +93,29 @@ export async function runIngest(opts: IngestOptions = {}): Promise<IngestResult>
         })
       : (() => {
           result.errors.push('OPENAI_API_KEY not set — using basic fallback')
-          return newRaw.map(raw => ({
-            raw,
-            processed: {
-              title_es: raw.title,
-              category: (raw.categories[0] || 'Energy') as Category,
-              location: raw.location as Location,
-              extended_description:    raw.content?.slice(0, 400) || raw.title,
-              extended_description_es: raw.content?.slice(0, 400) || raw.title,
-              short_summary:    [raw.title.slice(0, 140)],
-              short_summary_es: [raw.title.slice(0, 140)],
-            },
-          }))
+          return newRaw.map(raw => {
+            // Build at least 2 bullets from title + sentences in content
+            const sentences = (raw.content || '')
+              .split(/(?<=[.!?])\s+/)
+              .map(s => s.trim())
+              .filter(s => s.length > 20)
+              .slice(0, 3)
+            const bullets: string[] = [raw.title.slice(0, 200)]
+            for (const s of sentences) bullets.push(s.length > 220 ? s.slice(0, 217) + '…' : s)
+            if (bullets.length < 2) bullets.push(`${raw.source} — ${raw.location} (${raw.date})`)
+            return {
+              raw,
+              processed: {
+                title_es: raw.title,
+                category: (raw.categories[0] || 'Energy') as Category,
+                location: raw.location as Location,
+                extended_description:    raw.content?.slice(0, 600) || raw.title,
+                extended_description_es: raw.content?.slice(0, 600) || raw.title,
+                short_summary:    bullets,
+                short_summary_es: bullets,
+              },
+            }
+          })
         })()
 
     // 4. Store and collect results
