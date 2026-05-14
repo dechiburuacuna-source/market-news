@@ -63,6 +63,12 @@ export const WEB_SEARCH_SOURCES: WebSearchSource[] = [
     topics: 'industria chilena minería energía sector productivo, inversión, política industrial',
     sections: ['noticias', 'comunicados', 'prensa', 'opinion'],
   },
+  {
+    name: 'Asociación Chilena de Data Centers', location: 'Chile', source_type: 'Conglomerado',
+    categories: ['Data Centers'], lang: 'es', domain: 'chiledatacenters.cl',
+    topics: 'data centers Chile, infraestructura digital, hiperescaladores, AI infraestructura, energía y agua data centers, gremio data centers',
+    sections: ['noticias', 'prensa', 'comunicados', 'sala-de-prensa', 'blog'],
+  },
 
   // ── Chile Press ────────────────────────────────────────────────────────────
   {
