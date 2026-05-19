@@ -138,12 +138,33 @@ async function scrapeSection(sectionUrl: string, domain: string): Promise<Articl
 async function tryFetchSection(domain: string, section: string): Promise<{ url: string; stubs: ArticleStub[] } | null> {
   const cleanSection = section.replace(/^\/|\/$/g, '')
   const bareDomain = domain.replace(/^www\./, '')
-  const variants = [
-    `https://www.${bareDomain}/${cleanSection}/`,
-    `https://${bareDomain}/${cleanSection}/`,
-    `https://www.${bareDomain}/${cleanSection}`,
-    `https://${bareDomain}/${cleanSection}`,
+
+  // Try alternate WordPress slugs automatically:
+  //   /categoria/ ⇆ /category/  (Spanish vs English WP installs)
+  //   /noticias/  ⇆ /news/      (common pairs)
+  const sectionAlternates = new Set<string>([cleanSection])
+  const swaps: Array<[RegExp, string]> = [
+    [/^categoria\//, 'category/'],
+    [/^category\//,  'categoria/'],
+    [/^noticias\//,  'news/'],
+    [/^news\//,      'noticias/'],
+    [/^noticias$/,   'news'],
+    [/^news$/,       'noticias'],
   ]
+  for (const [from, to] of swaps) {
+    if (from.test(cleanSection)) sectionAlternates.add(cleanSection.replace(from, to))
+  }
+
+  const variants: string[] = []
+  for (const sec of Array.from(sectionAlternates)) {
+    variants.push(
+      `https://www.${bareDomain}/${sec}/`,
+      `https://${bareDomain}/${sec}/`,
+      `https://www.${bareDomain}/${sec}`,
+      `https://${bareDomain}/${sec}`,
+    )
+  }
+
   for (const url of variants) {
     const stubs = await scrapeSection(url, bareDomain)
     if (stubs.length > 0) return { url, stubs }

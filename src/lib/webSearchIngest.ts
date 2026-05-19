@@ -92,7 +92,17 @@ export const WEB_SEARCH_SOURCES: WebSearchSource[] = [
     name: 'Electrominería', location: 'Chile', source_type: 'Press',
     categories: ['Mining', 'Energy'], lang: 'es', domain: 'electromineria.cl',
     topics: 'electrificación minería Chile, energía minera, cobre litio sustentabilidad, proyectos eléctricos mineros, descarbonización',
-    sections: ['categoria/mineria', 'categoria/energia', 'categoria/proyectos', 'noticias'],
+    // Electrominería uses WordPress with English slug "/category/" (NOT "/categoria/")
+    sections: [
+      'category/cronica-minera-cronica-minera',
+      'category/cronica-minera',
+      'category/mineria',
+      'category/energia',
+      'category/proyectos',
+      'category/empresas',
+      'category/columnas',
+      'category/internacional',
+    ],
   },
   {
     name: 'Diario Financiero', location: 'Chile', source_type: 'Press',
